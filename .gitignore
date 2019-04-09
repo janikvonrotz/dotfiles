@@ -2,3 +2,7 @@
 !.gitignore
 !.vimrc
 !README.md
+!.pass-completion.bash
+!.git-completion.bash
+!.fzf.bash
+!.bashrc

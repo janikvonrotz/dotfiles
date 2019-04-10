@@ -5,6 +5,8 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'mhinz/vim-startify'
 
+Plug 'tpope/vim-fugitive'
+
 call plug#end()
 
 let mapleader = "-"

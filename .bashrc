@@ -41,9 +41,18 @@ test -f ~/.ssh-completion.bash && . $_
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # fzf commands
+## fbr - checkout local git branch
 fbr() {
     local branches branch
     branches=$(git --no-pager branch -vv) &&
     branch=$(echo "$branches" | fzf +m) &&
     git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+}
+
+## fd - cd to selected directory
+fd() {
+    local dir
+    dir=$(find ${1:-.} -path '*/\.*' -prune \
+        -o -type d -print 2> /dev/null | fzf +m) &&
+    cd "$dir"
 }

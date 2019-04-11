@@ -1,3 +1,10 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
 # general aliases
 alias cat-cer="openssl x509 -text -in"
 alias cat-key="keytool -list -keystore"

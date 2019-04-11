@@ -1,3 +1,4 @@
+" vim plug config
 call plug#begin('~/.vim/plugged')
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -9,7 +10,11 @@ Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
+" set leader key
 let mapleader = "-"
+
+" code style
+set number
 
 " fzf key bindings
 nmap <Leader>f :GFiles<CR>
@@ -35,3 +40,7 @@ nmap <Leader>/ :History/<CR>
 nmap <Leader>M :Maps<CR>
 
 nmap <Leader>s :Filetypes<CR>
+
+" open new splits on the bottom right
+set splitbelow
+set splitright

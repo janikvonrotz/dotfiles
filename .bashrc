@@ -1,7 +1,7 @@
 # .bashrc
 
 # show user, host and directory on prompt
-export PS1='$(whoami)@$(hostname):$(pwd)'
+export PS1='$(whoami)@$(hostname):$(pwd)# '
 
 # source global definitions
 if [ -f /etc/bashrc ]; then

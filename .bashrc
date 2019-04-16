@@ -53,12 +53,12 @@ test -f ~/.ssh-completion.bash && . $_
 # fzf commands
 ## fbr - checkout local git branch
 fbr() {
-    local branches branch
-    branches=$(git --no-pager branch -vv) &&
-    branch=$(echo "$branches" | fzf +m) &&
-    git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
-
 ## fd - cd to selected directory
 fd() {
     local dir

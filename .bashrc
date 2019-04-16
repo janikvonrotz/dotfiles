@@ -66,3 +66,11 @@ fd() {
         -o -type d -print 2> /dev/null | fzf +m) &&
     cd "$dir"
 }
+
+# history
+## increase history size
+export HISTSIZE=10000
+## append commands to history file instead of overwriting
+shopt -s histappend
+## append commands immediately
+PROMPT_COMMAND='history -a'

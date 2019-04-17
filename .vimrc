@@ -22,6 +22,9 @@ call plug#end()
 " set leader key
 let mapleader = "-"
 
+" common key bindings
+nmap <Leader>d "_dd
+
 " code style
 set number
 syntax on

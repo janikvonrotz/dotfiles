@@ -17,14 +17,19 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'crusoexia/vim-monokai'
 
+Plug '907th/vim-auto-save'
+
 call plug#end()
+
+" enable auto save
+let g:auto_save = 1
 
 " set leader key
 let mapleader = "-"
 
 " common key bindings
 nmap <Leader>d "_dd
-
+nmap <Leader>q :q!<CR>
 " code style
 set number
 syntax on

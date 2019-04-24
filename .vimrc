@@ -8,27 +8,45 @@ endif
 " vim plug config
 call plug#begin('~/.vim/plugged')
 
+" fuzzy search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+" modern start window
 Plug 'mhinz/vim-startify'
 
+" git commands
 Plug 'tpope/vim-fugitive'
 
+" monokai theme
 Plug 'crusoexia/vim-monokai'
 
+" auto save files
 Plug '907th/vim-auto-save'
+
+" miscellaneous  vim scripts
+Plug 'xolox/vim-misc'
+
+" auto save sessions
+Plug 'xolox/vim-session'
 
 call plug#end()
 
-" enable auto save
+" enable auto save files
 let g:auto_save = 1
+
+" enable auto save session
+let g:session_autosave = 'yes'
+
+" set session directory to current directory
+let g:session_directory = '.'
 
 " set leader key
 let mapleader = "-"
 
 " common key bindings
-nmap <Leader>d "_dd
+nmap <Leader>d "_d
+nmap <Leader>dd "_dd
 nmap <Leader>q :q!<CR>
 " code style
 set number

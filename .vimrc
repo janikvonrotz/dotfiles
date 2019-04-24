@@ -41,6 +41,9 @@ let g:session_autosave = 'yes'
 " set session directory to current directory
 let g:session_directory = '.'
 
+" disable all session locking 
+let g:session_lock_enabled = 0
+
 " set leader key
 let mapleader = "-"
 
@@ -48,6 +51,7 @@ let mapleader = "-"
 nmap <Leader>d "_d
 nmap <Leader>dd "_dd
 nmap <Leader>q :q!<CR>
+
 " code style
 set number
 syntax on

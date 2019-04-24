@@ -16,6 +16,7 @@ alias git-log="git log --oneline --decorate"
 alias anp="ansible-playbook"
 alias untar="tar -xvzf"
 alias intelibitch="nohup /local/idea-IU/bin/idea.sh &"
+alias grp-rec="git log --pretty=format: --name-only --diff-filter=A  | sort -u | grep -rnw"
 
 # project seco
 alias ssh-idv-dmo="ssh janik@seco-idvch-devmock.zh.adnovum.ch"

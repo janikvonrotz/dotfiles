@@ -30,6 +30,15 @@ Plug 'xolox/vim-misc'
 " auto save sessions
 Plug 'xolox/vim-session'
 
+" indent guide
+Plug 'nathanaelkane/vim-indent-guides'
+
+" light status bar
+Plug 'itchyny/lightline.vim'
+
+" file browser
+Plug 'scrooloose/nerdtree'
+
 call plug#end()
 
 " enable auto save files
@@ -81,6 +90,9 @@ nmap <Leader>/ :History/<CR>
 nmap <Leader>M :Maps<CR>
 
 nmap <Leader>s :Filetypes<CR>
+
+" nerdtree key bindings
+nmap <Leader>n :NERDTreeToggle<CR>
 
 " open new splits on the bottom right
 set splitbelow

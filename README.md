@@ -1,6 +1,6 @@
 # dotfiles
 
-Vim config and much more.
+Vim, bash, fzf config and much more.
 
 ## Setup
 

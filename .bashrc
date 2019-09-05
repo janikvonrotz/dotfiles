@@ -8,9 +8,6 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# yarn path setup
-export PATH="$PATH:`yarn global bin`"
-
 # general aliases
 alias cat-cer="openssl x509 -text -in"
 alias cat-key="keytool -list -keystore"

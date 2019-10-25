@@ -66,6 +66,12 @@ set number
 syntax on
 colorscheme monokai
 
+" disable autoindent when pasting
+set paste
+
+" set tabstop settings
+set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab
+
 " fzf key bindings
 nmap <Leader>f :GFiles<CR>
 nmap <Leader>F :Files<CR>

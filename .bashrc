@@ -11,12 +11,14 @@ fi
 # general aliases
 alias cat-cer="openssl x509 -text -in"
 alias cat-key="keytool -list -keystore"
-alias l="ls -ls"
 alias git-log="git log --oneline --decorate"
 alias anp="ansible-playbook"
 alias untar="tar -xvzf"
 alias intelibitch="nohup /local/idea-IU/bin/idea.sh &"
 alias grp-rec="git log --pretty=format: --name-only --diff-filter=A  | sort -u | grep -rnw"
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
 
 # auto completion scripts 
 test -f ~/.pass-completion.bash && . $_
@@ -48,5 +50,3 @@ export HISTSIZE=10000
 shopt -s histappend
 ## append commands immediately
 PROMPT_COMMAND='history -a'
-export PATH="/usr/local/opt/node@10/bin:$PATH"
-export PATH="/usr/local/opt/node@10/bin:$PATH"

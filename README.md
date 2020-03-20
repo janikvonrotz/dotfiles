@@ -14,4 +14,4 @@ Open vim and run `:PlugInstall`.
 
 Open PowerShell commandline as Administrator and run `Set-ExecutionPolicy`.
 
-Manually set the PowerShell window colors to black and white.# Klargestellt
+Manually set the PowerShell window colors to black and white.

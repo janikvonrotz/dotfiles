@@ -46,6 +46,7 @@ fd() {
 # history
 ## increase history size
 export HISTSIZE=10000
+export HISTFILESIZE=20000
 ## append commands to history file instead of overwriting
 shopt -s histappend
 ## append commands immediately

@@ -13,6 +13,8 @@ alias cat-cer="openssl x509 -text -in"
 alias cat-key="keytool -list -keystore"
 alias git-log="git log --oneline --decorate"
 alias anp="ansible-playbook"
+alias av="ansible-vault"
+alias ai="ansible-inventory"
 alias untar="tar -xvzf"
 alias intelibitch="nohup /local/idea-IU/bin/idea.sh &"
 alias grp-rec="git log --pretty=format: --name-only --diff-filter=A  | sort -u | grep -rnw"
@@ -51,3 +53,8 @@ export HISTFILESIZE=20000
 shopt -s histappend
 ## append commands immediately
 PROMPT_COMMAND='history -a'
+
+# PATH
+## n
+export N_PREFIX=$HOME/n
+export PATH=$N_PREFIX/bin:$PATH

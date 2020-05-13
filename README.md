@@ -6,6 +6,10 @@ Vim, bash, fzf config and much more.
 
 Clone this repo into your home `~` folder.
 
+### oh-my-zsh 
+
+Install oh-my-zsh `sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+
 ### Unix
 
 Open vim and run `:PlugInstall`.

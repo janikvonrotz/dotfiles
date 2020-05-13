@@ -58,3 +58,4 @@ PROMPT_COMMAND='history -a'
 ## n
 export N_PREFIX=$HOME/n
 export PATH=$N_PREFIX/bin:$PATH
+export PATH="/usr/local/opt/php@7.2/bin:$PATH"

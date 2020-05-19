@@ -100,4 +100,16 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Ansible
+alias anp="ansible-playbook"
+alias av="ansible-vault"
+alias ai="ansible-inventory"
+
+# Common
+alias untar="tar -xvzf"
+alias grepr="git log --pretty=format: --name-only --diff-filter=A  | sort -u | grep -rnw"
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).

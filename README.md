@@ -23,5 +23,3 @@ Manually set the PowerShell window colors to black and white.
 ### Tmux
 
 Install the plugin manager `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`.
-# awesome-takedowns
-# awesome-takedowns

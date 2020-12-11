@@ -126,3 +126,8 @@ git config --global alias.st status
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# zmux
+if [ -z "$TMUX" ]; then
+    tmux attach -t default || tmux new -s default
+fi

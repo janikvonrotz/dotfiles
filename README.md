@@ -2,24 +2,14 @@
 
 Vim, bash, fzf config and much more.
 
-## Setup
+## Usage
 
 Clone this repo into your home `~` folder.
 
-### oh-my-zsh 
+### GNU/Linux
 
-Install oh-my-zsh `sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`.
-
-### Unix
-
-Open vim and run `:PlugInstall`.
+See `task help` for details.
 
 ### Windows
 
 Open PowerShell commandline as Administrator and run `Set-ExecutionPolicy`.
-
-Manually set the PowerShell window colors to black and white.
-
-### Tmux
-
-Install the plugin manager `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`.

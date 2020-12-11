@@ -21,6 +21,7 @@ alias grp-rec="git log --pretty=format: --name-only --diff-filter=A  | sort -u |
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias task='./task'
 
 # auto completion scripts 
 test -f ~/.pass-completion.bash && . $_

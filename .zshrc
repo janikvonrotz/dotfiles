@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/janikvonrotz/.oh-my-zsh"
+export ZSH="/home/janikvonrotz/.oh-my-zsh"
 
 export FZF_BASE="/usr/local/bin/fzf"
 
@@ -112,6 +112,8 @@ alias gcm='git commit -m'
 
 # Docker
 alias dps="docker ps --format 'table {{.Names}}\t{{(.Label \"description\")}}'"
+
+# n
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
 # Git
@@ -126,6 +128,9 @@ git config --global alias.st status
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # zmux
 if [ -z "$TMUX" ]; then

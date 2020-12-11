@@ -20,6 +20,7 @@ echo
 
 case "$1" in
     install-tools)
+        [ ! -d 'n' ] && curl -L https://git.io/n-install | bash
         [ ! -d '.pyenv' ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
         sudo apt install zsh vim tmux jq
         ;;

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -eo pipefail
+
+# load env vars
+if [ -f .env ]
+then
+  export $(cat .env | sed 's/#.*//g' | xargs)
+fi
+
+function help() {
+echo
+echo "$1 <command> [options]"
+echo
+echo "commands:"
+echo
+column -t -s"|" ./task.md | tail -n +3
+echo
+}
+
+case "$1" in
+    install-tools)
+        [ ! -d '.pyenv' ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+        sudo apt install zsh vim tmux jq
+        ;;
+    install-vim)
+        vim -c ":PlugInstall"
+        ;;
+    install-zsh)
+        [ ! -d '.zsh/zsh-autosuggestions' ] && git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        ;;
+    install-tmux)
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+        ;;
+    enable-passwordless-sudo)
+        echo "$USERNAME ALL=(ALL) NOPASSWD: ALL"
+        ;;
+    *)
+        help task
+        exit 1
+esac

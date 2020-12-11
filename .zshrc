@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/janikvonrotz/.oh-my-zsh"
+export ZSH="/home/janikvonrotz/.oh-my-zsh"
 
 export FZF_BASE="/usr/local/bin/fzf"
 
@@ -125,3 +125,5 @@ git config --global user.name "Janik von Rotz"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

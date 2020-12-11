@@ -106,24 +106,33 @@ alias av="ansible-vault"
 alias ai="ansible-inventory"
 
 # Common
-alias untar="tar -xvzf"
-alias grepr="git log --pretty=format: --name-only --diff-filter=A  | sort -u | grep -rnw"
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+alias untar="tar -xvf"
 alias task='./task'
+alias gcm='git commit -m'
 
 # Docker
 alias dps="docker ps --format 'table {{.Names}}\t{{(.Label \"description\")}}'"
+
+# n
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
 # Git
 git config --global user.email "login@janikvonrotz.ch"
 git config --global user.name "Janik von Rotz"
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# zmux
+if [ -z "$TMUX" ]; then
+    tmux attach -t default || tmux new -s default
+fi

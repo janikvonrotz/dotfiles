@@ -1,1 +1,13 @@
 .cache
+.config
+.local
+.mozilla
+.var
+.pki
+.ssh
+.gnupg
+.vim
+.vscode
+.bash*
+n
+*cloud*

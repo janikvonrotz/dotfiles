@@ -2,6 +2,9 @@
 .config
 .local
 .mozilla
+.ansible
+.islonline
+.meteor
 .var
 .pki
 .ssh

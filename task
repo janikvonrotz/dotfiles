@@ -41,9 +41,10 @@ case "$1" in
         vim -c ":PlugInstall"
         ;;
     install-zsh)
+        # FIXME: Install does not exit shell
         sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
         [ ! -d '.zsh/zsh-autosuggestions' ] && git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-        cp .oh-my-zsh-custom/*.zsh .oh-my-zsh/custom
+        cp oh-my-zsh-custom/*.zsh .oh-my-zsh/custom
         ;;
     enable-passwordless-sudo)
         echo "$USERNAME ALL=(ALL) NOPASSWD: ALL"

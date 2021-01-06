@@ -10,3 +10,6 @@ alias gcm='git commit -m'
 
 # Docker
 alias dps="docker ps --format 'table {{.Names}}\t{{(.Label \"description\")}}'"
+
+# Python
+alias python=python3

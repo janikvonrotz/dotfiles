@@ -1,0 +1,10 @@
+[user]
+	email = login@janikvonrotz.ch
+	name = Janik von Rotz
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+[pull]
+	rebase = false

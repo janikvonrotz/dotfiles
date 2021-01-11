@@ -13,3 +13,7 @@ eval "$(pyenv init -)"
 if [ -z "$TMUX" ]; then
    # tmux attach -t default || tmux new -s default
 fi
+
+# pip user
+export PATH="$HOME/.local/bin:$PATH"
+

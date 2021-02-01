@@ -17,3 +17,5 @@ fi
 # pip user
 export PATH="$HOME/.local/bin:$PATH"
 
+# default editor
+export EDITOR=vi

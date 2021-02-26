@@ -18,8 +18,8 @@ Plug 'mhinz/vim-startify'
 " git commands
 Plug 'tpope/vim-fugitive'
 
-" monokai theme
-Plug 'crusoexia/vim-monokai'
+" dracula theme
+Plug 'dracula/vim'
 
 " auto save files
 Plug '907th/vim-auto-save'
@@ -64,7 +64,7 @@ nmap <Leader>q :q!<CR>
 " code style
 set number
 syntax on
-colorscheme monokai
+colorscheme dracula
 
 " disable autoindent when pasting
 set paste

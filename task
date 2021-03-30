@@ -44,10 +44,15 @@ case "$1" in
         ;;
     install-zsh)
         cd ~
-        # FIXME: Install does not exit shell
-        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        curl -L https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
         [ ! -d '.zsh/zsh-autosuggestions' ] && git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
         cp ~/dotfiles/oh-my-zsh-custom/*.zsh ~/.oh-my-zsh/custom
+        ;;
+    install-zsh-theme)
+        cd ~
+        [ ! -d 'zsh' ] && git clone https://github.com/dracula/zsh.git 
+        ln -s ~/dotfiles/zsh/dracula.zsh-theme ~/.oh-my-zsh/themes/dracula.zsh-theme
+        sed -i'' 's/ZSH_THEME.*/ZSH_THEME="dracula"/g' ~/.zshrc
         ;;
     enable-passwordless-sudo)
         echo "$USERNAME ALL=(ALL) NOPASSWD: ALL"

@@ -60,6 +60,7 @@ case "$1" in
     copy-dotfiles)
         cp .vimrc ~
         cp .tmux.conf ~
+        cp .gitconfig ~
         ;;
     *)
         help task

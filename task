@@ -32,22 +32,29 @@ case "$1" in
         sudo usermod -aG docker $USER
         ;;
     install-tools)
+        cd ~
         [ ! -d 'n' ] && curl -L https://git.io/n-install | bash
         [ ! -d '.pyenv' ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
         [ ! -d '.tmux' ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
         sudo apt install -y zsh vim tmux jq pass htop xclip
         ;;
     install-vim)
+        cd ~
         vim -c ":PlugInstall"
         ;;
     install-zsh)
+        cd ~
         # FIXME: Install does not exit shell
         sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
         [ ! -d '.zsh/zsh-autosuggestions' ] && git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-        cp oh-my-zsh-custom/*.zsh .oh-my-zsh/custom
+        cp ~/dotfiles/oh-my-zsh-custom/*.zsh ~/.oh-my-zsh/custom
         ;;
     enable-passwordless-sudo)
         echo "$USERNAME ALL=(ALL) NOPASSWD: ALL"
+        ;;
+    copy-dotfiles)
+        cp .vimrc ~
+        cp .tmux.conf ~
         ;;
     *)
         help task

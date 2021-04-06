@@ -47,6 +47,7 @@ case "$1" in
         curl -L https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
         [ ! -d '.zsh/zsh-autosuggestions' ] && git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
         cp ~/dotfiles/oh-my-zsh-custom/*.zsh ~/.oh-my-zsh/custom
+        sed -i'' 's/plugins=.*/plugins=(git fzf)/g' ~/.zshrc
         ;;
     install-zsh-theme)
         cd ~

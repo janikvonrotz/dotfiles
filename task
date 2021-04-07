@@ -50,7 +50,6 @@ case "$1" in
         sed -i'' 's/plugins=.*/plugins=(git fzf)/g' ~/.zshrc
         ;;
     install-zsh-theme)
-        cd ~
         [ ! -d 'zsh' ] && git clone https://github.com/dracula/zsh.git 
         ln -s ~/dotfiles/zsh/dracula.zsh-theme ~/.oh-my-zsh/themes/dracula.zsh-theme
         sed -i'' 's/ZSH_THEME.*/ZSH_THEME="dracula"/g' ~/.zshrc

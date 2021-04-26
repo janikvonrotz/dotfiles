@@ -43,13 +43,22 @@ case "$1" in
         vim -c ":PlugInstall"
         ;;
     install-zsh)
+        # Set zsh default
+        ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
         cd ~
+        # Download oh-my-zsh
         curl -L https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
-        [ ! -d '.zsh/zsh-autosuggestions' ] && git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+        # Add plugins list to zsh rc
+        [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+        # Clone zsh autosuggestions
         cp ~/dotfiles/oh-my-zsh-custom/*.zsh ~/.oh-my-zsh/custom
-        sed -i'' 's/plugins=.*/plugins=(git fzf)/g' ~/.zshrc
+        # Clone z
+        [ ! -d "$ZSH_CUSTOM/plugins/zsh-z" ] && git clone https://github.com/agkozak/zsh-z "$ZSH_CUSTOM/plugins/zsh-z"
+        # Add plugins list to zsh rc
+        sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z)/g' ~/.zshrc
         ;;
     install-zsh-theme)
+        # Clone and copy dracula theme
         [ ! -d 'zsh' ] && git clone https://github.com/dracula/zsh.git 
         ln -s ~/dotfiles/zsh/dracula.zsh-theme ~/.oh-my-zsh/themes/dracula.zsh-theme
         sed -i'' 's/ZSH_THEME.*/ZSH_THEME="dracula"/g' ~/.zshrc

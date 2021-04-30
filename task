@@ -39,6 +39,7 @@ case "$1" in
         sudo apt install -y zsh vim tmux jq pass htop xclip
         ;;
     install-vim)
+        cp .vimrc ~/
         cd ~
         vim -c ":PlugInstall"
         ;;

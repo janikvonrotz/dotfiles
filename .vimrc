@@ -24,7 +24,7 @@ Plug 'dracula/vim'
 " auto save files
 Plug '907th/vim-auto-save'
 
-" miscellaneous  vim scripts
+" miscellaneous vim scripts
 Plug 'xolox/vim-misc'
 
 " auto save sessions
@@ -38,6 +38,9 @@ Plug 'itchyny/lightline.vim'
 
 " file browser
 Plug 'scrooloose/nerdtree'
+
+" markdown reader
+Plug 'junegunn/goyo.vim'
 
 call plug#end()
 

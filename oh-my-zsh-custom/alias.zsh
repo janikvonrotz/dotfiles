@@ -12,4 +12,7 @@ alias gcm='git commit -m'
 alias dps="docker ps --format 'table {{.Names}}\t{{(.Label \"description\")}}'"
 
 # Python
-alias python=python3
+alias python="python3"
+
+# fzf
+alias fzv='vim $(fzf)'

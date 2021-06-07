@@ -36,7 +36,7 @@ case "$1" in
         [ ! -d 'n' ] && curl -L https://git.io/n-install | bash
         [ ! -d '.pyenv' ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
         [ ! -d '.tmux' ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-        sudo apt install -y zsh vim tmux jq pass htop xclip
+        sudo apt install -y zsh vim tmux jq pass htop xclip ripgrep
         ;;
     install-vim)
         cp .vimrc ~/
@@ -56,7 +56,7 @@ case "$1" in
         # Clone z
         [ ! -d "$ZSH_CUSTOM/plugins/zsh-z" ] && git clone https://github.com/agkozak/zsh-z "$ZSH_CUSTOM/plugins/zsh-z"
         # Add plugins list to zsh rc
-        sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z)/g' ~/.zshrc
+        sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker pyenv ripgrep)/g' ~/.zshrc
         ;;
     install-zsh-theme)
         # Clone and copy dracula theme

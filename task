@@ -44,6 +44,8 @@ case "$1" in
         vim -c ":PlugInstall"
         ;;
     install-zsh)
+        ZSH=
+        rm -rf ~/.oh-my-zsh
         # Set zsh default
         ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
         cd ~

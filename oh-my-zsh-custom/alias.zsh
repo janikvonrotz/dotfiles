@@ -6,6 +6,7 @@ alias tx=tmux
 # Docker
 alias dps="docker ps --format 'table {{.Names}}\t{{(.Label \"description\")}}'"
 alias dkl="docker logs -f --tail 10"
+alias dkp="docker ps"
 
 # Python
 alias python="python3"

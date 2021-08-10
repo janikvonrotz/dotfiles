@@ -49,15 +49,15 @@ case "$1" in
         # Set zsh default
         ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
         cd ~
-        # Download oh-my-zsh
+        # install oh-my-zsh
         curl -L https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
-        # Add plugins list to zsh rc
-        [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
         # Clone zsh autosuggestions
+        [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+        # Copy oh-my-zsh customizations
         cp ~/dotfiles/oh-my-zsh-custom/*.zsh ~/.oh-my-zsh/custom
         # Clone z
         [ ! -d "$ZSH_CUSTOM/plugins/zsh-z" ] && git clone https://github.com/agkozak/zsh-z "$ZSH_CUSTOM/plugins/zsh-z"
-        # Add plugins list to zsh rc
+        # Set plugins list for zshr
         sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker pyenv ripgrep)/g' ~/.zshrc
         ;;
     install-zsh-theme)

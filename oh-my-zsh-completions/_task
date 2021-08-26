@@ -1,6 +1,6 @@
 #compdef task
 
-_arguments '1: :->tasks'
+_arguments '1: :->tasks' '*: :_files'
 case "$state" in
     tasks)
         args=$(awk -F"|" '{print $2}' ./task.md | tail -n +3 | xargs)

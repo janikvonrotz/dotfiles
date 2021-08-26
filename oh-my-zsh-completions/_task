@@ -1,0 +1,18 @@
+#compdef task
+
+# Declare an array
+# local -a subcmds
+
+# Array with sub commands
+# subcmds=('c:description for c command' 'd:description for d command')
+
+# Simple completion with _describe
+# _describe 'command' subcmds
+
+_arguments '1: :->tasks'
+case "$state" in
+    tasks)
+        options=$(awk -F"|" '{print $1}' ./task.md  | tail -n +3 | tr \\n " ")
+        _arguments "1:profiles:($options)"
+        ;;
+esac

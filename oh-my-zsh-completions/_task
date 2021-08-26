@@ -12,7 +12,7 @@
 _arguments '1: :->tasks'
 case "$state" in
     tasks)
-        options=$(awk -F"|" '{print $1}' ./task.md  | tail -n +3 | tr \\n " ")
+        options=$(awk -F"|" '{print $2}' ./task.md  | tail -n +3 | tr \\n " ")
         _arguments "1:profiles:($options)"
         ;;
 esac

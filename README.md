@@ -12,4 +12,4 @@ git clone git@github.com:janikvonrotz/dotfiles.git
 cd dotfiles
 ```
 
-See `./task help` for details.
+Run `./task help` for details.

@@ -81,6 +81,7 @@ install-zsh-theme)
     sed -i'' 's/ZSH_THEME.*/ZSH_THEME="dracula"/g' ~/.zshrc
     ;;
 enable-passwordless-sudo)
+    echo "Enter 'sudo EDITOR=vim visudo' and append this line:"
     echo "$USERNAME ALL=(ALL) NOPASSWD: ALL"
     ;;
 copy-dotfiles)

@@ -15,4 +15,4 @@ alias python="python3"
 alias fzv='vim $(fzf)'
 
 # Commands
-function pwgen() {< /dev/urandom tr -dc A-Za-z0-9 | head -c"$1"; echo}
+#function pwgen() {< /dev/urandom tr -dc A-Za-z0-9 | head -c"$1"; echo}

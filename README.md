@@ -1,6 +1,6 @@
 # dotfiles
 
-Vim, zsh, fzf config and much more.
+Vim, zsh, fish, fzf config and much more.
 
 ## Usage
 

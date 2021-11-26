@@ -40,7 +40,13 @@ install-tools)
     echo "Install tmux plugins."
     [ ! -d '.tmux' ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     echo "Install binaries."
-    sudo apt install -y zsh vim tmux jq pass htop xclip ripgrep
+    sudo apt install -y vim tmux jq pass htop xclip ripgrep
+    ;;
+install-fish)
+    echo "Install fish."
+    sudo apt install -y fish
+    echo "Copy fish config."
+    cp fish/config.fish ~/.config/fish/config.fish
     ;;
 install-vim)
     echo "Copy vim config."
@@ -49,7 +55,9 @@ install-vim)
     echo "Install vim plugins."
     vim -c ":PlugInstall"
     ;;
-install-oh-my-zsh)
+install-zsh)
+    echo "Install zsh."
+    sudo apt install -y zsh
     echo "Reset zsh."
     ZSH=
     echo "Remove oh-my-zsh folder."

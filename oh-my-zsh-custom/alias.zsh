@@ -14,5 +14,8 @@ alias python="python3"
 # fzf
 alias fzv='vim $(fzf)'
 
+# Code
+alias code="flatpak run com.vscodium.codium"
+
 # Commands
 #function pwgen() {< /dev/urandom tr -dc A-Za-z0-9 | head -c"$1"; echo}

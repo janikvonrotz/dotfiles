@@ -40,7 +40,7 @@ install-tools)
     echo "Install tmux plugins."
     [ ! -d '.tmux' ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     echo "Install binaries."
-    sudo apt install -y vim tmux jq pass htop xclip ripgrep
+    sudo apt install -y vim tmux jq htop xclip ripgrep pass pass-extension-otp
     ;;
 install-fish)
     echo "Install fish."

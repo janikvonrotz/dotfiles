@@ -31,16 +31,27 @@ install-docker)
     sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io
     sudo usermod -aG docker $USER
     ;;
-install-tools)
+install-dev-tools)
     cd ~
     echo "Install node version manager."
     [ ! -d '.nvm' ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
     echo "Install python version manager."
     [ ! -d '.pyenv' ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+    echo "Install binaries."
+    sudo apt install -y jq htop xclip ripgrep
+    ;;
+install-pass)
+    echo "Install pass."
+    sudo apt install -y pass pass-extension-otp
+    ;;
+install-tmux)
+cd ~
+    echo "Install tmux."
+    sudo apt install -y tmux
     echo "Install tmux plugins."
     [ ! -d '.tmux' ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    echo "Install binaries."
-    sudo apt install -y vim tmux jq htop xclip ripgrep pass pass-extension-otp
+    echo "Copy tmux config."
+    cp .tmux.conf ~
     ;;
 install-fish)
     echo "Install fish."
@@ -49,11 +60,25 @@ install-fish)
     cp fish/config.fish ~/.config/fish/config.fish
     ;;
 install-vim)
+    echo "Install vim."
+    sudo apt install -y vim 
+    echo "Copy vimrc config."
+    cp .vimrc ~
     echo "Copy vim config."
     cp .vimrc ~/
     cd ~
     echo "Install vim plugins."
     vim -c ":PlugInstall"
+    ;;
+install-nvim)
+    cd ~
+    echo "Add neovim ppa."
+    sudo add-apt-repository ppa:neovim-ppa/stable -y
+    sudo apt update
+    echo "Install neovim."
+    sudo apt install -y neovim 
+    # echo "Install neovim plugins."
+    # [ ! -d '.config/nvim' ] && git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
     ;;
 install-zsh)
     echo "Install zsh."
@@ -92,11 +117,7 @@ enable-passwordless-sudo)
     echo "Enter 'sudo EDITOR=vim visudo' and append this line:"
     echo "$USERNAME ALL=(ALL) NOPASSWD: ALL"
     ;;
-copy-dotfiles)
-    echo "Copy vimrc config."
-    cp .vimrc ~
-    echo "Copy tmux config."
-    cp .tmux.conf ~
+install-git)
     echo "Copy git config."
     cp .gitconfig ~
     ;;

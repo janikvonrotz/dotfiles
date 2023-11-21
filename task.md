@@ -11,3 +11,4 @@
 | install-pass             |        | Install and configure pass.                    |
 | enable-passwordless-sudo |        | Get sudoers entry for passwordless sudo.       |
 | install-zsh-theme        |        | Install zsh theme of choice.                   |
+| update-pyenv             |        | Update pyenv.                                  |

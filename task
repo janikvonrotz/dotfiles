@@ -121,6 +121,11 @@ install-git)
     echo "Copy git config."
     cp .gitconfig ~
     ;;
+update-pyenv)
+    echo "Update pyenv"
+    cd ~/.pyenv
+    git pull
+    ;;
 *)
     help task
     exit 1

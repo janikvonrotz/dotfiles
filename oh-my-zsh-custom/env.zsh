@@ -1,2 +1,2 @@
 # default editor
-export EDITOR=vi
+export EDITOR=hx

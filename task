@@ -70,6 +70,14 @@ install-vim)
     echo "Install vim plugins."
     vim -c ":PlugInstall"
     ;;
+install-helix)
+    cd ~
+    echo "Add helix ppa."
+    sudo add-apt-repository ppa:maveonair/helix-editor
+    sudo apt update
+    echo "Install helix."
+    sudo apt install helix
+    ;;
 install-nvim)
     cd ~
     echo "Add neovim ppa."
@@ -77,8 +85,6 @@ install-nvim)
     sudo apt update
     echo "Install neovim."
     sudo apt install -y neovim 
-    # echo "Install neovim plugins."
-    # [ ! -d '.config/nvim' ] && git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
     ;;
 install-zsh)
     echo "Install zsh."

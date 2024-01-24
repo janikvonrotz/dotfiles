@@ -4,6 +4,7 @@
 | install-dev-tools        |        | Install version manager and development tools. |
 | install-tmux             |        | Install tmux.                                  |
 | install-vim              |        | Install vim and configure plugins.             |
+| install-helix            |        | Install helix editor.                          |
 | install-nvim             |        | Install neovim and configure plugins.          |
 | install-zsh              |        | Install zsh shell and oh-my-zsh.               |
 | install-fish             |        | Install fish shell.                            |

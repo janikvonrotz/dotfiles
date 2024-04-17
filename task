@@ -110,7 +110,7 @@ install-zsh)
     echo "Clone z plugin."
     [ ! -d "$ZSH_CUSTOM/plugins/zsh-z" ] && git clone https://github.com/agkozak/zsh-z "$ZSH_CUSTOM/plugins/zsh-z"
     echo "Set plugins list for zshrc."
-    sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker nvm pyenv ripgrep)/g' ~/.zshrc
+    sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker nvm pyenv ripgrep kubectl)/g' ~/.zshrc
     ;;
 install-zsh-theme)
     echo "Clone and copy dracula theme."

@@ -1,6 +1,11 @@
 [user]
 	email = login@janikvonrotz.ch
 	name = Janik von Rotz
+	signingkey = ~/.ssh/id_ed25519.pub
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
 [alias]
 	co = checkout
 	br = branch

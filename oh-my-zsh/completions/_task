@@ -1,0 +1,16 @@
+#compdef task=./task
+
+# cp _task ~/.oh-my-zsh/completions/_task
+
+_task() {
+    local -a commands
+    local expl
+
+    # Fetch the commands from `./task help` and parse the output
+    commands=("${(@f)$(./task help | awk '/^\s{3}[a-z-]+/{print $1}')}")
+    
+    # Use _describe to provide completions
+    _describe 'command' commands
+}
+
+compdef _task task=./task

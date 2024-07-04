@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# sudo cp task_completions /etc/bash_completion.d/task_completions
+
+alias task=./task
+
+_task_completions() {
+    local cur prev commands
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    commands=$(./task help | grep -E '^\s{3,}[a-z-]+' | awk '{print $1}')
+
+    # Only provide completions for the command part (second word)
+    if [[ ${COMP_CWORD} == 1 ]]; then
+        COMPREPLY=( $(compgen -W "${commands}" -- "${cur}") )
+    else
+        COMPREPLY=()
+    fi
+}
+
+complete -F _task_completions ./task
+complete -F _task_completions task  # Support the alias

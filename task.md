@@ -6,6 +6,7 @@
 | install-vim              |        | Install vim and configure plugins.             |
 | install-helix            |        | Install helix editor.                          |
 | install-nvim             |        | Install neovim and configure plugins.          |
+| install-bash             |        | Configure bash.                                |
 | install-zsh              |        | Install zsh shell and oh-my-zsh.               |
 | install-fish             |        | Install fish shell.                            |
 | install-git              |        | Configure git.                                 |

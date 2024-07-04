@@ -86,6 +86,10 @@ install-nvim)
     echo "Install neovim."
     sudo apt install -y neovim 
     ;;
+install-bash)
+    echo "Copy bash completions."
+    sudo cp bash/completion/* /etc/bash_completion.d/
+    ;;
 install-zsh)
     echo "Install zsh."
     sudo apt install -y zsh
@@ -101,12 +105,12 @@ install-zsh)
     echo "Clone zsh autosuggestions."
     [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
     echo "Copy oh-my-zsh customizations."
-    cp ~/dotfiles/oh-my-zsh-custom/*.zsh ~/.oh-my-zsh/custom
+    cp ~/dotfiles/oh-my-zsh/custom/*.zsh ~/.oh-my-zsh/custom
     echo "Copy oh-my-zsh completions."
-    cp -r ~/dotfiles/oh-my-zsh-completions ~/.oh-my-zsh/completions
+    cp -r ~/dotfiles/oh-my-zsh/completions ~/.oh-my-zsh/completions
     echo "Copy oh-my-zsh plugins."
     mkdir -p ~/.oh-my-zsh/plugins/git-commit-ref
-    cp -r ~/dotfiles/oh-my-zsh-plugins/git-commit-ref.plugin.zsh ~/.oh-my-zsh/plugins/git-commit-ref/git-commit-ref.plugin.zsh
+    cp -r ~/dotfiles/oh-my-zsh/plugins/git-commit-ref.plugin.zsh ~/.oh-my-zsh/plugins/git-commit-ref/git-commit-ref.plugin.zsh
     echo "Clone z plugin."
     [ ! -d "$ZSH_CUSTOM/plugins/zsh-z" ] && git clone https://github.com/agkozak/zsh-z "$ZSH_CUSTOM/plugins/zsh-z"
     echo "Set plugins list for zshrc."

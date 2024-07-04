@@ -88,7 +88,7 @@ install-nvim)
     ;;
 install-bash)
     echo "Copy bash completions."
-    sudo cp bash/completion/* /etc/bash_completion.d/
+    sudo cp bash/completions/* /etc/bash_completion.d/
     ;;
 install-zsh)
     echo "Install zsh."

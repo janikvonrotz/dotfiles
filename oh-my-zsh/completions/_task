@@ -7,7 +7,7 @@ _task() {
     local expl
 
     # Fetch the commands from `./task help` and parse the output
-    commands=("${(@f)$(./task help | awk '/^\s{3}[a-z-]+/{print $1}')}")
+    commands=("${(@f)$(./task help | awk '/^\s{3}[a-z-]+/{print $1} /^\s*\|\s*[a-z-]+/{print $2}' | tr -d '|')}")
     
     # Use _describe to provide completions
     _describe 'command' commands

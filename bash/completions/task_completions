@@ -9,7 +9,8 @@ _task_completions() {
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
 
-    commands=$(./task help | grep -E '^\s{3,}[a-z-]+' | awk '{print $1}')
+    # Combine patterns for both formats
+    commands=$(./task help | awk '/^\s{3}[a-z-]+/{print $1} /^\s*\|\s*[a-z-]+/{print $2}' | tr -d '|')
 
     # Only provide completions for the command part (second word)
     if [[ ${COMP_CWORD} == 1 ]]; then

@@ -2,7 +2,6 @@
 
 # sudo cp task_completions /etc/bash_completion.d/task_completions
 
-alias task=./task
 
 _task_completions() {
     local cur prev commands
@@ -12,13 +11,15 @@ _task_completions() {
     # Combine patterns for both formats
     commands=$(./task help | awk '/^\s{3}[a-z-]+/{print $1} /^\s*\|\s*[a-z-]+/{print $2}' | tr -d '|')
 
-    # Only provide completions for the command part (second word)
     if [[ ${COMP_CWORD} == 1 ]]; then
+        # Provide completions for the command part (second word)
         COMPREPLY=( $(compgen -W "${commands}" -- "${cur}") )
+    elif [[ ${COMP_CWORD} == 2 ]]; then
+        # Provide file path completions for the third parameter
+        COMPREPLY=( $(compgen -f -- "${cur}") )
     else
         COMPREPLY=()
     fi
 }
 
-complete -F _task_completions ./task
 complete -F _task_completions task

@@ -1,16 +1,12 @@
-#compdef task=./task
+#compdef task
 
 # cp _task ~/.oh-my-zsh/completions/_task
 
-_task() {
-    local -a commands
-    local expl
-
-    # Fetch the commands from `./task help` and parse the output
-    commands=("${(@f)$(./task help | awk '/^\s{3}[a-z-]+/{print $1} /^\s*\|\s*[a-z-]+/{print $2}' | tr -d '|')}")
-    
-    # Use _describe to provide completions
-    _describe 'command' commands
-}
-
-compdef _task task=./task
+_arguments '1: :->tasks' '*: :_files'
+case "$state" in
+    tasks)
+        args=$(./task help | awk '/^\s{3}[a-z-]+/{print $1} /^\s*\|\s*[a-z-]+/{print $2}' | tr -d '|')
+        args="$args help"
+        _arguments "1:profiles:($args)"
+        ;;
+esac

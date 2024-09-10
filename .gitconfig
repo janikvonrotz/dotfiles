@@ -12,4 +12,4 @@
 	ci = commit
 	st = status
 [pull]
-	rebase = false
+	ff = true

@@ -13,7 +13,27 @@ function help() {
     echo
     echo "commands:"
     echo
-    column -t -s"|" ./task.md | tail -n +3
+
+cmd_width=24
+opt_width=10
+desc_width=45
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "Command" "Option" "Description"
+echo "|$(printf '%*s' $((cmd_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((opt_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((desc_width + 2)) '' | tr ' ' '-')|"
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-docker" "" "Install Docker environment."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-dev-tools" "" "Install rust, python, node version manager and tools."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-tmux" "" "Install tmux."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-vim" "" "Install vim and configure plugins."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-helix" "" "Install helix editor."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-nvim" "" "Install neovim and configure plugins."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bash" "" "Configure bash."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh" "" "Install zsh shell and oh-my-zsh."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fish" "" "Install fish shell."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh-theme" "" "Install zsh theme of choice."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "update-pyenv" "" "Update pyenv."
+
     echo
 }
 

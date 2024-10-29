@@ -16,10 +16,11 @@ function help() {
 
 cmd_width=24
 opt_width=10
-desc_width=45
+desc_width=60
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "Command" "Option" "Description"
 echo "|$(printf '%*s' $((cmd_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((opt_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((desc_width + 2)) '' | tr ' ' '-')|"
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-docker" "" "Install Docker environment."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-desktop" "" "Install desktop tools."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-dev-tools" "" "Install rust, python, node version manager and tools."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-tmux" "" "Install tmux."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-vim" "" "Install vim and configure plugins."
@@ -31,13 +32,31 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fis
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh-theme" "" "Install zsh theme of choice."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-work" "" "Clone work related git repos."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "update-pyenv" "" "Update pyenv."
 
     echo
 }
 
 case "$1" in
+
+enable-passwordless-sudo)
+    echo "Add user $USER to sudoers file."
+    echo "$USER	ALL=(ALL) NOPASSWD: ALL" | sudo sh -c "cat >> /etc/sudoers.d/nopasswd"
+    ;;
+install-deskop)
+    echo "Install thunderbird, firefox."
+    sudo apt install -y thunderbird firefox
+
+    echo "Install KeepassXC."
+    sudo add-apt-repository ppa:phoerious/keepassxc
+    sudo apt update && sudo apt install -y keepassxc
+
+    echo "Install Nextcloud Desktop."
+    sudo add-apt-repository ppa:xtradeb/apps
+    sudo apt update && sudo apt install -y nextcloud-desktop
+    ;;
 install-docker)
     echo "Install docker."
     sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -52,14 +71,22 @@ install-docker)
     sudo usermod -aG docker $USER
     ;;
 install-dev-tools)
+    echo "Install vscodium."
+    wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
+        | gpg --dearmor \
+        | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
+    echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
+        | sudo tee /etc/apt/sources.list.d/vscodium.list
+    sudo apt update && sudo apt install codium
+    
     echo "Install rust and cargo."
     curl https://sh.rustup.rs -sSf | sh
 
     echo "Install node version manager."
-    [ ! -d '~/.nvm' ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+    [ ! -d "$HOME/.nvm" ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
     echo "Install python version manager."
-    [ ! -d '~/.pyenv' ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+    [ ! -d "$HOME/.pyenv" ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 
     echo "Install binaries."
     sudo apt install -y jq htop xclip ripgrep
@@ -67,6 +94,12 @@ install-dev-tools)
 install-pass)
     echo "Install pass."
     sudo apt install -y pass pass-extension-otp
+
+    echo "Clone pass repo."
+    [ ! -d "$HOME/.password-store" ] && git clone git@gitlab.com:janikvonrotz/pass.git ~/.password-store
+
+    echo "Import gpg key with this command."
+    echo "gpg --import /path/to/user@example.com.private.gpg"
     ;;
 install-tmux)
 
@@ -74,7 +107,7 @@ install-tmux)
     sudo apt install -y tmux
 
     echo "Install tmux plugins."
-    [ ! -d '~/.tmux' ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    [ ! -d "$HOME/.tmux" ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
     echo "Copy tmux config."
     cp tmux/.tmux.conf ~
@@ -153,19 +186,24 @@ install-zsh)
     ;;
 install-zsh-theme)
     echo "Clone and copy dracula theme."
-    [ ! -d 'zsh' ] && git clone https://github.com/dracula/zsh.git
+    [ ! -d "zsh" ] && git clone https://github.com/dracula/zsh.git
     ln -s ~/dotfiles/zsh/dracula.zsh-theme ~/.oh-my-zsh/themes/dracula.zsh-theme
 
     echo "Set zsh default theme."
     sed -i'' 's/ZSH_THEME.*/ZSH_THEME="dracula"/g' ~/.zshrc
     ;;
-enable-passwordless-sudo)
-    echo "Add user $USER to sudoers file."
-    echo "$USER	ALL=(ALL) NOPASSWD: ALL" | sudo sh -c "cat >> /etc/sudoers.d/nopasswd"
-    ;;
 install-git)
     echo "Copy git config."
     cp git/.gitconfig ~
+    ;;
+setup-private)
+    echo "Pull janikvonrotz repos."
+    [ ! -d "$HOME/knowledge" ] && git clone https://github.com/Mint-System/Odoo-Build.git ~/knowledge
+    ;;
+setup-work)
+    echo "Pull Mint-System repos."
+    [ ! -d "$HOME/Odoo-Build" ] && git clone https://github.com/Mint-System/Odoo-Build.git ~/Odoo-Build
+    [ ! -d "$HOME/Ansible-Build" ] && git clone https://github.com/Mint-System/Ansible-Build.git ~/Ansible-Build
     ;;
 update-pyenv)
     echo "Update pyenv"

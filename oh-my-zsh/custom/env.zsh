@@ -1,2 +1,2 @@
 # default editor
-export EDITOR=vim
+export EDITOR=hx

@@ -39,13 +39,16 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "update-pyen
     echo
 }
 
-case "$1" in
-
-enable-passwordless-sudo)
+function enable-passwordless-sudo() {
     echo "Add user $USER to sudoers file."
     echo "$USER	ALL=(ALL) NOPASSWD: ALL" | sudo sh -c "cat >> /etc/sudoers.d/nopasswd"
-    ;;
-install-deskop)
+}
+
+function install-desktop() {
+    echo "Install wcurl."
+    curl -fLO https://raw.githubusercontent.com/curl/wcurl/main/wcurl
+    chmod +x wcurl && sudo mv wcurl /usr/local/bin/wcurl
+
     echo "Install thunderbird, firefox."
     sudo apt install -y thunderbird firefox
 
@@ -56,8 +59,14 @@ install-deskop)
     echo "Install Nextcloud Desktop."
     sudo add-apt-repository ppa:xtradeb/apps
     sudo apt update && sudo apt install -y nextcloud-desktop
-    ;;
-install-docker)
+
+    echo "Install Obsidian."
+    wcurl https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.4/obsidian_1.7.4_amd64.deb
+    sudo apt install -y ./obsidian_1.7.4_amd64.deb
+    rm obsidian_1.7.4_amd64.deb
+}
+
+function install-docker() {
     echo "Install docker."
     sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg |
@@ -69,8 +78,9 @@ install-docker)
         stable"
     sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io
     sudo usermod -aG docker $USER
-    ;;
-install-dev-tools)
+}
+
+function install-dev-tools() {
     echo "Install vscodium."
     wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
         | gpg --dearmor \
@@ -90,8 +100,9 @@ install-dev-tools)
 
     echo "Install binaries."
     sudo apt install -y jq htop xclip ripgrep
-    ;;
-install-pass)
+}
+
+function install-pass() {
     echo "Install pass."
     sudo apt install -y pass pass-extension-otp
 
@@ -100,8 +111,9 @@ install-pass)
 
     echo "Import gpg key with this command."
     echo "gpg --import /path/to/user@example.com.private.gpg"
-    ;;
-install-tmux)
+}
+
+function install-tmux() {
 
     echo "Install tmux."
     sudo apt install -y tmux
@@ -111,15 +123,17 @@ install-tmux)
 
     echo "Copy tmux config."
     cp tmux/.tmux.conf ~
-    ;;
-install-fish)
+}
+
+function install-fish() {
     echo "Install fish."
     sudo apt install -y fish
 
     echo "Copy fish config."
     cp fish/config.fish ~/.config/fish/config.fish
-    ;;
-install-vim)
+}
+
+function install-vim() {
     echo "Install vim."
     sudo apt install -y vim
 
@@ -128,8 +142,9 @@ install-vim)
 
     echo "Install vim plugins."
     vim -c ":PlugInstall"
-    ;;
-install-helix)
+}
+
+function install-helix() {
     echo "Add helix ppa."
     sudo add-apt-repository ppa:maveonair/helix-editor
     sudo apt update
@@ -139,20 +154,23 @@ install-helix)
 
     echo "Copy vim keybindings."
     cp helix/config.toml ~/.config/helix/config.toml
-    ;;
-install-nvim)
+}
+
+function install-nvim() {
     echo "Add neovim ppa."
     sudo add-apt-repository ppa:neovim-ppa/stable -y
     sudo apt update
 
     echo "Install neovim."
     sudo apt install -y neovim
-    ;;
-install-bash)
+}
+
+function install-bash() {
     echo "Copy bash completions."
     sudo cp bash/completions/* /etc/bash_completion.d/
-    ;;
-install-zsh)
+}
+
+function install-zsh() {
     echo "Install zsh."
     sudo apt install -y zsh
 
@@ -182,36 +200,91 @@ install-zsh)
     [ ! -d "$ZSH_CUSTOM/plugins/zsh-z" ] && git clone https://github.com/agkozak/zsh-z "$ZSH_CUSTOM/plugins/zsh-z"
 
     echo "Set plugins list for zshrc."
-    sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker nvm pyenv kubectl minikube)/g' ~/.zshrc
-    ;;
-install-zsh-theme)
+    sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker nvm pyenv kubectl minikube() {/g' ~/.zshrc
+}
+
+function install-zsh-theme() {
     echo "Clone and copy dracula theme."
     [ ! -d "zsh" ] && git clone https://github.com/dracula/zsh.git
     ln -s ~/dotfiles/zsh/dracula.zsh-theme ~/.oh-my-zsh/themes/dracula.zsh-theme
 
     echo "Set zsh default theme."
     sed -i'' 's/ZSH_THEME.*/ZSH_THEME="dracula"/g' ~/.zshrc
-    ;;
-install-git)
+}
+
+function install-git() {
     echo "Copy git config."
     cp git/.gitconfig ~
-    ;;
-setup-private)
+}
+
+function setup-private() {
     echo "Pull janikvonrotz repos."
     [ ! -d "$HOME/knowledge" ] && git clone https://github.com/Mint-System/Odoo-Build.git ~/knowledge
-    ;;
-setup-work)
+}
+
+function setup-work() {
     echo "Pull Mint-System repos."
     [ ! -d "$HOME/Odoo-Build" ] && git clone https://github.com/Mint-System/Odoo-Build.git ~/Odoo-Build
     [ ! -d "$HOME/Ansible-Build" ] && git clone https://github.com/Mint-System/Ansible-Build.git ~/Ansible-Build
-    ;;
-update-pyenv)
+}
+
+function update-pyenv() {
     echo "Update pyenv"
     cd ~/.pyenv
     git pull
-    ;;
-*)
-    help task
-    exit 1
-    ;;
+}
+
+case "$1" in
+    enable-passwordless-sudo)
+        enable-passwordless-sudo
+        ;;
+    install-desktop)
+        install-desktop
+        ;;
+    install-dev-tools)
+        install-dev-tools
+        ;;
+    install-tmux)
+        install-tmux
+        ;;
+    install-vim)
+        install-vim
+        ;;
+    install-helix)
+        install-helix
+        ;;
+    install-nvim)
+        install-nvim
+        ;;
+    install-bash)
+        install-bash
+        ;;
+    install-zsh)
+        install-zsh
+        ;;
+    install-fish)
+        install-fish
+        ;;
+    install-git)
+        install-git
+        ;;
+    install-pass)
+        install-pass
+        ;;
+    install-zsh-theme)
+        install-zsh-theme
+        ;;
+    setup-work)
+        setup-work
+        ;;
+    setup-private)
+        setup-private
+        ;;
+    update-pyenv)
+        update-pyenv
+        ;;
+    *)
+        help task
+        exit 1
+        ;;
 esac

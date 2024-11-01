@@ -22,6 +22,8 @@ echo "|$(printf '%*s' $((cmd_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((opt_
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-desktop" "" "Install desktop tools."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-dev-tools" "" "Install rust, python, node version manager and tools."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-docker" "" "Install Docker."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-minikube" "" "Install minikube."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-tmux" "" "Install tmux."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-vim" "" "Install vim and configure plugins."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-helix" "" "Install helix editor."
@@ -78,6 +80,12 @@ function install-docker() {
         stable"
     sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io
     sudo usermod -aG docker $USER
+}
+
+function install-minikube() {
+    echo "Install minikube."
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 }
 
 function install-dev-tools() {
@@ -243,6 +251,12 @@ case "$1" in
         ;;
     install-dev-tools)
         install-dev-tools
+        ;;
+    install-docker)
+        install-docker
+        ;;
+    install-minikube)
+        install-minikube
         ;;
     install-tmux)
         install-tmux

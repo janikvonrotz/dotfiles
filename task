@@ -120,6 +120,9 @@ function install-dev-tools() {
     echo "Install python version manager."
     [ ! -d "$HOME/.pyenv" ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
     
+    echo "Install postgres."
+    sudo apt install -y postgresql-common
+
     echo "Install python build dependencies."
     # https://github.com/pyenv/pyenv/wiki#suggested-build-environment
     sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \

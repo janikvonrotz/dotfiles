@@ -1,15 +1,12 @@
 #!/bin/bash
 
-# sudo cp task_completions /etc/bash_completion.d/task_completions
-
-
 _task_completions() {
     local cur prev commands
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
 
     # Combine patterns for both formats
-    commands=$(./task help | awk '/^\s{3}[a-z-]+/{print $1} /^\s*\|\s*[a-z-]+/{print $2}' | tr -d '|')
+    commands=$(./task help | grep -A100 -e '---' | awk '{print $2}' | sed 's/^[[:space:]]*//' | grep -v '^$' | tr '\n' ' ')
 
     if [[ ${COMP_CWORD} == 1 ]]; then
         # Provide completions for the command part (second word)

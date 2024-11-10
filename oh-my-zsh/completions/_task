@@ -1,11 +1,11 @@
 #compdef task
 
-# cp _task ~/.oh-my-zsh/completions/_task
-
 _arguments '1: :->tasks' '*: :_files'
+
 case "$state" in
     tasks)
-        args=$(./task help | awk '/^\s{3}[a-z-]+/{print $1} /^\s*\|\s*[a-z-]+/{print $2}' | tr -d '|')
+        # Process task list, skip empty lines, and convert to space-separated args
+        args=$(./task help | grep -A100 -e '---' | awk '{print $2}' | sed 's/^[[:space:]]*//' | grep -v '^$' | tr '\n' ' ')
         args="$args help"
         _arguments "1:profiles:($args)"
         ;;

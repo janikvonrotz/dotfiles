@@ -160,8 +160,13 @@ function install-fish() {
     echo "Install fish."
     sudo apt install -y fish
 
+    mkdir -p ~/.config/fish/completions
+
     echo "Copy fish config."
     cp fish/config.fish ~/.config/fish/config.fish
+
+    echo "Copy fish completions."
+    cp fish/completions/* ~/.config/fish/completions/
 }
 
 function install-vim() {

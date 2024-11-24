@@ -23,6 +23,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "enable-pass
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-desktop" "" "Install desktop tools."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-dev-tools" "" "Install rust, python, node version manager and tools."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-docker" "" "Install Docker."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-kind" "" "Install kubectl and kind."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-minikube" "" "Install kubectl and minikube."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-tmux" "" "Install tmux."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-vim" "" "Install vim and configure plugins."
@@ -88,7 +89,7 @@ function install-docker() {
     sudo usermod -aG docker $USER
 }
 
-function install-minikube() {
+function install-kubectl() {
     echo "Install kubectl."
     # https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
     curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
@@ -96,6 +97,23 @@ function install-minikube() {
     echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
     sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list 
     sudo apt-get update && sudo apt-get install -y kubectl
+}
+
+function install-kind() {
+    install-kubectl
+    
+    echo "Install kind."
+    # https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+    # For AMD64 / x86_64
+    [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-amd64
+    # For ARM64
+    [ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-arm64
+    chmod +x ./kind
+    sudo mv ./kind /usr/local/bin/kind
+}
+
+function install-minikube() {
+    install-kubectl
 
     echo "Install minikube."
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
@@ -286,6 +304,9 @@ case "$1" in
         ;;
     install-docker)
         install-docker
+        ;;
+    install-kind)
+        install-kind
         ;;
     install-minikube)
         install-minikube

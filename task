@@ -265,6 +265,7 @@ function setup-work() {
     echo "Pull Mint-System repos."
     [ ! -d "$HOME/Odoo-Build" ] && git clone git@github.com:Mint-System/Odoo-Build.git ~/Odoo-Build
     [ ! -d "$HOME/Ansible-Build" ] && git clone git@github.com:Mint-System/Ansible-Build.git ~/Ansible-Build
+    [ ! -d "$HOME/Wiki" ] && git clone git@github.com:Mint-System/Wiki.git ~/Wiki
 }
 
 function update-pyenv() {

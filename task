@@ -172,6 +172,8 @@ function install-tmux() {
 
     echo "Copy tmux config."
     cp tmux/.tmux.conf ~
+
+    echo "Open tmux and install plugins with: ctrl + b; shift + i"
 }
 
 function install-fish() {

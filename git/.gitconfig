@@ -6,10 +6,6 @@
 	format = ssh
 [commit]
 	gpgsign = true
-[alias]
-	co = checkout
-	br = branch
-	ci = commit
-	st = status
 [pull]
 	ff = true
+	rebase = true

@@ -278,13 +278,14 @@ function install-git() {
 
 function setup-private() {
     echo "Pull janikvonrotz repos."
-    [ ! -d "$HOME/knowledge" ] && git clone https://github.com/Mint-System/Odoo-Build.git ~/knowledge
+    [ ! -d "$HOME/knowledge" ] && git clone https://gitlab.com/janikvonrotz/knowlege ~/knowledge
 }
 
 function setup-work() {
     echo "Pull Mint-System repos."
     [ ! -d "$HOME/Odoo-Build" ] && git clone git@github.com:Mint-System/Odoo-Build.git ~/Odoo-Build
-    [ ! -d "$HOME/Ansible-Build" ] && git clone git@github.com:Mint-System/Ansible-Build.git ~/Ansible-Build
+    [ ! -d "$HOME/Odoo-Wiki" ] && git clone git@github.com:Mint-System/Odoo-Wiki.git ~/Odoo-Wiki
+    [ ! -d "$HOME/Ansible-Build" ] && git clone git@github.com:Mint-System/Ansible-Build.git ~?/Ansible-Build
     [ ! -d "$HOME/Wiki" ] && git clone git@github.com:Mint-System/Wiki.git ~/Wiki
 }
 

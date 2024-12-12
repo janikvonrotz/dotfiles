@@ -149,6 +149,11 @@ function install-dev-tools() {
 
     echo "Install binaries."
     sudo apt install -y jq htop xclip ripgrep
+
+    echo "Install hugo."
+    curl -L https://github.com/gohugoio/hugo/releases/download/v0.139.4/hugo_0.139.4_linux-amd64.deb -o hugo.deb
+    sudo dpkg -i hugo.deb
+    rm hugo.deb
 }
 
 function install-pass() {

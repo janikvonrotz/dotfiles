@@ -35,7 +35,8 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fis
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh-theme" "" "Install zsh theme of choice."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-work" "" "Clone work related git repos."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "update-pyenv" "" "Update pyenv."
 
@@ -284,14 +285,25 @@ function install-git() {
 function setup-private() {
     echo "Pull janikvonrotz repos."
     [ ! -d "$HOME/knowledge" ] && git clone https://gitlab.com/janikvonrotz/knowlege ~/knowledge
+    [ ! -d "$HOME/janikvonrotz.ch" ] && git clone https://github.com/janikvonrotz/janikvonrotz.ch ~/janikvonrotz.ch
+    [ ! -d "$HOME/python.casa" ] && git clone https://github.com/janikvonrotz/python.casa ~/python.casa
+    [ ! -d "$HOME/encrypt.casa" ] && git clone https://github.com/janikvonrotz/encrypt.casa ~/encrypt.casa
 }
 
-function setup-work() {
+function setup-mint-system() {
     echo "Pull Mint-System repos."
     [ ! -d "$HOME/Odoo-Build" ] && git clone git@github.com:Mint-System/Odoo-Build.git ~/Odoo-Build
     [ ! -d "$HOME/Odoo-Wiki" ] && git clone git@github.com:Mint-System/Odoo-Wiki.git ~/Odoo-Wiki
-    [ ! -d "$HOME/Ansible-Build" ] && git clone git@github.com:Mint-System/Ansible-Build.git ~?/Ansible-Build
+    [ ! -d "$HOME/Ansible-Build" ] && git clone git@github.com:Mint-System/Ansible-Build.git ~/Ansible-Build
+    [ ! -d "$HOME/Ansible-Build/inventories" ] && git clone git@gitlab.com:Mint-System/Ansible-Inventories.git ~/Ansible-Build/inventories
     [ ! -d "$HOME/Wiki" ] && git clone git@github.com:Mint-System/Wiki.git ~/Wiki
+    [ ! -d "$HOME/Website" ] && git clone git@github.com:Mint-System/Website.git ~/Website
+}
+
+function setup-sozialinfo() {
+    echo "Pull Sozialinfo repos."
+    [ ! -d "$HOME/Sozialinfo-Odoo-Build" ] && git clone git@github.com:Sozialinfo/Odoo-Build.git ~/Sozialinfo-Odoo-Build
+    [ ! -d "$HOME/documentation" ] && git clone git@github.com:Sozialinfo/documentation.git ~/documentation
 }
 
 function update-pyenv() {
@@ -349,8 +361,11 @@ case "$1" in
     install-zsh-theme)
         install-zsh-theme
         ;;
-    setup-work)
-        setup-work
+    setup-mint-system)
+        setup-mint-system
+        ;;
+    setup-sozialinfo)
+        setup-sozialinfo
         ;;
     setup-private)
         setup-private

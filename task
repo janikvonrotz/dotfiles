@@ -284,10 +284,11 @@ function install-git() {
 
 function setup-private() {
     echo "Pull janikvonrotz repos."
-    [ ! -d "$HOME/knowledge" ] && git clone https://gitlab.com/janikvonrotz/knowlege ~/knowledge
-    [ ! -d "$HOME/janikvonrotz.ch" ] && git clone https://github.com/janikvonrotz/janikvonrotz.ch ~/janikvonrotz.ch
-    [ ! -d "$HOME/python.casa" ] && git clone https://github.com/janikvonrotz/python.casa ~/python.casa
-    [ ! -d "$HOME/encrypt.casa" ] && git clone https://github.com/janikvonrotz/encrypt.casa ~/encrypt.casa
+    [ ! -d "$HOME/knowledge" ] && git clone git@gitlab.com:janikvonrotz/knowlege ~/knowledge
+    [ ! -d "$HOME/janikvonrotz.ch" ] && git clone git@github.com:janikvonrotz/janikvonrotz.ch ~/janikvonrotz.ch
+    [ ! -d "$HOME/python.casa" ] && git clone git@github.com:janikvonrotz/python.casa ~/python.casa
+    [ ! -d "$HOME/encrypt.casa" ] && git clone git@github.com:janikvonrotz/encrypt.casa ~/encrypt.casa
+    [ ! -d "$HOME/.password-store" ] && git clone git@gitlab.com:janikvonrotz/pass.git ~/.password-store
 }
 
 function setup-mint-system() {

@@ -140,7 +140,7 @@ function install-dev-tools() {
     [ ! -d "$HOME/.pyenv" ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
     
     echo "Install postgres."
-    sudo apt install -y postgresql-common
+    sudo apt install -y postgresql-client-14
 
     echo "Install python build dependencies."
     # https://github.com/pyenv/pyenv/wiki#suggested-build-environment

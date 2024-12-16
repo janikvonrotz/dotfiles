@@ -305,6 +305,8 @@ function setup-sozialinfo() {
     echo "Pull Sozialinfo repos."
     [ ! -d "$HOME/Sozialinfo-Odoo-Build" ] && git clone git@github.com:Sozialinfo/Odoo-Build.git ~/Sozialinfo-Odoo-Build
     [ ! -d "$HOME/documentation" ] && git clone git@github.com:Sozialinfo/documentation.git ~/documentation
+    [ ! -d "$HOME/Odoo-CD" ] && git clone git@github.com:Sozialinfo/Odoo-CD.git ~/Odoo-CD
+    [ ! -d "$HOME/Odoo-CI" ] && git clone git@github.com:Sozialinfo/Odoo-CI.git ~/Odoo-CI
 }
 
 function update-pyenv() {

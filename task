@@ -128,7 +128,7 @@ function install-dev-tools() {
         | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
     echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
         | sudo tee /etc/apt/sources.list.d/vscodium.list
-    sudo apt update && sudo apt install codium
+    sudo apt update && sudo apt install -y codium
     
     echo "Install rust and cargo."
     curl https://sh.rustup.rs -sSf | sh
@@ -144,7 +144,7 @@ function install-dev-tools() {
 
     echo "Install python build dependencies."
     # https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-    sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
+    sudo apt update; sudo apt install -y build-essential libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev curl git \
     libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 
@@ -212,7 +212,7 @@ function install-helix() {
     sudo apt update
 
     echo "Install helix."
-    sudo apt install helix
+    sudo apt install -y helix
 
     echo "Copy vim keybindings."
     cp helix/config.toml ~/.config/helix/config.toml
@@ -289,7 +289,7 @@ function install-git() {
         && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
         && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
         && sudo apt update \
-        && sudo apt install gh -y
+        && sudo apt install -y gh
 }
 
 function setup-private() {

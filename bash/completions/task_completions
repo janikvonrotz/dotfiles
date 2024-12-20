@@ -6,7 +6,7 @@ _task_completions() {
     prev="${COMP_WORDS[COMP_CWORD-1]}"
 
     # Combine patterns for both formats
-    commands=$(./task help | grep -A100 -e '---' | awk '{print $2}' | sed 's/^[[:space:]]*//' | grep -v '^$' | tr '\n' ' ')
+    commands=$(./task help | grep -A999 -e '---' | awk '{print $2}' | sed 's/^[[:space:]]*//' | grep -v '^$' | tr '\n' ' ')
 
     if [[ ${COMP_CWORD} == 1 ]]; then
         # Provide completions for the command part (second word)

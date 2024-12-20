@@ -34,7 +34,6 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fish" "" "Install fish shell."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh-theme" "" "Install zsh theme of choice."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
@@ -266,15 +265,9 @@ function install-zsh() {
 
     echo "Set plugins list for zshrc."
     sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker nvm pyenv kubectl minikube)/g' ~/.zshrc
-}
-
-function install-zsh-theme() {
-    echo "Clone and copy dracula theme."
-    [ ! -d "zsh" ] && git clone https://github.com/dracula/zsh.git
-    ln -s ~/dotfiles/zsh/dracula.zsh-theme ~/.oh-my-zsh/themes/dracula.zsh-theme
 
     echo "Set zsh default theme."
-    sed -i'' 's/ZSH_THEME.*/ZSH_THEME="dracula"/g' ~/.zshrc
+    sed -i'' 's/ZSH_THEME.*/ZSH_THEME="eastwood"/g' ~/.zshrc
 }
 
 function install-git() {
@@ -371,9 +364,6 @@ case "$1" in
         ;;
     install-pass)
         install-pass
-        ;;
-    install-zsh-theme)
-        install-zsh-theme
         ;;
     setup-mint-system)
         setup-mint-system

@@ -1,2 +1,2 @@
-# default editor
+# Default editor
 export EDITOR=hx

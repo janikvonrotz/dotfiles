@@ -34,6 +34,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fish" "" "Install fish shell."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
@@ -165,6 +166,14 @@ function install-pass() {
 
     echo "Import gpg key with this command."
     echo "gpg --import /path/to/user@example.com.private.gpg"
+}
+
+function install-scripts() {
+    echo "Install scripts."
+    mkdir -p ~/bin
+
+    echo "Copy scripts."
+    cp scripts/* ~/bin
 }
 
 function install-tmux() {
@@ -364,6 +373,9 @@ case "$1" in
         ;;
     install-pass)
         install-pass
+        ;;
+    install-scripts)
+        install-scripts
         ;;
     setup-mint-system)
         setup-mint-system

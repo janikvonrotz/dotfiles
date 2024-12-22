@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Pull all git repos in $HOME."
+for i in $(find $HOME -maxdepth 2 -type d -name '.git'); do
+    echo "Pulling $(git branch --show-current) in $(dirname $i)"
+    git -C $(dirname $i) pull
+done

@@ -1,7 +1,14 @@
 #!/bin/bash
 
 echo "Pull all git repos in $HOME."
-for i in $(find $HOME -maxdepth 2 -type d -name '.git'); do
-    echo "Pulling $(git branch --show-current) in $(dirname $i)"
-    git -C $(dirname $i) pull
+REPOS=()
+for REPO in $(find "$HOME" -maxdepth 2 -type d -name '.git'); do
+    REPOS+=("$(basename "$(dirname "$REPO")")")
+done
+echo "Repos to pull: ${REPOS[*]}"
+
+for REPO in $(find "$HOME" -maxdepth 2 -type d -name '.git'); do
+    DIR=$(dirname "$REPO")
+    echo "Pulling $(git -C "$DIR" branch --show-current) in $DIR"
+    git -C "$DIR" pull
 done

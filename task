@@ -38,7 +38,6 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scr
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "update-pyenv" "" "Update pyenv."
 
     echo
 }
@@ -136,18 +135,6 @@ function install-dev-tools() {
     echo "Install node version manager."
     [ ! -d "$HOME/.nvm" ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 
-    echo "Install python version manager."
-    [ ! -d "$HOME/.pyenv" ] && git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-    
-    echo "Install postgres."
-    sudo apt install -y postgresql-client-14
-
-    echo "Install python build dependencies."
-    # https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-    sudo apt update; sudo apt install -y build-essential libssl-dev zlib1g-dev \
-    libbz2-dev libreadline-dev libsqlite3-dev curl git \
-    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-
     echo "Install binaries."
     sudo apt install -y jq htop xclip ripgrep
 
@@ -155,6 +142,9 @@ function install-dev-tools() {
     curl -L https://github.com/gohugoio/hugo/releases/download/v0.139.4/hugo_0.139.4_linux-amd64.deb -o hugo.deb
     sudo dpkg -i hugo.deb
     rm hugo.deb
+
+    echo "Install uv"
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 }
 
 function install-pass() {
@@ -270,7 +260,7 @@ function install-zsh() {
     [ ! -d "$ZSH_CUSTOM/plugins/zsh-z" ] && git clone https://github.com/agkozak/zsh-z "$ZSH_CUSTOM/plugins/zsh-z"
 
     echo "Set plugins list for zshrc."
-    sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker nvm pyenv kubectl minikube)/g' ~/.zshrc
+    sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker nvm kubectl minikube)/g' ~/.zshrc
 
     echo "Set zsh default theme."
     sed -i'' 's/ZSH_THEME.*/ZSH_THEME="eastwood"/g' ~/.zshrc
@@ -317,12 +307,6 @@ function setup-sozialinfo() {
     [ ! -d "$HOME/Odoo-CD" ] && git clone git@github.com:Sozialinfo/Odoo-CD.git ~/Odoo-CD
     [ ! -d "$HOME/Odoo-CI" ] && git clone git@github.com:Sozialinfo/Odoo-CI.git ~/Odoo-CI
     [ ! -d "$HOME/Keycloak-CD" ] && git clone git@github.com:Sozialinfo/Keycloak-CD.git ~/Keycloak-CD
-}
-
-function update-pyenv() {
-    echo "Update pyenv"
-    cd ~/.pyenv
-    git pull
 }
 
 case "$1" in
@@ -382,9 +366,6 @@ case "$1" in
         ;;
     setup-private)
         setup-private
-        ;;
-    update-pyenv)
-        update-pyenv
         ;;
     *)
         help task

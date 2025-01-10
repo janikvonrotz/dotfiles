@@ -38,6 +38,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scr
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "version" "" "Show version of installed tools."
 
     echo
 }
@@ -71,22 +72,28 @@ function install-desktop() {
 
 function install-docker() {
     echo "Install docker."
-    # https://docs.docker.com/engine/install/debian/#install-using-the-repository
+    # https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
+    # Add Docker's official GPG key:
     sudo apt-get update
     sudo apt-get install ca-certificates curl
     sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc
 
+    # Add the repository to Apt sources:
     echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
     $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get update
 
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     sudo usermod -aG docker $USER
+
+    echo "Copy docker config."
+    sudo cp docker/daemon.json /etc/docker
+    sudo systemctl restart docker
 }
 
 function install-kubectl() {
@@ -310,6 +317,12 @@ function setup-sozialinfo() {
     [ ! -d "$HOME/Keycloak-CD" ] && git clone git@github.com:Sozialinfo/Keycloak-CD.git ~/Keycloak-CD
 }
 
+function version() {
+    uv --version
+    docker --version
+    docker-compose --version
+}
+
 case "$1" in
     enable-passwordless-sudo)
         enable-passwordless-sudo
@@ -367,6 +380,9 @@ case "$1" in
         ;;
     setup-private)
         setup-private
+        ;;
+    version)
+        version
         ;;
     *)
         help task

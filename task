@@ -326,69 +326,10 @@ function version() {
     docker-compose --version
 }
 
-case "$1" in
-    enable-passwordless-sudo)
-        enable-passwordless-sudo
-        ;;
-    install-desktop)
-        install-desktop
-        ;;
-    install-dev-tools)
-        install-dev-tools
-        ;;
-    install-docker)
-        install-docker
-        ;;
-    install-kind)
-        install-kind
-        ;;
-    install-minikube)
-        install-minikube
-        ;;
-    install-tmux)
-        install-tmux
-        ;;
-    install-vim)
-        install-vim
-        ;;
-    install-helix)
-        install-helix
-        ;;
-    install-nvim)
-        install-nvim
-        ;;
-    install-bash)
-        install-bash
-        ;;
-    install-zsh)
-        install-zsh
-        ;;
-    install-fish)
-        install-fish
-        ;;
-    install-git)
-        install-git
-        ;;
-    install-pass)
-        install-pass
-        ;;
-    install-scripts)
-        install-scripts
-        ;;
-    setup-mint-system)
-        setup-mint-system
-        ;;
-    setup-sozialinfo)
-        setup-sozialinfo
-        ;;
-    setup-private)
-        setup-private
-        ;;
-    version)
-        version
-        ;;
-    *)
-        help task
-        exit 1
-        ;;
-esac
+if declare -f "$1" > /dev/null; then
+    "$1" "${@:2}"
+else
+    echo "Unknown command: $1"
+    help
+    exit 1
+fi

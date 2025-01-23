@@ -23,6 +23,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "enable-pass
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-desktop" "" "Install desktop tools."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-dev-tools" "" "Install rust, python, node version manager and tools."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-docker" "" "Install Docker."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-podman" "" "Install podman."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-kind" "" "Install kubectl and kind."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-minikube" "" "Install kubectl and minikube."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-tmux" "" "Install tmux."
@@ -35,6 +36,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fis
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-docker" "" "Uninstall docker."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
@@ -97,6 +99,11 @@ function install-docker() {
     echo "Copy docker config."
     sudo cp docker/daemon.json /etc/docker
     sudo systemctl restart docker
+}
+
+function install-podman() {
+    echo "Install podman."
+    sudo apt install -y podman
 }
 
 function install-kubectl() {
@@ -313,6 +320,23 @@ function setup-sozialinfo() {
     [ ! -d "$HOME/Odoo-CD" ] && git clone git@github.com:Sozialinfo/Odoo-CD.git ~/Odoo-CD
     [ ! -d "$HOME/Odoo-CI" ] && git clone git@github.com:Sozialinfo/Odoo-CI.git ~/Odoo-CI
     [ ! -d "$HOME/Keycloak-CD" ] && git clone git@github.com:Sozialinfo/Keycloak-CD.git ~/Keycloak-CD
+}
+
+function uninstall-docker() {
+    echo "Show install docker pages."
+    dpkg -l | grep -i docker
+
+    echo "Unistall docker."
+    
+    sudo apt-get purge -y docker-engine docker docker.io docker-ce docker-ce-cli docker-compose-plugin
+    sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce docker-compose-plugin
+
+    sudo rm -rf /var/lib/docker /etc/docker
+    sudo rm /etc/apparmor.d/docker
+    sudo groupdel docker
+    sudo rm -rf /var/run/docker.sock
+    sudo rm -rf /var/lib/containerd
+    # sudo rm -r ~/.docker
 }
 
 function version() {

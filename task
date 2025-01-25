@@ -28,6 +28,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-kin
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-minikube" "" "Install kubectl and minikube."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-tmux" "" "Install tmux."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-vim" "" "Install vim and configure plugins."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-llm" "" "Intall LLM cli."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-helix" "" "Install helix editor."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-nvim" "" "Install neovim and configure plugins."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bash" "" "Configure bash."
@@ -127,6 +128,21 @@ function install-kind() {
     [ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-arm64
     chmod +x ./kind
     sudo mv ./kind /usr/local/bin/kind
+}
+
+function install-llm() {
+    echo "Install LLM."
+    uv tool install llm
+
+    echo "Install gpt4all models"
+    llm install llm-gpt4all
+
+    echo "Install claude plugin"
+    llm install llm-claude-3
+    echo "Set api key with: llm keys set claude"
+
+    echo "Download and run mistral-7b-instruct-v0 model" 
+    llm -m mistral-7b-instruct-v0 'difference between a pelican and a walrus'
 }
 
 function install-minikube() {

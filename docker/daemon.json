@@ -1,5 +1,5 @@
 {
     "features": {
-        "containerd-snapshotter": true
+        "containerd-snapshotter": false
     }
 }

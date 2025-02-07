@@ -184,8 +184,8 @@ function install-pass() {
 }
 
 function install-scripts() {
-    echo "Copy bin to /usr/local/bin"
-    sudo cp bin/* /usr/local/bin
+    echo "Copy bin/* to ~/bin/"
+    sudo cp -r bin/* ~/bin/
 }
 
 function install-tmux() {

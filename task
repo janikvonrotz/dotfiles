@@ -21,7 +21,10 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "Command" "O
 echo "|$(printf '%*s' $((cmd_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((opt_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((desc_width + 2)) '' | tr ' ' '-')|"
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-desktop" "" "Install desktop tools."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-dev-tools" "" "Install rust, python, node version manager and tools."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bin" "" "Install binaries."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-rust" "" "Install Rust."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-python" "" "Install Python."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-node" "" "Install Node."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-docker" "" "Install Docker."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-podman" "" "Install podman."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-kind" "" "Install kubectl and kind."
@@ -149,7 +152,12 @@ function install-minikube() {
     sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 }
 
-function install-dev-tools() {
+function install-bin() {
+    echo "Install binaries."
+    sudo apt install -y jq htop xclip ripgrep
+}
+
+function install-vscodium() {
     echo "Install vscodium."
     wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
         | gpg --dearmor \
@@ -157,19 +165,20 @@ function install-dev-tools() {
     echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
         | sudo tee /etc/apt/sources.list.d/vscodium.list
     sudo apt update && sudo apt install -y codium
-    
-    echo "Install rust and cargo."
-    export RUSTUP_INIT_SKIP_PATH_CHECK=yes
-    curl https://sh.rustup.rs -sSf | sh
+}
 
+function install-python() {
+    echo "Install uv"
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+}
+
+function install-node() {
     echo "Install node version manager."
     [ ! -d "$HOME/.nvm" ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 
-    echo "Install binaries."
-    sudo apt install -y jq htop xclip ripgrep
 
-    echo "Install uv"
-    curl -LsSf https://astral.sh/uv/install.sh | sh
+    echo "Install npnm"
+    curl -fsSL https://get.pnpm.io/install.sh | sh -
 }
 
 function install-pass() {

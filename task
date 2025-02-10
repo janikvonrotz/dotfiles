@@ -185,6 +185,7 @@ function install-pass() {
 
 function install-scripts() {
     echo "Copy bin/* to ~/bin/"
+    mkdir ~/bin
     sudo cp -r bin/* ~/bin/
 }
 

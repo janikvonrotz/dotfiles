@@ -110,6 +110,9 @@ function install-docker() {
 function install-podman() {
     echo "Install podman."
     sudo apt install -y podman
+
+    echo "Add docker.io to search registry"
+    sudo grep -qxF 'unqualified-search-registries = ["docker.io"]' /etc/containers/registries.conf || echo 'unqualified-search-registries = ["docker.io"]' | sudo tee -a /etc/containers/registries.conf
 }
 
 function install-kubectl() {

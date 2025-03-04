@@ -78,29 +78,34 @@ function enable-passwordless-sudo() {
 # Install commands
 
 function install-desktop() {
-    echo "Install wcurl."
+    echo "Install wcurl"
     curl -fLO https://raw.githubusercontent.com/curl/wcurl/main/wcurl
     chmod +x wcurl && sudo mv wcurl /usr/local/bin/wcurl
 
-    echo "Install thunderbird, firefox."
-    sudo apt install -y thunderbird firefox
+    echo "Install thunderbird"
+    sudo apt install -y thunderbird
 
-    echo "Install KeepassXC."
+    echo "Install KeepassXC"
     sudo add-apt-repository ppa:phoerious/keepassxc
     sudo apt update && sudo apt install -y keepassxc
 
-    echo "Install Nextcloud Desktop."
+    echo "Install Nextcloud Desktop"
     sudo add-apt-repository ppa:xtradeb/apps
     sudo apt update && sudo apt install -y nextcloud-desktop
 
-    echo "Install Obsidian."
+    echo "Install LibreWolf"
+    sudo apt update && sudo apt install extrepo -y
+    sudo extrepo enable librewolf
+    sudo apt update && sudo apt install librewolf -y
+
+    echo "Install Obsidian"
     wcurl https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.4/obsidian_1.7.4_amd64.deb
     sudo apt install -y ./obsidian_1.7.4_amd64.deb
     rm obsidian_1.7.4_amd64.deb
 }
 
 function install-docker() {
-    echo "Install docker."
+    echo "Install docker"
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         # https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
@@ -122,7 +127,7 @@ function install-docker() {
         sudo usermod -aG docker $USER
         newgrp docker
 
-        echo "Install QEMU."
+        echo "Install QEMU"
         sudo apt-get install -y qemu qemu-user-static binfmt-support
 
         echo "Copy docker config."
@@ -134,7 +139,7 @@ function install-docker() {
 }
 
 function install-podman() {
-    echo "Install podman."
+    echo "Install podman"
     sudo apt install -y podman
 
     echo "Add docker.io to search registry"
@@ -142,7 +147,7 @@ function install-podman() {
 }
 
 function install-kubectl() {
-    echo "Install kubectl."
+    echo "Install kubectl"
     # https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
     curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg
@@ -154,7 +159,7 @@ function install-kubectl() {
 function install-kind() {
     install-kubectl
     
-    echo "Install kind."
+    echo "Install kind"
     # https://kind.sigs.k8s.io/docs/user/quick-start/#installation
     # For AMD64 / x86_64
     [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-amd64
@@ -165,7 +170,7 @@ function install-kind() {
 }
 
 function install-llm() {
-    echo "Install LLM."
+    echo "Install LLM"
     uv tool install llm
 
     echo "Install deepseek models"
@@ -176,20 +181,20 @@ function install-llm() {
 function install-minikube() {
     install-kubectl
 
-    echo "Install minikube."
+    echo "Install minikube"
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 }
 
 function install-bin() {
-    echo "Install binaries."
+    echo "Install binaries"
     sudo apt install -y jq htop xclip ripgrep bat
     sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
     sudo chmod +x /usr/bin/yq
 }
 
 function install-vscodium() {
-    echo "Install vscodium."
+    echo "Install VSCodium"
     wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
         | gpg --dearmor \
         | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
@@ -204,16 +209,15 @@ function install-python() {
 }
 
 function install-node() {
-    echo "Install node version manager."
+    echo "Install node version manager"
     [ ! -d "$HOME/.nvm" ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-
 
     echo "Install npnm"
     curl -fsSL https://get.pnpm.io/install.sh | sh -
 }
 
 function install-pass() {
-    echo "Install pass."
+    echo "Install pass"
     sudo apt install -y pass pass-extension-otp
 
     echo "Clone pass repo."
@@ -231,14 +235,14 @@ function install-scripts() {
 
 function install-tmux() {
 
-    echo "Install tmux."
+    echo "Install tmux"
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y tmux
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm zsh
     fi
 
-    echo "Install tmux plugins."
+    echo "Install tmux plugins"
     [ ! -d "$HOME/.tmux" ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
     echo "Copy tmux config."
@@ -248,7 +252,7 @@ function install-tmux() {
 }
 
 function install-fish() {
-    echo "Install fish."
+    echo "Install fish"
     sudo apt install -y fish
 
     mkdir -p ~/.config/fish/completions
@@ -261,7 +265,7 @@ function install-fish() {
 }
 
 function install-vim() {
-    echo "Install vim."
+    echo "Install vim"
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y vim
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
@@ -271,7 +275,7 @@ function install-vim() {
     echo "Copy vimrc config."
     cp vim/.vimrc ~
 
-    echo "Install vim plugins."
+    echo "Install vim plugins"
     vim -c ":PlugInstall"
 }
 
@@ -280,7 +284,7 @@ function install-helix() {
     sudo add-apt-repository ppa:maveonair/helix-editor
     sudo apt update
 
-    echo "Install helix."
+    echo "Install helix"
     sudo apt install -y helix
 
     echo "Copy vim keybindings."
@@ -300,7 +304,7 @@ function install-nvim() {
     sudo add-apt-repository ppa:neovim-ppa/stable -y
     sudo apt update
 
-    echo "Install neovim."
+    echo "Install neovim"
     sudo apt install -y neovim
 }
 
@@ -313,7 +317,7 @@ function install-bash() {
 }
 
 function install-zsh() {
-    echo "Install zsh."
+    echo "Install zsh"
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y zsh
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
@@ -330,7 +334,7 @@ function install-zsh() {
     ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
     cd ~
 
-    echo "Install oh-my-zsh."
+    echo "Install oh-my-zsh"
     curl -L https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
 
     echo "Clone zsh autosuggestions."
@@ -356,7 +360,7 @@ function install-git() {
     echo "Copy git config."
     cp git/.gitconfig ~
 
-    echo "Install GitHub cli."
+    echo "Install GitHub cli"
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
             && sudo mkdir -p -m 755 /etc/apt/keyrings \
@@ -375,7 +379,7 @@ function uninstall-docker() {
     echo "Show install docker pages."
     dpkg -l | grep -i docker
 
-    echo "Unistall docker."
+    echo "Unistall docker"
     
     sudo apt-get purge -y docker-engine docker docker.io docker-ce docker-ce-cli docker-compose-plugin
     sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce docker-compose-plugin

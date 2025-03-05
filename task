@@ -38,6 +38,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-nvi
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bash" "" "Configure bash."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh" "" "Install zsh shell and oh-my-zsh."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fish" "" "Install fish shell."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-qemu" "" "Install QUEMU."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
@@ -119,7 +120,7 @@ function install-docker() {
         # Add the repository to Apt sources:
         echo \
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+        $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
         sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         sudo apt-get update
 
@@ -127,15 +128,20 @@ function install-docker() {
         sudo usermod -aG docker $USER
         newgrp docker
 
-        echo "Install QEMU"
-        sudo apt-get install -y qemu qemu-user-static binfmt-support
-
-        echo "Copy docker config."
-        sudo cp docker/daemon.json /etc/docker
-        sudo systemctl restart docker
+        echo  "Verify docker installation."
+        docker run hello-world
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm docker
     fi
+}
+
+function install-qemu() {
+    echo "Install QEMU"
+    sudo apt-get install -y qemu qemu-user-static binfmt-support
+
+    echo "Copy docker config."
+    sudo cp docker/daemon.json /etc/docker
+    sudo systemctl restart docker
 }
 
 function install-podman() {

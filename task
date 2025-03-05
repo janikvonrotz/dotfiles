@@ -74,7 +74,7 @@ function version() {
 
 function enable-passwordless-sudo() {
     echo "Add user $USER to sudoers file."
-    echo "$USER	ALL=(ALL) NOPASSWD: ALL" | sudo sh -c "cat >> /etc/sudoers.d/nopasswd"
+    sudo sh -c "echo \"$USER	ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers.d/nopasswd"
 }
 
 # Install commands

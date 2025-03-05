@@ -44,6 +44,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pas
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-docker" "" "Uninstall docker."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-steamdeck" "" "Setup steamdeck os."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "version" "" "Show version of installed tools."
@@ -254,6 +255,9 @@ function install-tmux() {
     echo "Copy tmux config."
     cp tmux/.tmux.conf ~
 
+    echo "Source tmux config."
+    tmux source ~/.tmux.conf
+
     echo "Open tmux and install plugins with: ctrl + b; shift + i"
 }
 
@@ -398,6 +402,22 @@ function uninstall-docker() {
 }
 
 # Setup commands
+
+function setup-steamdeck() {
+    echo "If you have not already, use 'passwd' to create a password for the deck user."
+
+    echo "Disable read-only mode"
+    sudo steamos-readonly disable
+    
+    echo "Initialize the pacman keyring"
+    sudo pacman-key --init
+
+    echo "Populate the pacman keyring with the default Arch Linux keys"
+    sudo pacman-key --populate archlinux holo
+
+    echo "Try installing a package"
+    sudo pacman -S vi
+}
 
 function setup-private() {
     echo "Pull janikvonrotz repos."

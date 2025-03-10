@@ -39,6 +39,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bas
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh" "" "Install zsh shell and oh-my-zsh."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fish" "" "Install fish shell."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-qemu" "" "Install QUEMU."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fzf" "" "Install fzf."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
@@ -143,6 +144,12 @@ function install-qemu() {
     echo "Copy docker config."
     sudo cp docker/daemon.json /etc/docker
     sudo systemctl restart docker
+}
+
+function install-fzf() {
+    echo "Install fzf"
+    [ ! -d "$HOME/.fzf" ] &&  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    yes | ~/.fzf/install
 }
 
 function install-podman() {
@@ -356,11 +363,8 @@ function install-zsh() {
     echo "Copy oh-my-zsh completions."
     cp -r ~/dotfiles/oh-my-zsh/completions ~/.oh-my-zsh/completions
 
-    echo "Clone z plugin."
-    [ ! -d "$ZSH_CUSTOM/plugins/zsh-z" ] && git clone https://github.com/agkozak/zsh-z "$ZSH_CUSTOM/plugins/zsh-z"
-
     echo "Set plugins list for zshrc."
-    sed -i'' 's/plugins=.*/plugins=(git fzf zsh-z ansible docker nvm kubectl minikube podman)/g' ~/.zshrc
+    sed -i'' 's/plugins=.*/plugins=(ansible docker fzf git kubectl minikube podman)/g' ~/.zshrc
 
     echo "Set zsh default theme."
     sed -i'' 's/ZSH_THEME.*/ZSH_THEME="eastwood"/g' ~/.zshrc

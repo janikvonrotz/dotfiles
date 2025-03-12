@@ -1,0 +1,11 @@
+# Function to complete Docker container names
+_docker_odoo_complete() {
+    local -a containers
+    containers=($(docker ps --format "{{.Names}}"))
+    _describe 'containers' containers
+}
+
+# Register completion for all docker-odoo-* scripts
+for script in ${(f)"$(compgen -c | grep -E '^docker-odoo-')"}; do
+    compdef "_arguments '-c[Docker container]:container:_docker_odoo_complete'" "$script"
+done

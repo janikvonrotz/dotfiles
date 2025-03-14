@@ -226,7 +226,7 @@ function install-node() {
     echo "Install node version manager"
     [ ! -d "$HOME/.nvm" ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 
-    echo "Install npnm"
+    echo "Install pnpm"
     curl -fsSL https://get.pnpm.io/install.sh | sh -
 }
 
@@ -331,6 +331,16 @@ function install-bash() {
 
     echo "Copy bash aliases."
     sudo cp bash/.bash_aliases ~/.bash_aliases
+
+    echo "Append bash runtime configuration."
+    START_MARKER="# dotenv"
+    END_MARKER="# dotenv end"
+    sed -i "/$START_MARKER/,/$END_MARKER/d" ~/.bashrc
+    {
+        echo -e "\n$START_MARKER"
+        cat bash/.bashrc
+        echo "$END_MARKER"
+    } >> ~/.bashrc
 }
 
 function install-zsh() {

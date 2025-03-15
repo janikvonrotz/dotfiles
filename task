@@ -232,7 +232,11 @@ function install-node() {
 
 function install-pass() {
     echo "Install pass"
-    sudo apt install -y pass pass-extension-otp
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+         sudo apt install -y pass pass-extension-otp
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm pass
+    fi
 
     echo "Clone pass repo."
     [ ! -d "$HOME/.password-store" ] && git clone git@gitlab.com:janikvonrotz/pass.git ~/.password-store

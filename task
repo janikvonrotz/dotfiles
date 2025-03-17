@@ -48,6 +48,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-steamdeck" "" "Setup steamdeck os."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-appuio" "" "Install and setup APPUiO OpenShift cli."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "version" "" "Show version of installed tools."
 
     echo
@@ -463,6 +464,18 @@ function setup-sozialinfo() {
     [ ! -d "$HOME/Odoo-CD" ] && git clone git@github.com:Sozialinfo/Odoo-CD.git ~/Odoo-CD
     [ ! -d "$HOME/Odoo-CI" ] && git clone git@github.com:Sozialinfo/Odoo-CI.git ~/Odoo-CI
     [ ! -d "$HOME/Keycloak-CD" ] && git clone git@github.com:Sozialinfo/Keycloak-CD.git ~/Keycloak-CD
+}
+
+function setup-appuio() {
+    ZONE=xoscale-ch-gva-2-0
+
+    echo "Install OpenShift cli."
+    wcurl https://downloads-openshift-console.apps.$ZONE.cloud/amd64/linux/oc.tar
+    tar -xf oc.tar
+    rm oc.tar
+    mv oc ~/bin/oc
+
+    echo "Get the login command of the $ZONE zone: https://oauth-openshift.apps.$ZONE.cloud/oauth/token/display"
 }
 
 if declare -f "$1" > /dev/null; then

@@ -32,6 +32,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-min
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-tmux" "" "Install tmux."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-vim" "" "Install vim and configure plugins."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-llm" "" "Intall LLM cli."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-ollama" "" "Intall Ollama cli."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-helix" "" "Install helix editor."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-helm" "" "Install Helm."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-nvim" "" "Install neovim and configure plugins."
@@ -191,6 +192,11 @@ function install-llm() {
     echo "Install deepseek models"
     llm install llm-deepseek
     echo "Set api key with: llm keys set deepseek"
+}
+
+function install-ollama() {
+    echo "Install Ollama"
+    curl -fsSL https://ollama.com/install.sh | sh
 }
 
 function install-minikube() {

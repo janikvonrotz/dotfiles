@@ -24,6 +24,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-des
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bin" "" "Install binaries."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-rust" "" "Install Rust."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-python" "" "Install Python."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-exo" "" "Install Exoscale cli."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-node" "" "Install Node."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-docker" "" "Install Docker."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-podman" "" "Install podman."
@@ -197,6 +198,11 @@ function install-llm() {
 function install-ollama() {
     echo "Install Ollama"
     curl -fsSL https://ollama.com/install.sh | sh
+}
+
+function install-exo() {
+    echo "Install exo."
+    curl -fsSL https://raw.githubusercontent.com/exoscale/cli/master/install-latest.sh | sh
 }
 
 function install-minikube() {

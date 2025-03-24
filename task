@@ -19,7 +19,9 @@ opt_width=10
 desc_width=60
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "Command" "Option" "Description"
 echo "|$(printf '%*s' $((cmd_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((opt_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((desc_width + 2)) '' | tr ' ' '-')|"
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "activate-venv" "" "Source the Python venv with uv."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "init-venv" "" "Initialize the Python venv with uv."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-desktop" "" "Install desktop tools."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bin" "" "Install binaries."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-rust" "" "Install Rust."
@@ -46,6 +48,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-docker" "" "Uninstall docker."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "run-open-webui" "" "Run Open WebUI."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-steamdeck" "" "Setup steamdeck os."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
@@ -56,7 +59,9 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "version" ""
     echo
 }
 
-# Dynamic env var
+# Dynamic env vars
+
+GIT_BRANCH=$(git symbolic-ref --short -q HEAD)
 
 if command -v pacman >/dev/null 2>&1; then
     export PACKAGE_MANAGER="pacman"
@@ -66,7 +71,19 @@ else
     export PACKAGE_MANAGER="unknown"
 fi
 
-# Environment commands
+# Env commands
+
+function init-venv() {
+    if [ ! -d "venv$GIT_BRANCH" ]; then
+        echo "Init venv$GIT_BRANCH with $(uv --version)."
+        uv venv "venv$GIT_BRANCH"
+    fi
+}
+
+function activate-venv() {
+    echo "Source virtualenv venv$GIT_BRANCH."
+    source "venv$GIT_BRANCH/bin/activate"
+}
 
 function version() {
     uv --version
@@ -432,6 +449,12 @@ function uninstall-docker() {
     sudo rm -rf /var/lib/containerd
 }
 
+# Run commands
+
+function run-open-webui() {
+    DATA_DIR=~/.open-webui uvx --python 3.11 open-webui@latest serve
+}
+
 # Setup commands
 
 function setup-steamdeck() {
@@ -476,11 +499,12 @@ function setup-sozialinfo() {
     [ ! -d "$HOME/Odoo-CD" ] && git clone git@github.com:Sozialinfo/Odoo-CD.git ~/Odoo-CD
     [ ! -d "$HOME/Odoo-CI" ] && git clone git@github.com:Sozialinfo/Odoo-CI.git ~/Odoo-CI
     [ ! -d "$HOME/Keycloak-CD" ] && git clone git@github.com:Sozialinfo/Keycloak-CD.git ~/Keycloak-CD
-    [ ! -d "$HOME/Keycloak-CD" ] && git clone git@github.com:sozialinfo/sozialinfo-e2e.git ~/sozialinfo-e2e
+    [ ! -d "$HOME/sozialinfo-e2e" ] && git clone git@github.com:sozialinfo/sozialinfo-e2e.git ~/sozialinfo-e2e
+    [ ! -d "$HOME/frontend" ] && git clone git@github.com:sozialinfo/sozialinfo-e2e.git ~/frontend
 }
 
 function setup-appuio() {
-    ZONE=xoscale-ch-gva-2-0
+    ZONE=exoscale-ch-gva-2-0
 
     echo "Install OpenShift cli."
     wcurl https://downloads-openshift-console.apps.$ZONE.cloud/amd64/linux/oc.tar

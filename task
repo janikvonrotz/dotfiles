@@ -42,6 +42,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-nvi
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bash" "" "Configure bash."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh" "" "Install zsh shell and oh-my-zsh."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fish" "" "Install fish shell."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-syncthing" "" "Install syncthing."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-qemu" "" "Install QUEMU."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fzf" "" "Install fzf."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
@@ -212,13 +213,18 @@ function install-llm() {
     echo "Set api key with: llm keys set deepseek"
 }
 
+function install-syncthing() {
+    echo "Install Syncthing"
+    sudo apt install syncthing
+}
+
 function install-ollama() {
     echo "Install Ollama"
     curl -fsSL https://ollama.com/install.sh | sh
 }
 
 function install-exo() {
-    echo "Install exo."
+    echo "Install exo"
     curl -fsSL https://raw.githubusercontent.com/exoscale/cli/master/install-latest.sh | sh
 }
 

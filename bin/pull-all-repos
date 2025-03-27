@@ -16,3 +16,8 @@ for REPO in $(find "$HOME" -maxdepth 2 -type d -name '.git'); do
     echo "Pull submodules in $DIR"
     git -C "$DIR" submodule update --recursive --remote
 done
+
+echo "Pull selected repos."
+~/knowledge/task pull-repos
+git -C ~/Ansible-Build/inventories pull
+git -C ~/Ansible-Build/inventories/sozialinfo pull

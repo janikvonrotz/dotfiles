@@ -254,10 +254,14 @@ function install-python() {
 
 function install-node() {
     echo "Install node version manager"
-    [ ! -d "$HOME/.nvm" ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    [ ! -d "$HOME/.nvm" ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
 
     echo "Install pnpm"
     curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+    echo "Install Node"
+    source ~/.nvm/nvm.sh
+    nvm install --lts
 }
 
 function install-pass() {

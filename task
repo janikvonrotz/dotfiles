@@ -505,7 +505,7 @@ function setup-sozialinfo() {
     [ ! -d "$HOME/Odoo-CI" ] && git clone git@github.com:Sozialinfo/Odoo-CI.git ~/Odoo-CI
     [ ! -d "$HOME/Keycloak-CD" ] && git clone git@github.com:Sozialinfo/Keycloak-CD.git ~/Keycloak-CD
     [ ! -d "$HOME/sozialinfo-e2e" ] && git clone git@github.com:sozialinfo/sozialinfo-e2e.git ~/sozialinfo-e2e
-    [ ! -d "$HOME/frontend" ] && git clone git@github.com:sozialinfo/sozialinfo-frontend.git ~/frontend
+    [ ! -d "$HOME/frontend" ] && git clone git@github.com:sozialinfo/frontend.git ~/frontend
 }
 
 function setup-appuio() {

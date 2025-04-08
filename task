@@ -30,6 +30,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-exo
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-node" "" "Install Node."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-docker" "" "Install Docker."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-podman" "" "Install podman."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-obsidian" "" "Install Obsidian."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-kind" "" "Install kubectl and kind."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-minikube" "" "Install kubectl and minikube."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-tmux" "" "Install tmux."
@@ -48,6 +49,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-docker" "" "Uninstall docker."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-obsidian" "" "Uninstall Obsidian."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "run-open-webui" "" "Run Open WebUI."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-steamdeck" "" "Setup steamdeck os."
@@ -120,11 +122,14 @@ function install-desktop() {
     sudo apt update && sudo apt install extrepo -y
     sudo extrepo enable librewolf
     sudo apt update && sudo apt install librewolf -y
+}
 
+function install-obsidian() {
     echo "Install Obsidian"
-    wcurl https://github.com/obsidianmd/obsidian-releases/releases/download/v1.7.4/obsidian_1.7.4_amd64.deb
-    sudo apt install -y ./obsidian_1.7.4_amd64.deb
-    rm obsidian_1.7.4_amd64.deb
+    RELEASE="1.8.9"
+    wcurl "https://github.com/obsidianmd/obsidian-releases/releases/download/v$RELEASE/obsidian_${RELEASE}_amd64.deb"
+    sudo apt install -y "./obsidian_${RELEASE}_amd64.deb"
+    rm "obsidian_${RELEASE}_amd64.deb"
 }
 
 function install-docker() {
@@ -438,7 +443,7 @@ function install-git() {
 # Uninstall commands
 
 function uninstall-docker() {
-    echo "Show install docker pages."
+    echo "Show install docker apps."
     dpkg -l | grep -i docker
 
     echo "Unistall docker"
@@ -452,6 +457,12 @@ function uninstall-docker() {
     sudo rm -rf /var/run/docker.sock
     sudo rm -rf /var/lib/containerd
 }
+
+function uninstall-obsidian() {
+    echo "Uninstall Obsidian"
+    sudo apt-get remove -y obisidan
+}
+
 
 # Run commands
 

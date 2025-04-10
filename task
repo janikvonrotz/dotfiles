@@ -48,6 +48,7 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fzf
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zed" "" "Install Zed IDE."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-docker" "" "Uninstall docker."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-obsidian" "" "Uninstall Obsidian."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "run-open-webui" "" "Run Open WebUI."
@@ -122,6 +123,11 @@ function install-desktop() {
     sudo apt update && sudo apt install extrepo -y
     sudo extrepo enable librewolf
     sudo apt update && sudo apt install librewolf -y
+}
+
+fucntion install-zed(){
+    echo "Install Zed"
+    curl -f https://zed.dev/install.sh | sh
 }
 
 function install-obsidian() {

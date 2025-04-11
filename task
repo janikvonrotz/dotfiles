@@ -125,7 +125,7 @@ function install-desktop() {
     sudo apt update && sudo apt install librewolf -y
 }
 
-fucntion install-zed(){
+function install-zed(){
     echo "Install Zed"
     curl -f https://zed.dev/install.sh | sh
 }
@@ -514,7 +514,6 @@ function setup-mint-system() {
     [ ! -d "$HOME/VarLog" ] && git clone git@github.com:Mint-System/VarLog.git ~/VarLog
     [ ! -d "$HOME/Jenkins-Build" ] && git clone git@github.com:Mint-System/Jenkins-Build.git ~/Jenkins-Build
     [ ! -d "$HOME/Nextcloud-Build" ] && git clone git@github.com:Mint-System/Nextcloud-Build.git ~/Nextcloud-Build
-
 }
 
 function setup-sozialinfo() {

@@ -512,6 +512,9 @@ function setup-mint-system() {
     [ ! -d "$HOME/Wiki" ] && git clone git@github.com:Mint-System/Wiki.git ~/Wiki
     [ ! -d "$HOME/Website" ] && git clone git@github.com:Mint-System/Website.git ~/Website
     [ ! -d "$HOME/VarLog" ] && git clone git@github.com:Mint-System/VarLog.git ~/VarLog
+    [ ! -d "$HOME/Jenkins-Build" ] && git clone git@github.com:Mint-System/Jenkins-Build.git ~/Jenkins-Build
+    [ ! -d "$HOME/Nextcloud-Build" ] && git clone git@github.com:Mint-System/Nextcloud-Build.git ~/Nextcloud-Build
+
 }
 
 function setup-sozialinfo() {

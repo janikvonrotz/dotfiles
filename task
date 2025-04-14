@@ -42,13 +42,16 @@ printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-hel
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-nvim" "" "Install neovim and configure plugins."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bash" "" "Configure bash."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh" "" "Install zsh shell and oh-my-zsh."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-librewolf" "" "Install LibreWolf."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fish" "" "Install fish shell."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-qemu" "" "Install QUEMU."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fzf" "" "Install fzf."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-sublime" "" "Install and configure Sublime IDE."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zed" "" "Install Zed IDE."
+printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-vscodium" "" "Install VSCodium."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-docker" "" "Uninstall docker."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-docker" "" "Uninstall docker."
 printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-vscodium" "" "Uninstall VSCodium."
@@ -105,29 +108,39 @@ function enable-passwordless-sudo() {
 # Install commands
 
 function install-desktop() {
-    echo "Install wcurl"
+    echo "Install wcurl."
     curl -fLO https://raw.githubusercontent.com/curl/wcurl/main/wcurl
     chmod +x wcurl && sudo mv wcurl /usr/local/bin/wcurl
 
-    echo "Install thunderbird"
+    echo "Install Thunderbird."
     sudo apt install -y thunderbird
 
-    echo "Install KeepassXC"
+    echo "Install KeepassXC."
     sudo add-apt-repository ppa:phoerious/keepassxc
     sudo apt update && sudo apt install -y keepassxc
 
-    echo "Install Nextcloud Desktop"
+    echo "Install Nextcloud Desktop."
     sudo add-apt-repository ppa:xtradeb/apps
     sudo apt update && sudo apt install -y nextcloud-desktop
+}
 
-    echo "Install LibreWolf"
+function install-librewolf() {
+    echo "Install LibreWolf."
     sudo apt update && sudo apt install extrepo -y
     sudo extrepo enable librewolf
     sudo apt update && sudo apt install librewolf -y
 }
 
+function install-sublime() {
+    echo "Install Sublime."
+    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
+    echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+    sudo apt-get update
+    sudo apt-get install sublime-text
+}
+
 function install-zed(){
-    echo "Install Zed"
+    echo "Install Zed."
     curl -f https://zed.dev/install.sh | sh
 
     echo "Copy settings file."
@@ -135,7 +148,7 @@ function install-zed(){
 }
 
 function install-obsidian() {
-    echo "Install Obsidian"
+    echo "Install Obsidian."
     RELEASE="1.8.9"
     wcurl "https://github.com/obsidianmd/obsidian-releases/releases/download/v$RELEASE/obsidian_${RELEASE}_amd64.deb"
     sudo apt install -y "./obsidian_${RELEASE}_amd64.deb"
@@ -143,7 +156,7 @@ function install-obsidian() {
 }
 
 function install-docker() {
-    echo "Install docker"
+    echo "Install Docker."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         # https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
@@ -173,7 +186,7 @@ function install-docker() {
 }
 
 function install-qemu() {
-    echo "Install QEMU"
+    echo "Install QEMU."
     sudo apt-get install -y qemu qemu-user-static binfmt-support
 
     echo "Copy docker config."
@@ -182,13 +195,13 @@ function install-qemu() {
 }
 
 function install-fzf() {
-    echo "Install fzf"
+    echo "Install fzf."
     [ ! -d "$HOME/.fzf" ] &&  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     yes | ~/.fzf/install
 }
 
 function install-podman() {
-    echo "Install podman"
+    echo "Install podman."
     sudo apt install -y podman
 
     echo "Add docker.io to search registry"
@@ -196,19 +209,19 @@ function install-podman() {
 }
 
 function install-kubectl() {
-    echo "Install kubectl"
+    echo "Install kubectl."
     # https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
     curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-    sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list 
+    sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
     sudo apt-get update && sudo apt-get install -y kubectl
 }
 
 function install-kind() {
     install-kubectl
-    
-    echo "Install kind"
+
+    echo "Install kind."
     # https://kind.sigs.k8s.io/docs/user/quick-start/#installation
     # For AMD64 / x86_64
     [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-amd64
@@ -219,41 +232,41 @@ function install-kind() {
 }
 
 function install-llm() {
-    echo "Install LLM"
+    echo "Install LLM."
     uv tool install llm
 
-    echo "Install deepseek models"
+    echo "Install deepseek models."
     llm install llm-deepseek
     echo "Set api key with: llm keys set deepseek"
 }
 
 function install-ollama() {
-    echo "Install Ollama"
+    echo "Install Ollama."
     curl -fsSL https://ollama.com/install.sh | sh
 }
 
 function install-exo() {
-    echo "Install exo"
+    echo "Install exo."
     curl -fsSL https://raw.githubusercontent.com/exoscale/cli/master/install-latest.sh | sh
 }
 
 function install-minikube() {
     install-kubectl
 
-    echo "Install minikube"
+    echo "Install minikube."
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 }
 
 function install-bin() {
-    echo "Install binaries"
+    echo "Install binaries."
     sudo apt install -y jq htop xclip ripgrep bat
     sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
     sudo chmod +x /usr/bin/yq
 }
 
 function install-vscodium() {
-    echo "Install VSCodium"
+    echo "Install VSCodium."
     wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
         | gpg --dearmor \
         | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
@@ -263,29 +276,29 @@ function install-vscodium() {
 }
 
 function uninstall-vscodium() {
-    echo "Uninstall VSCodium"
+    echo "Uninstall VSCodium."
     sudo apt remove codium
 }
 
 function install-python() {
-    echo "Install uv"
+    echo "Install uv."
     curl -LsSf https://astral.sh/uv/install.sh | sh
 }
 
 function install-node() {
-    echo "Install node version manager"
+    echo "Install node version manager."
     [ ! -d "$HOME/.nvm" ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
 
-    echo "Install pnpm"
+    echo "Install pnpm."
     curl -fsSL https://get.pnpm.io/install.sh | sh -
 
-    echo "Install Node"
+    echo "Install Node."
     source ~/.nvm/nvm.sh
     nvm install --lts
 }
 
 function install-pass() {
-    echo "Install pass"
+    echo "Install pass."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
          sudo apt install -y pass pass-extension-otp
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
@@ -307,14 +320,14 @@ function install-scripts() {
 
 function install-tmux() {
 
-    echo "Install tmux"
+    echo "Install tmux."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y tmux
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm zsh
     fi
 
-    echo "Install tmux plugins"
+    echo "Install tmux plugins."
     [ ! -d "$HOME/.tmux" ] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
     echo "Copy tmux config."
@@ -327,7 +340,7 @@ function install-tmux() {
 }
 
 function install-fish() {
-    echo "Install fish"
+    echo "Install fish."
     sudo apt install -y fish
 
     mkdir -p ~/.config/fish/completions
@@ -340,7 +353,7 @@ function install-fish() {
 }
 
 function install-vim() {
-    echo "Install vim"
+    echo "Install vim."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y vim
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
@@ -359,7 +372,7 @@ function install-helix() {
     sudo add-apt-repository ppa:maveonair/helix-editor
     sudo apt update
 
-    echo "Install helix"
+    echo "Install helix."
     sudo apt install -y helix
 
     echo "Copy vim keybindings."
@@ -367,6 +380,7 @@ function install-helix() {
 }
 
 function install-helm() {
+    echo  "Install Helm."
     curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
     sudo apt-get install apt-transport-https --yes
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
@@ -379,7 +393,7 @@ function install-nvim() {
     sudo add-apt-repository ppa:neovim-ppa/stable -y
     sudo apt update
 
-    echo "Install neovim"
+    echo "Install neovim."
     sudo apt install -y neovim
 }
 
@@ -402,7 +416,7 @@ function install-bash() {
 }
 
 function install-zsh() {
-    echo "Install zsh"
+    echo "Install zsh."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y zsh
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
@@ -442,7 +456,7 @@ function install-git() {
     echo "Copy git config."
     cp git/.gitconfig ~
 
-    echo "Install GitHub cli"
+    echo "Install GitHub cli."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
             && sudo mkdir -p -m 755 /etc/apt/keyrings \
@@ -461,8 +475,8 @@ function uninstall-docker() {
     echo "Show install docker apps."
     dpkg -l | grep -i docker
 
-    echo "Unistall docker"
-    
+    echo "Unistall Docker."
+
     sudo apt-get purge -y docker-engine docker docker.io docker-ce docker-ce-cli docker-compose-plugin
     sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce docker-compose-plugin
 
@@ -474,10 +488,9 @@ function uninstall-docker() {
 }
 
 function uninstall-obsidian() {
-    echo "Uninstall Obsidian"
+    echo "Uninstall Obsidian."
     sudo apt-get remove -y obisidan
 }
-
 
 # Run commands
 
@@ -490,16 +503,16 @@ function run-open-webui() {
 function setup-steamdeck() {
     echo "If you have not already, use 'passwd' to create a password for the deck user."
 
-    echo "Disable read-only mode"
+    echo "Disable read-only mode."
     sudo steamos-readonly disable
-    
-    echo "Initialize the pacman keyring"
+
+    echo "Initialize the pacman keyring."
     sudo pacman-key --init
 
-    echo "Populate the pacman keyring with the default Arch Linux keys"
+    echo "Populate the pacman keyring with the default Arch Linux keys."
     sudo pacman-key --populate archlinux holo
 
-    echo "Try installing a package"
+    echo "Try installing a package."
     sudo pacman -S vi
 }
 

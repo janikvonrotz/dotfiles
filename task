@@ -129,6 +129,9 @@ function install-desktop() {
 function install-zed(){
     echo "Install Zed"
     curl -f https://zed.dev/install.sh | sh
+
+    echo "Copy settings file."
+    cp ./zed/settings.json ~/.config/zed/settings.json
 }
 
 function install-obsidian() {

@@ -14,56 +14,62 @@ function help() {
     echo "commands:"
     echo
 
-cmd_width=24
-opt_width=10
-desc_width=60
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "Command" "Option" "Description"
-echo "|$(printf '%*s' $((cmd_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((opt_width + 2)) '' | tr ' ' '-')|$(printf '%*s' $((desc_width + 2)) '' | tr ' ' '-')|"
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "activate-venv" "" "Source the Python venv with uv."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "init-venv" "" "Initialize the Python venv with uv."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-desktop" "" "Install desktop tools."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bin" "" "Install binaries."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-rust" "" "Install Rust."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-python" "" "Install Python."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-exo" "" "Install Exoscale cli."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-node" "" "Install Node."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-docker" "" "Install Docker."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-podman" "" "Install podman."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-obsidian" "" "Install Obsidian."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-kind" "" "Install kubectl and kind."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-minikube" "" "Install kubectl and minikube."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-tmux" "" "Install tmux."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-vim" "" "Install vim and configure plugins."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-llm" "" "Intall LLM cli."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-ollama" "" "Intall Ollama cli."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-helix" "" "Install helix editor."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-helm" "" "Install Helm."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-nvim" "" "Install neovim and configure plugins."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-bash" "" "Configure bash."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zsh" "" "Install zsh shell and oh-my-zsh."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-librewolf" "" "Install LibreWolf."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fish" "" "Install fish shell."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-qemu" "" "Install QUEMU."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-fzf" "" "Install fzf."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-git" "" "Configure git."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-pass" "" "Install and configure pass."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-sublime" "" "Install and configure Sublime IDE."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-scripts" "" "Install bash scripts."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-zed" "" "Install Zed IDE."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "install-vscodium" "" "Install VSCodium."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-docker" "" "Uninstall docker."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-docker" "" "Uninstall docker."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "uninstall-vscodium" "" "Uninstall VSCodium."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "run-open-webui" "" "Run Open WebUI."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-mint-system" "" "Clone Mint System git repos."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-steamdeck" "" "Setup steamdeck os."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-private" "" "Clone private git repos."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "setup-appuio" "" "Install and setup APPUiO OpenShift cli."
-printf "| %-${cmd_width}s | %-${opt_width}s | %-${desc_width}s |\n" "version" "" "Show version of installed tools."
+    CMD_WIDTH=24
+    OPT_WIDTH=10
+    DESC_WIDTH=60
+    COLUMN="| %-${CMD_WIDTH}s | %-${OPT_WIDTH}s | %-${DESC_WIDTH}s |\n"
 
-    echo
+    # Print table header
+    printf "$COLUMN" "Command" "Option" "Description"
+    echo "|$(printf '%*s' $((CMD_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((OPT_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((DESC_WIDTH + 2)) '' | tr ' ' '-')|"
+
+    # Print table rows
+
+    printf "$COLUMN" "activate-venv" "" "Source the Python venv with uv."
+    printf "$COLUMN" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
+    printf "$COLUMN" "init-venv" "" "Initialize the Python venv with uv."
+    printf "$COLUMN" "isntall" "" "Install requirements for this project."
+    printf "$COLUMN" "install-rust" "" "Install Rust."
+    printf "$COLUMN" "install-python" "" "Install Python."
+    printf "$COLUMN" "install-exo" "" "Install Exoscale cli."
+    printf "$COLUMN" "install-node" "" "Install Node."
+    printf "$COLUMN" "install-docker" "" "Install Docker."
+    printf "$COLUMN" "install-podman" "" "Install podman."
+    printf "$COLUMN" "install-obsidian" "" "Install Obsidian."
+    printf "$COLUMN" "install-kind" "" "Install kubectl and kind."
+    printf "$COLUMN" "install-keepas" "" "Install KeepassXC."
+    printf "$COLUMN" "install-minikube" "" "Install kubectl and minikube."
+    printf "$COLUMN" "install-nextcloud" "" "Install Nextcloud Desktop."
+    printf "$COLUMN" "install-tmux" "" "Install tmux."
+    printf "$COLUMN" "install-vim" "" "Install vim and configure plugins."
+    printf "$COLUMN" "install-llm" "" "Intall LLM cli."
+    printf "$COLUMN" "install-ollama" "" "Intall Ollama cli."
+    printf "$COLUMN" "install-helix" "" "Install helix editor."
+    printf "$COLUMN" "install-helm" "" "Install Helm."
+    printf "$COLUMN" "install-nvim" "" "Install neovim and configure plugins."
+    printf "$COLUMN" "install-bash" "" "Configure bash."
+    printf "$COLUMN" "install-zsh" "" "Install zsh shell and oh-my-zsh."
+    printf "$COLUMN" "install-librewolf" "" "Install LibreWolf."
+    printf "$COLUMN" "install-fish" "" "Install fish shell."
+    printf "$COLUMN" "install-qemu" "" "Install QUEMU."
+    printf "$COLUMN" "install-fzf" "" "Install fzf."
+    printf "$COLUMN" "install-git" "" "Configure git."
+    printf "$COLUMN" "install-pass" "" "Install and configure pass."
+    printf "$COLUMN" "install-sublime" "" "Install and configure Sublime IDE."
+    printf "$COLUMN" "install-scripts" "" "Install bash scripts."
+    printf "$COLUMN" "install-thunderbird" "" "Install Thunderbird."
+    printf "$COLUMN" "install-zed" "" "Install Zed IDE."
+    printf "$COLUMN" "install-vscodium" "" "Install VSCodium."
+    printf "$COLUMN" "uninstall-docker" "" "Uninstall docker."
+    printf "$COLUMN" "uninstall-docker" "" "Uninstall docker."
+    printf "$COLUMN" "uninstall-vscodium" "" "Uninstall VSCodium."
+    printf "$COLUMN" "run-open-webui" "" "Run Open WebUI."
+    printf "$COLUMN" "setup-mint-system" "" "Clone Mint System git repos."
+    printf "$COLUMN" "setup-steamdeck" "" "Setup steamdeck os."
+    printf "$COLUMN" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
+    printf "$COLUMN" "setup-private" "" "Clone private git repos."
+    printf "$COLUMN" "setup-appuio" "" "Install and setup APPUiO OpenShift cli."
+    printf "$COLUMN" "version" "" "Show version of installed tools."
 }
 
 # Dynamic env vars
@@ -92,6 +98,19 @@ function activate-venv() {
     source "venv$GIT_BRANCH/bin/activate"
 }
 
+function install() {
+    echo "Install bat, htop, jq, repgrep, xclip."
+    sudo apt install -y jq htop xclip ripgrep bat
+
+    echo "Install yq."
+    sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
+    sudo chmod +x /usr/bin/yq
+
+    echo "Install wcurl."
+    curl -fLO https://raw.githubusercontent.com/curl/wcurl/main/wcurl
+    chmod +x wcurl && sudo mv wcurl /usr/local/bin/wcurl
+}
+
 function version() {
     uv --version
     docker --version
@@ -107,18 +126,19 @@ function enable-passwordless-sudo() {
 
 # Install commands
 
-function install-desktop() {
-    echo "Install wcurl."
-    curl -fLO https://raw.githubusercontent.com/curl/wcurl/main/wcurl
-    chmod +x wcurl && sudo mv wcurl /usr/local/bin/wcurl
 
+function install-thunderbird() {
     echo "Install Thunderbird."
     sudo apt install -y thunderbird
+}
 
+function install-keepass() {
     echo "Install KeepassXC."
     sudo add-apt-repository ppa:phoerious/keepassxc
     sudo apt update && sudo apt install -y keepassxc
+}
 
+function install-nextcloud() {
     echo "Install Nextcloud Desktop."
     sudo add-apt-repository ppa:xtradeb/apps
     sudo apt update && sudo apt install -y nextcloud-desktop
@@ -256,13 +276,6 @@ function install-minikube() {
     echo "Install minikube."
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
-}
-
-function install-bin() {
-    echo "Install binaries."
-    sudo apt install -y jq htop xclip ripgrep bat
-    sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
-    sudo chmod +x /usr/bin/yq
 }
 
 function install-vscodium() {

@@ -32,6 +32,7 @@ function help() {
     printf "$COLUMN" "install-rust" "" "Install Rust."
     printf "$COLUMN" "install-python" "" "Install Python."
     printf "$COLUMN" "install-exo" "" "Install Exoscale cli."
+    printf "$COLUMN" "install-element" "" "Install Element."
     printf "$COLUMN" "install-node" "" "Install Node."
     printf "$COLUMN" "install-docker" "" "Install Docker."
     printf "$COLUMN" "install-podman" "" "Install podman."
@@ -132,6 +133,15 @@ function install-thunderbird() {
     sudo apt install -y thunderbird
 }
 
+function install-element() {
+    echo "Install Element."
+    sudo apt install -y wget apt-transport-https
+    sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
+    sudo apt update
+    sudo apt install element-desktop
+}
+
 function install-keepass() {
     echo "Install KeepassXC."
     sudo add-apt-repository ppa:phoerious/keepassxc
@@ -170,7 +180,8 @@ function install-zed(){
 function install-obsidian() {
     echo "Install Obsidian."
     RELEASE="1.8.9"
-    wcurl "https://github.com/obsidianmd/obsidian-releases/releases/download/v$RELEASE/obsidian_${RELEASE}_amd64.deb"
+    wcurl "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.8.9/obsidian_1.8.9_amd64.deb"
+    # wcurl "https://github.com/obsidianmd/obsidian-releases/releases/download/v$RELEASE/obsidian_${RELEASE}_amd64.deb"
     sudo apt install -y "./obsidian_${RELEASE}_amd64.deb"
     rm "obsidian_${RELEASE}_amd64.deb"
 }

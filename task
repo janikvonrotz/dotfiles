@@ -37,7 +37,7 @@ function help() {
     printf "$COLUMN" "install-podman" "" "Install podman."
     printf "$COLUMN" "install-obsidian" "" "Install Obsidian."
     printf "$COLUMN" "install-kind" "" "Install kubectl and kind."
-    printf "$COLUMN" "install-keepas" "" "Install KeepassXC."
+    printf "$COLUMN" "install-keepass" "" "Install KeepassXC."
     printf "$COLUMN" "install-minikube" "" "Install kubectl and minikube."
     printf "$COLUMN" "install-nextcloud" "" "Install Nextcloud Desktop."
     printf "$COLUMN" "install-tmux" "" "Install tmux."

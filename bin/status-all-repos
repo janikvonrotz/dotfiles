@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for REPO in $(find "$HOME" -maxdepth 2 -type d -name '.git'); do
+    DIR=$(dirname "$REPO")
+    OUTPUT=$(git -C "$DIR" status)
+    if grep -qE "(Changes|Untracked|Conflicts)" <<< "$OUTPUT"; then
+        echo "Git status for $DIR:"
+        # echo "$OUTPUT"
+    fi
+done

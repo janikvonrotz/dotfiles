@@ -167,6 +167,9 @@ function install-sublime() {
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt-get update
     sudo apt-get install sublime-text
+
+    echo "Copy sublime keybindings."
+    cp "sublime/Default (Linux).sublime-keymap" ~/.config/sublime-text/Packages/User/
 }
 
 function install-zed(){

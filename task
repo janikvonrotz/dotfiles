@@ -33,7 +33,7 @@ function help() {
     printf "$COLUMN" "install-python" "" "Install Python."
     printf "$COLUMN" "install-exo" "" "Install Exoscale cli."
     printf "$COLUMN" "install-element" "" "Install Element."
-    printf "$COLUMN" "install-node" "" "Install Node."
+    printf "$COLUMN" "install-node" "" "Install pnpm and node lts."
     printf "$COLUMN" "install-docker" "" "Install Docker."
     printf "$COLUMN" "install-podman" "" "Install podman."
     printf "$COLUMN" "install-obsidian" "" "Install Obsidian."
@@ -313,15 +313,11 @@ function install-python() {
 }
 
 function install-node() {
-    echo "Install node version manager."
-    [ ! -d "$HOME/.nvm" ] && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
-
     echo "Install pnpm."
     curl -fsSL https://get.pnpm.io/install.sh | sh -
 
-    echo "Install Node."
-    source ~/.nvm/nvm.sh
-    nvm install --lts
+    echo "Run this command to install node for your project:"
+    echo "pnpm install add global lts"
 }
 
 function install-pass() {

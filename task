@@ -170,6 +170,9 @@ function install-sublime() {
 
     echo "Copy sublime keybindings."
     cp "sublime/Default (Linux).sublime-keymap" ~/.config/sublime-text/Packages/User/
+
+    echo "Link sublime binary."
+    sudo ln -s /opt/sublime_text/sublime_text /usr/local/bin/subl
 }
 
 function install-zed(){

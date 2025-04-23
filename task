@@ -28,7 +28,8 @@ function help() {
     printf "$COLUMN" "activate-venv" "" "Source the Python venv with uv."
     printf "$COLUMN" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
     printf "$COLUMN" "init-venv" "" "Initialize the Python venv with uv."
-    printf "$COLUMN" "isntall" "" "Install requirements for this project."
+    printf "$COLUMN" "install" "" "Install requirements for this project."
+    printf "$COLUMN" "commit-with-llm" "" "Commit with llm generated commit message."
     printf "$COLUMN" "install-rust" "" "Install Rust."
     printf "$COLUMN" "install-python" "" "Install Python."
     printf "$COLUMN" "install-exo" "" "Install Exoscale cli."
@@ -585,6 +586,47 @@ function setup-appuio() {
     mv oc ~/bin/oc
 
     echo "Get the login command of the $ZONE zone: https://oauth-openshift.apps.$ZONE.cloud/oauth/token/display"
+}
+
+## LLM commands
+
+function commit-with-llm() {
+
+    mkdir -p tmp
+    PROMPT_FILE="tmp/llm_update"
+    echo -e "\nWrite prompt to $PROMPT_FILE."
+    cat << EOF > "$PROMPT_FILE"
+Look at the git diff below and reply with a git commit message. Ensure that the commit message matches the conventional commits specification.
+If possible add a scope. Reply with the commit message only. Format the message so it can be used with `git commit -m "$RESULT"`.
+
+$(git diff --staged)
+EOF
+
+    # Run the llm command
+    echo -e "Send prompt with staged git diff and wait for the response of the $LLM_MODEL LLM."
+    RESULT=$(cat "$PROMPT_FILE" | llm -m "$LLM_MODEL")
+
+    # Check if result is empty
+    if [ -z "$RESULT" ]; then
+        echo "No response from the model. Exiting."
+        exit 1
+    fi
+
+    # Save the result to a file
+    RESULT_FILE="tmp/llm_update_result"
+    echo "$RESULT" > "$RESULT_FILE"
+    echo -e "Saved response to $RESULT_FILE.\n"
+
+    # Show a preview of result file
+    less "$RESULT_FILE"
+
+    # Ask for confirmation before updating files
+    read -p "Do you want to commit with this message? (y/n): " CONFIRM
+    if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
+        exit 0
+    fi
+
+    git commit -m "$RESULT"
 }
 
 if declare -f "$1" > /dev/null; then

@@ -88,7 +88,7 @@ fi
 
 # Import commands
 
-source ~/taskfile.build/bin/commit-with-llm
+[ -f ~/taskfile.build/bin/commit-with-llm ] && source ~/taskfile.build/bin/commit-with-llm
 
 # Env commands
 
@@ -549,10 +549,10 @@ function setup-steamdeck() {
 
 function setup-private() {
     echo "Pull janikvonrotz repos."
-    [ ! -d "$HOME/knowledge" ] && git clone git@gitlab.com:janikvonrotz/knowlege ~/knowledge
-    [ ! -d "$HOME/janikvonrotz.ch" ] && git clone git@github.com:janikvonrotz/janikvonrotz.ch ~/janikvonrotz.ch
-    [ ! -d "$HOME/python.casa" ] && git clone git@github.com:janikvonrotz/python.casa ~/python.casa
-    [ ! -d "$HOME/encrypt.casa" ] && git clone git@github.com:janikvonrotz/encrypt.casa ~/encrypt.casa
+    [ ! -d "$HOME/knowledge" ] && git clone git@gitlab.com:janikvonrotz/knowledge.git ~/knowledge
+    [ ! -d "$HOME/janikvonrotz.ch" ] && git clone git@github.com:janikvonrotz/janikvonrotz.ch.git ~/janikvonrotz.ch
+    [ ! -d "$HOME/python.casa" ] && git clone git@github.com:janikvonrotz/python.casa.git ~/python.casa
+    [ ! -d "$HOME/encrypt.casa" ] && git clone git@github.com:janikvonrotz/encrypt.casa.git ~/encrypt.casa
     [ ! -d "$HOME/.password-store" ] && git clone git@gitlab.com:janikvonrotz/pass.git ~/.password-store
 }
 

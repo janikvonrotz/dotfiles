@@ -38,7 +38,8 @@ function help() {
     printf "$COLUMN" "install-docker" "" "Install Docker."
     printf "$COLUMN" "install-podman" "" "Install podman."
     printf "$COLUMN" "install-obsidian" "" "Install Obsidian."
-    printf "$COLUMN" "install-kind" "" "Install kubectl and kind."
+    printf "$COLUMN" "install-kubectl" "" "Install kubectl."
+    printf "$COLUMN" "install-kind" "" "Install kind."
     printf "$COLUMN" "install-keepass" "" "Install KeepassXC."
     printf "$COLUMN" "install-minikube" "" "Install kubectl and minikube."
     printf "$COLUMN" "install-nextcloud" "" "Install Nextcloud Desktop."
@@ -261,8 +262,6 @@ function install-kubectl() {
 }
 
 function install-kind() {
-    install-kubectl
-
     echo "Install kind."
     # https://kind.sigs.k8s.io/docs/user/quick-start/#installation
     # For AMD64 / x86_64
@@ -293,8 +292,6 @@ function install-exo() {
 }
 
 function install-minikube() {
-    install-kubectl
-
     echo "Install minikube."
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64

@@ -474,7 +474,7 @@ function install-zsh() {
     cp -r ~/dotfiles/oh-my-zsh/completions ~/.oh-my-zsh/completions
 
     echo "Set plugins list for zshrc."
-    sed -i'' 's/plugins=.*/plugins=(ansible docker fzf git kubectl minikube podman)/g' ~/.zshrc
+    sed -i'' 's/plugins=.*/plugins=(ansible docker fzf git helm kubectl minikube podman)/g' ~/.zshrc
 
     echo "Set zsh default theme."
     sed -i'' 's/ZSH_THEME.*/ZSH_THEME="eastwood"/g' ~/.zshrc

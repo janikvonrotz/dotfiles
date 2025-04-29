@@ -546,6 +546,7 @@ function setup-steamdeck() {
 
 function setup-private() {
     echo "Pull janikvonrotz repos."
+    [ ! -d "$HOME/taskfile.build" ] && git clone git@github.com:janikvonrotz/taskfile.build.git ~/taskfile.build
     [ ! -d "$HOME/knowledge" ] && git clone git@gitlab.com:janikvonrotz/knowledge.git ~/knowledge
     [ ! -d "$HOME/janikvonrotz.ch" ] && git clone git@github.com:janikvonrotz/janikvonrotz.ch.git ~/janikvonrotz.ch
     [ ! -d "$HOME/python.casa" ] && git clone git@github.com:janikvonrotz/python.casa.git ~/python.casa

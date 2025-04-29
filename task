@@ -404,6 +404,7 @@ function install-helix() {
     sudo apt install -y helix
 
     echo "Copy vim keybindings."
+    mkdir -p ~/.config/helix/
     cp helix/config.toml ~/.config/helix/config.toml
 }
 

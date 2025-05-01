@@ -40,6 +40,7 @@ function help() {
     printf "$COLUMN" "install-obsidian" "" "Install Obsidian."
     printf "$COLUMN" "install-kubectl" "" "Install kubectl."
     printf "$COLUMN" "install-kind" "" "Install kind."
+    printf "$COLUMN" "install-kate" "" "Install Kate IDE."
     printf "$COLUMN" "install-keepass" "" "Install KeepassXC."
     printf "$COLUMN" "install-minikube" "" "Install kubectl and minikube."
     printf "$COLUMN" "install-nextcloud" "" "Install Nextcloud Desktop."
@@ -179,6 +180,13 @@ function install-sublime() {
 
     echo "Link sublime binary."
     sudo ln -s /opt/sublime_text/sublime_text /usr/local/bin/subl
+}
+
+function install-kate() {
+    echo "Install Kate."
+    sudo add-apt-repository ppa:kubuntu-ppa/backports
+    sudo apt-get update
+    sudo apt-get install kate
 }
 
 function install-zed(){

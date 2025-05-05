@@ -1,0 +1,4 @@
+- model_id: llama
+  model_name: llama3
+  api_base: https://api.infomaniak.com/1/ai/103281/openai
+  api_key_name: infomaniak

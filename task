@@ -284,9 +284,14 @@ function install-llm() {
     echo "Install LLM."
     uv tool install llm
 
-    echo "Install deepseek models."
-    llm install llm-deepseek
-    echo "Set api key with: llm keys set deepseek"
+    echo "Copy extra openapi models config."
+    cp "llm/extra-openai-models.yaml" "$(dirname $(llm logs path))/extra-openai-models.yaml"
+    
+    echo "Set infomaniak api key."
+    llm keys set infomaniak --value "$(pass show env/api_key_infomaniak)"
+
+    echo "Set llama as default model."
+    llm models default llama
 }
 
 function install-ollama() {

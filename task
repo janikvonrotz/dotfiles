@@ -593,15 +593,13 @@ function setup-sozialinfo() {
 }
 
 function setup-appuio() {
-    ZONE=exoscale-ch-gva-2-0
-
     echo "Install OpenShift cli."
-    wcurl https://downloads-openshift-console.apps.$ZONE.cloud/amd64/linux/oc.tar
+    wcurl "https://downloads-openshift-console.apps.exoscale-ch-gva-2-0.appuio.cloud/amd64/linux/oc.tar"
     tar -xf oc.tar
     rm oc.tar
     mv oc ~/bin/oc
 
-    echo "Get the login command of the $ZONE zone: https://oauth-openshift.apps.$ZONE.cloud/oauth/token/display"
+    echo "Get the login command of the 'exoscale-ch-gva-2-0' zone: https://oauth-openshift.apps.exoscale-ch-gva-2-0.appuio.cloud/oauth/token/display"
 }
 
 if declare -f "$1" > /dev/null; then

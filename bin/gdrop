@@ -1,0 +1,23 @@
+#!/bin/bash
+
+gdrop() {
+  RANGE=${1:-10}
+  TODO=$(mktemp)
+  git log --oneline -n "$RANGE" > "$TODO"
+
+  TO_DROP=$(cat "$TODO" | fzf --multi --preview 'git show {1}' | cut -d' ' -f1)
+  [ -z "$TO_DROP" ] && echo "No commits selected. Aborting." && return 1
+
+  REBASE_TODO=$(mktemp)
+
+  git log --oneline -n "$RANGE" |
+  while read -r SHA MSG; do
+    if echo "$TO_DROP" | grep -q "$SHA"; then
+      echo "drop $SHA $MSG"
+    else
+      echo "pick $SHA $MSG"
+    fi
+  done > "$REBASE_TODO"
+
+  GIT_SEQUENCE_EDITOR="sh -c 'cat \"\$0\" > \"\$1\"' $REBASE_TODO" git rebase -i HEAD~"$RANGE"
+}

@@ -35,6 +35,7 @@ function help() {
     printf "$COLUMN" "install-exo" "" "Install Exoscale cli."
     printf "$COLUMN" "install-element" "" "Install Element."
     printf "$COLUMN" "install-node" "" "Install pnpm and node lts."
+    printf "$COLUMN" "install-buildkit" "" "Install buildkit cli."
     printf "$COLUMN" "install-docker" "" "Install Docker."
     printf "$COLUMN" "install-podman" "" "Install podman."
     printf "$COLUMN" "install-obsidian" "" "Install Obsidian."
@@ -234,6 +235,16 @@ function install-docker() {
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm docker
     fi
+}
+
+install-buildkit()  {
+    echo "Install buildkit."
+    wcurl https://github.com/moby/buildkit/releases/download/v0.22.0/buildkit-v0.22.0.linux-amd64.tar.gz -o tmp/buildkit.tar.gz
+    mkdir -p tmp/buildkit
+    tar -xvf tmp/buildkit.tar.gz -C tmp/buildkit
+    sudo mv tmp/buildkit/bin/* /usr/local/bin
+    rm -rf tmp/buildkit
+    rm tmp/buildkit.tar.gz
 }
 
 function install-qemu() {

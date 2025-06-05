@@ -65,6 +65,7 @@ function help() {
     printf "$COLUMN" "install-thunderbird" "" "Install Thunderbird."
     printf "$COLUMN" "install-zed" "" "Install Zed IDE."
     printf "$COLUMN" "install-threema" "" "Install Threema desktop client."
+    printf "$COLUMN" "install-signal" "" "Install Signal desktop client."
     printf "$COLUMN" "install-vscodium" "" "Install VSCodium."
     printf "$COLUMN" "uninstall-docker" "" "Uninstall docker."
     printf "$COLUMN" "uninstall-docker" "" "Uninstall docker."
@@ -315,6 +316,16 @@ function install-threema() {
     echo "Install Threema."
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     flatpak install --from https://releases.threema.ch/flatpak/threema-desktop/ch.threema.threema-desktop.flatpakref
+}
+
+function install-signal() {
+    echo "Install Signal."
+    # https://signal.org/download/#
+    wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg;
+    cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+    echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
+    sudo tee /etc/apt/sources.list.d/signal-xenial.list
+    sudo apt update && sudo apt install signal-desktop
 }
 
 function install-exo() {

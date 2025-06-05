@@ -64,6 +64,7 @@ function help() {
     printf "$COLUMN" "install-scripts" "" "Install bash scripts."
     printf "$COLUMN" "install-thunderbird" "" "Install Thunderbird."
     printf "$COLUMN" "install-zed" "" "Install Zed IDE."
+    printf "$COLUMN" "install-threema" "" "Install Threema desktop client."
     printf "$COLUMN" "install-vscodium" "" "Install VSCodium."
     printf "$COLUMN" "uninstall-docker" "" "Uninstall docker."
     printf "$COLUMN" "uninstall-docker" "" "Uninstall docker."
@@ -308,6 +309,12 @@ function install-llm() {
 function install-ollama() {
     echo "Install Ollama."
     curl -fsSL https://ollama.com/install.sh | sh
+}
+
+function install-threema() {
+    echo "Install Threema."
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    flatpak install --from https://releases.threema.ch/flatpak/threema-desktop/ch.threema.threema-desktop.flatpakref
 }
 
 function install-exo() {

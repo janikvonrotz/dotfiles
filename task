@@ -19,12 +19,8 @@ function help() {
     DESC_WIDTH=60
     COLUMN="| %-${CMD_WIDTH}s | %-${OPT_WIDTH}s | %-${DESC_WIDTH}s |\n"
 
-    # Print table header
     printf "$COLUMN" "Command" "Option" "Description"
     echo "|$(printf '%*s' $((CMD_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((OPT_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((DESC_WIDTH + 2)) '' | tr ' ' '-')|"
-
-    # Print table rows
-
     printf "$COLUMN" "activate-venv" "" "Source the Python venv with uv."
     printf "$COLUMN" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
     printf "$COLUMN" "commit-with-llm" "" "Commit with llm generated commit message."

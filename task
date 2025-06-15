@@ -27,9 +27,9 @@ function help() {
 
     printf "$COLUMN" "activate-venv" "" "Source the Python venv with uv."
     printf "$COLUMN" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
+    printf "$COLUMN" "commit-with-llm" "" "Commit with llm generated commit message."
     printf "$COLUMN" "init-venv" "" "Initialize the Python venv with uv."
     printf "$COLUMN" "install" "" "Install requirements for this project."
-    printf "$COLUMN" "commit-with-llm" "" "Commit with llm generated commit message."
     printf "$COLUMN" "install-rust" "" "Install Rust."
     printf "$COLUMN" "install-python" "" "Install Python."
     printf "$COLUMN" "install-exo" "" "Install Exoscale cli."
@@ -94,20 +94,9 @@ fi
 # Import commands
 
 [ -f ~/taskfile.build/bin/commit-with-llm ] && source ~/taskfile.build/bin/commit-with-llm
+[ -f ~/taskfile.build/bin/init-venv ] && source ~/taskfile.build/bin/init-venv
 
 # Env commands
-
-function init-venv() {
-    if [ ! -d "venv$GIT_BRANCH" ]; then
-        echo "Init venv$GIT_BRANCH with $(uv --version)."
-        uv venv "venv$GIT_BRANCH"
-    fi
-}
-
-function activate-venv() {
-    echo "Source virtualenv venv$GIT_BRANCH."
-    source "venv$GIT_BRANCH/bin/activate"
-}
 
 function install() {
     echo "Install bat, htop, jq, repgrep, xclip."

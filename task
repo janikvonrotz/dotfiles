@@ -146,7 +146,7 @@ function install-bruno() {
 
 function install-tools() {
     echo "Install bat, htop, jq, repgrep, xclip."
-    sudo apt install -y jq htop xclip ripgrep bat
+    sudo apt install -y jq htop xclip ripgrep bat swaks
 
     echo "Install yq."
     sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\

@@ -7,13 +7,8 @@ if [ -f .env ]; then
     export $(cat .env | sed 's/#.*//g' | xargs)
 fi
 
-function help() {
-    echo
-    echo "$1 <command> [options]"
-    echo
-    echo "commands:"
-    echo
 
+function help-table() {
     CMD_WIDTH=24
     OPT_WIDTH=10
     DESC_WIDTH=60
@@ -25,7 +20,7 @@ function help() {
     printf "$COLUMN" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
     printf "$COLUMN" "commit-with-llm" "" "Commit with llm generated commit message."
     printf "$COLUMN" "init-venv" "" "Initialize the Python venv with uv."
-    printf "$COLUMN" "list" "" "List all available packages."
+    printf "$COLUMN" "list" "[grep]" "List all available packages."
     printf "$COLUMN" "install" "[name]" "Install a package."
     printf "$COLUMN" "uninstall" "[name]" "Uninstall a package."
     printf "$COLUMN" "run-open-webui" "" "Run Open WebUI."
@@ -51,6 +46,7 @@ fi
 
 # Import commands
 
+[ -f ~/taskfile.build/bin/help ] && source ~/taskfile.build/bin/help
 [ -f ~/taskfile.build/bin/commit-with-llm ] && source ~/taskfile.build/bin/commit-with-llm
 [ -f ~/taskfile.build/bin/init-venv ] && source ~/taskfile.build/bin/init-venv
 
@@ -72,51 +68,60 @@ function enable-passwordless-sudo() {
 # Package commands
 
 function list() {
-    CMD_WIDTH=14
-    OPT_WIDTH=40
-    COLUMN="| %-${CMD_WIDTH}s | %-${OPT_WIDTH}s |\n"
+    function list-table() {
+        CMD_WIDTH=14
+        OPT_WIDTH=40
+        COLUMN="| %-${CMD_WIDTH}s | %-${OPT_WIDTH}s |\n"
 
-    printf "$COLUMN" "Name" "Description"
-    echo "|$(printf '%*s' $((CMD_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((OPT_WIDTH + 2)) '' | tr ' ' '-')|"
-    printf "$COLUMN" "tools" "Install requirements for this project."
-    printf "$COLUMN" "bruno" "Install Rust."
-    printf "$COLUMN" "rust" "Install Rust."
-    printf "$COLUMN" "python" "Install Python."
-    printf "$COLUMN" "exo" "Install Exoscale cli."
-    printf "$COLUMN" "element" "Install Element."
-    printf "$COLUMN" "node" "Install pnpm and node lts."
-    printf "$COLUMN" "buildkit" "Install buildkit cli."
-    printf "$COLUMN" "docker" "Install Docker."
-    printf "$COLUMN" "podman" "Install podman."
-    printf "$COLUMN" "obsidian" "Install Obsidian."
-    printf "$COLUMN" "kubectl" "Install kubectl."
-    printf "$COLUMN" "kind" "Install kind."
-    printf "$COLUMN" "kate" "Install Kate IDE."
-    printf "$COLUMN" "keepass" "Install KeepassXC."
-    printf "$COLUMN" "minikube" "Install kubectl and minikube."
-    printf "$COLUMN" "nextcloud" "Install Nextcloud Desktop."
-    printf "$COLUMN" "tmux" "Install tmux."
-    printf "$COLUMN" "vim" "Install vim and configure plugins."
-    printf "$COLUMN" "llm" "Intall LLM cli."
-    printf "$COLUMN" "ollama" "Intall Ollama cli."
-    printf "$COLUMN" "helix" "Install helix editor."
-    printf "$COLUMN" "helm" "Install Helm."
-    printf "$COLUMN" "nvim" "Install neovim and configure plugins."
-    printf "$COLUMN" "bash" "Configure bash."
-    printf "$COLUMN" "zsh" "Install zsh shell and oh-my-zsh."
-    printf "$COLUMN" "librewolf" "Install LibreWolf."
-    printf "$COLUMN" "fish" "Install fish shell."
-    printf "$COLUMN" "qemu" "Install QUEMU."
-    printf "$COLUMN" "fzf" "Install fzf."
-    printf "$COLUMN" "git" "Configure git."
-    printf "$COLUMN" "pass" "Install and configure pass."
-    printf "$COLUMN" "sublime" "Install and configure Sublime IDE."
-    printf "$COLUMN" "scripts" "Install bash scripts."
-    printf "$COLUMN" "thunderbird" "Install Thunderbird."
-    printf "$COLUMN" "zed" "Install Zed IDE."
-    printf "$COLUMN" "threema" "Install Threema desktop client."
-    printf "$COLUMN" "signal" "Install Signal desktop client."
-    printf "$COLUMN" "vscodium" "Install VSCodium."
+        printf "$COLUMN" "Name" "Description"
+        echo "|$(printf '%*s' $((CMD_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((OPT_WIDTH + 2)) '' | tr ' ' '-')|"
+        printf "$COLUMN" "tools" "Install requirements for this project."
+        printf "$COLUMN" "bruno" "Install Rust."
+        printf "$COLUMN" "rust" "Install Rust."
+        printf "$COLUMN" "python" "Install Python."
+        printf "$COLUMN" "exo" "Install Exoscale cli."
+        printf "$COLUMN" "element" "Install Element."
+        printf "$COLUMN" "node" "Install pnpm and node lts."
+        printf "$COLUMN" "buildkit" "Install buildkit cli."
+        printf "$COLUMN" "docker" "Install Docker."
+        printf "$COLUMN" "podman" "Install podman."
+        printf "$COLUMN" "obsidian" "Install Obsidian."
+        printf "$COLUMN" "kubectl" "Install kubectl."
+        printf "$COLUMN" "kind" "Install kind."
+        printf "$COLUMN" "kate" "Install Kate IDE."
+        printf "$COLUMN" "keepass" "Install KeepassXC."
+        printf "$COLUMN" "minikube" "Install kubectl and minikube."
+        printf "$COLUMN" "nextcloud" "Install Nextcloud Desktop."
+        printf "$COLUMN" "tmux" "Install tmux."
+        printf "$COLUMN" "vim" "Install vim and configure plugins."
+        printf "$COLUMN" "llm" "Intall LLM cli."
+        printf "$COLUMN" "ollama" "Intall Ollama cli."
+        printf "$COLUMN" "helix" "Install helix editor."
+        printf "$COLUMN" "helm" "Install Helm."
+        printf "$COLUMN" "nvim" "Install neovim and configure plugins."
+        printf "$COLUMN" "bash" "Configure bash."
+        printf "$COLUMN" "zsh" "Install zsh shell and oh-my-zsh."
+        printf "$COLUMN" "librewolf" "Install LibreWolf."
+        printf "$COLUMN" "fish" "Install fish shell."
+        printf "$COLUMN" "qemu" "Install QUEMU."
+        printf "$COLUMN" "fzf" "Install fzf."
+        printf "$COLUMN" "git" "Configure git."
+        printf "$COLUMN" "pass" "Install and configure pass."
+        printf "$COLUMN" "sublime" "Install and configure Sublime IDE."
+        printf "$COLUMN" "scripts" "Install bash scripts."
+        printf "$COLUMN" "thunderbird" "Install Thunderbird."
+        printf "$COLUMN" "zed" "Install Zed IDE."
+        printf "$COLUMN" "threema" "Install Threema desktop client."
+        printf "$COLUMN" "signal" "Install Signal desktop client."
+        printf "$COLUMN" "vscodium" "Install VSCodium."
+    }
+    if [ -n "$1" ]; then
+        echo
+        list-table | grep -i "$1" | column -t -s'|'
+        echo
+    else
+        list-table
+    fi
 }
 
 # Install commands

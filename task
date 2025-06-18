@@ -115,13 +115,14 @@ function list() {
         printf "$COLUMN" "signal" "Install Signal desktop client."
         printf "$COLUMN" "vscodium" "Install VSCodium."
     }
+
+    echo
     if [ -n "$1" ]; then
-        echo
         list-table | grep -i "$1" | column -t -s'|'
-        echo
     else
         list-table
     fi
+    echo
 }
 
 # Install commands

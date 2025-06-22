@@ -105,6 +105,7 @@ function list() {
         printf "$COLUMN" "qemu" "Install QUEMU."
         printf "$COLUMN" "rust" "Install Rust."
         printf "$COLUMN" "scripts" "Install bash scripts."
+        printf "$COLUMN" "ssh" "Install SSH agent."
         printf "$COLUMN" "signal" "Install Signal desktop client."
         printf "$COLUMN" "sublime" "Install and configure Sublime IDE."
         printf "$COLUMN" "threema" "Install Threema desktop client."
@@ -132,6 +133,30 @@ function install() {
     if test -z "$1"; then echo "\$1 is empty."; exit; fi
     COMMAND="install-$1"
     $COMMAND
+}
+
+function install-ssh() {
+    echo "Install SSH agent."
+    mkdir -p ~/.config/systemd/user/
+    FILENAME="ssh-agent.service"
+    FILEPATH=~/.config/systemd/user/$FILENAME
+    if [ -f "$FILEPATH" ]; then
+        rm "$FILEPATH"
+    fi
+    cat > "$FILEPATH" <<EOF
+[Unit]
+Description=SSH key agent
+
+[Service]
+Type=simple
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStart=/usr/bin/ssh-agent -D -a \$SSH_AUTH_SOCK
+
+[Install]
+WantedBy=default.target
+EOF
+    systemctl --user daemon-reload
+    systemctl --user enable --now ssh-agent
 }
 
 function install-kde() {

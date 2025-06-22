@@ -105,7 +105,7 @@ function list() {
         printf "$COLUMN" "qemu" "Install QUEMU."
         printf "$COLUMN" "rust" "Install Rust."
         printf "$COLUMN" "scripts" "Install bash scripts."
-        printf "$COLUMN" "ssh" "Install SSH agent."
+        printf "$COLUMN" "ssh" "Install SSH agentz."
         printf "$COLUMN" "signal" "Install Signal desktop client."
         printf "$COLUMN" "sublime" "Install and configure Sublime IDE."
         printf "$COLUMN" "threema" "Install Threema desktop client."
@@ -137,6 +137,10 @@ function install() {
 
 function install-ssh() {
     echo "Install SSH agent."
+
+    echo "Copy SSH config file"
+    cp ./ssh/config ~/.ssh/
+
     mkdir -p ~/.config/systemd/user/
     FILENAME="ssh-agent.service"
     FILEPATH=~/.config/systemd/user/$FILENAME

@@ -137,6 +137,8 @@ function install() {
 function install-kde() {
     echo "Install KDE."
     sudo apt install kde-standard
+
+    echo "To select new environment reboot or run: sudo systemctl restart gdm"
 }
 
 

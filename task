@@ -17,18 +17,20 @@ function help-table() {
     printf "$COLUMN" "Command" "Option" "Description"
     echo "|$(printf '%*s' $((CMD_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((OPT_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((DESC_WIDTH + 2)) '' | tr ' ' '-')|"
     printf "$COLUMN" "activate-venv" "" "Source the Python venv with uv."
-    printf "$COLUMN" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
+    printf "$COLUMN" "backup-thunderbird" "[path]" "Backup Thunderbird message filter files."
     printf "$COLUMN" "commit-with-llm" "" "Commit with llm generated commit message."
+    printf "$COLUMN" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
     printf "$COLUMN" "init-venv" "" "Initialize the Python venv with uv."
-    printf "$COLUMN" "list" "[grep]" "List all available packages."
     printf "$COLUMN" "install" "[name]" "Install a package."
-    printf "$COLUMN" "uninstall" "[name]" "Uninstall a package."
+    printf "$COLUMN" "list" "[grep]" "List all available packages."
+    printf "$COLUMN" "restore-thunderbird" "[path]" "Restore Thunderbird message filter files."
     printf "$COLUMN" "run-open-webui" "" "Run Open WebUI."
-    printf "$COLUMN" "setup-mint-system" "" "Clone Mint System git repos."
-    printf "$COLUMN" "setup-steamdeck" "" "Setup steamdeck os."
-    printf "$COLUMN" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
-    printf "$COLUMN" "setup-private" "" "Clone private git repos."
     printf "$COLUMN" "setup-appuio" "" "Install and setup APPUiO OpenShift cli."
+    printf "$COLUMN" "setup-mint-system" "" "Clone Mint System git repos."
+    printf "$COLUMN" "setup-private" "" "Clone private git repos."
+    printf "$COLUMN" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
+    printf "$COLUMN" "setup-steamdeck" "" "Setup steamdeck os."
+    printf "$COLUMN" "uninstall" "[name]" "Uninstall a package."
     printf "$COLUMN" "version" "" "Show version of installed tools."
 }
 
@@ -183,8 +185,8 @@ function install-bruno() {
 }
 
 function install-tools() {
-    echo "Install bat, htop, jq, repgrep, xclip."
-    sudo apt install -y jq htop xclip ripgrep bat swaks
+    echo "Install cli tools."
+    sudo apt install -y jq htop xclip ripgrep bat swaks crudini
 
     echo "Install yq."
     sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
@@ -695,6 +697,25 @@ function setup-appuio() {
     mv oc ~/bin/oc
 
     echo "Get the login command of the 'exoscale-ch-gva-2-0' zone: https://oauth-openshift.apps.exoscale-ch-gva-2-0.appuio.cloud/oauth/token/display"
+}
+
+# Application commands
+
+function backup-thunderbird() {
+    if test -z "$1"; then echo "\$1 is empty."; exit; fi
+
+    echo "Archive msgFilterRules.dat files to: $1"
+    cd ~/.thunderbird
+    find . -type f -name msgFilterRules.dat -print0 | tar -czvf "$1/thunderbird_msgfilterrules.tar.gz" --null -T -
+}
+
+function restore-thunderbird() {
+    if test -z "$1"; then echo "\$1 is empty."; exit; fi
+
+    echo "Extract Thunderbird filter rules from: $1"
+    cd ~/.thunderbird
+    PROFILE_DIR=$(crudini --get ~/.thunderbird/profiles.ini Profile0 Path)
+    tar -xzvkf "$1/thunderbird_msgfilterrules.tar.gz" --strip-components=1 -C "$PROFILE_DIR"
 }
 
 if declare -f "$1" > /dev/null; then

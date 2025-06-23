@@ -187,7 +187,7 @@ function install-bruno() {
 
 function install-tools() {
     echo "Install cli tools."
-    sudo apt install -y jq htop xclip ripgrep bat swaks crudini
+    sudo apt install -y jq htop xclip ripgrep bat swaks crudini dnsutils
 
     echo "Install yq."
     sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\

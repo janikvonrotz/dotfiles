@@ -200,7 +200,23 @@ function install-tools() {
 
 function install-thunderbird() {
     echo "Install Thunderbird."
-    sudo apt install -y thunderbird
+
+    echo "Adding Mozilla Team PPA."
+    sudo add-apt-repository ppa:mozillateam/ppa
+    
+    echo "Prioritizing apt version of Thunderbird..."
+    echo '
+Package: *
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 1001
+
+Package: thunderbird
+Pin: version 2:1snap*
+Pin-Priority: -1
+' | sudo tee /etc/apt/preferences.d/thunderbird
+    
+    echo "Installing Thunderbird using apt."
+    sudo apt update && sudo apt install -y thunderbird
 }
 
 function install-element() {
@@ -722,7 +738,7 @@ function restore-thunderbird() {
     echo "Extract Thunderbird filter rules from: $1"
     cd ~/.thunderbird
     PROFILE_DIR=$(crudini --get ~/.thunderbird/profiles.ini Profile0 Path)
-    tar -xzvkf "$1/thunderbird_msgfilterrules.tar.gz" --strip-components=1 -C "$PROFILE_DIR"
+    tar -xzvkf "$1" --strip-components=1 -C "$PROFILE_DIR"
 }
 
 if declare -f "$1" > /dev/null; then

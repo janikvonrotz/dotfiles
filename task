@@ -107,6 +107,7 @@ function list() {
         printf "$COLUMN" "qemu" "Install QUEMU."
         printf "$COLUMN" "rust" "Install Rust."
         printf "$COLUMN" "scripts" "Install bash scripts."
+        printf "$COLUMN" "snapd" "Uninstall snapd."
         printf "$COLUMN" "ssh" "Install SSH agentz."
         printf "$COLUMN" "signal" "Install Signal desktop client."
         printf "$COLUMN" "sublime" "Install and configure Sublime IDE."
@@ -629,6 +630,12 @@ function uninstall-docker() {
 function uninstall-obsidian() {
     echo "Uninstall Obsidian."
     sudo apt-get remove -y obisidan
+}
+
+function uninstall-snapd() {
+    echo "Uninstall snapd"
+    sudo apt autoremove --purge snapd
+    sudo apt-mark hold snapd
 }
 
 # Run commands

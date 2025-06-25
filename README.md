@@ -14,7 +14,7 @@ Clone this repo.
 
 ```bash
 cd ~
-git clone git@github.com:janikvonrotz/dotfiles.git
+git clone https://github.com/janikvonrotz/dotfiles.git
 cd dotfiles
 ```
 

@@ -7,7 +7,6 @@ if [ -f .env ]; then
     export $(cat .env | sed 's/#.*//g' | xargs)
 fi
 
-
 function help-table() {
     CMD_WIDTH=24
     OPT_WIDTH=10
@@ -16,7 +15,6 @@ function help-table() {
 
     printf "$COLUMN" "Command" "Option" "Description"
     echo "|$(printf '%*s' $((CMD_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((OPT_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((DESC_WIDTH + 2)) '' | tr ' ' '-')|"
-    printf "$COLUMN" "activate-venv" "" "Source the Python venv with uv."
     printf "$COLUMN" "backup-thunderbird" "[path]" "Backup Thunderbird message filter files."
     printf "$COLUMN" "commit-with-llm" "" "Commit with llm generated commit message."
     printf "$COLUMN" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
@@ -25,6 +23,7 @@ function help-table() {
     printf "$COLUMN" "list" "[grep]" "List all available packages."
     printf "$COLUMN" "restore-thunderbird" "[path]" "Restore Thunderbird message filter files."
     printf "$COLUMN" "run-open-webui" "" "Run Open WebUI."
+    printf "$COLUMN" "set-git-origin" "" "Change git origin to ssh."
     printf "$COLUMN" "setup-appuio" "" "Install and setup APPUiO OpenShift cli."
     printf "$COLUMN" "setup-mint-system" "" "Clone Mint System git repos."
     printf "$COLUMN" "setup-private" "" "Clone private git repos."
@@ -32,6 +31,20 @@ function help-table() {
     printf "$COLUMN" "setup-steamdeck" "" "Setup steamdeck os."
     printf "$COLUMN" "uninstall" "[name]" "Uninstall a package."
     printf "$COLUMN" "version" "" "Show version of installed tools."
+}
+
+function help() {
+    echo
+    if [ -n "$1" ]; then
+        help-table | grep -i "$1" | column -t -s'|'
+    else
+        echo "task <command> [options]"
+        echo
+        echo "commands:"
+        echo
+        help-table
+    fi
+    echo
 }
 
 # Dynamic env vars
@@ -48,7 +61,6 @@ fi
 
 # Import commands
 
-[ -f ~/taskfile.build/bin/help ] && source ~/taskfile.build/bin/help
 [ -f ~/taskfile.build/bin/commit-with-llm ] && source ~/taskfile.build/bin/commit-with-llm
 [ -f ~/taskfile.build/bin/init-venv ] && source ~/taskfile.build/bin/init-venv
 
@@ -58,6 +70,11 @@ function version() {
     uv --version
     docker --version
     docker-compose --version
+}
+
+function set-git-origin(){
+    echo "Change git origin."
+    git remote set-url origin git@github.com:janikvonrotz/dotfiles.git
 }
 
 # Config commands
@@ -84,6 +101,7 @@ function list() {
         printf "$COLUMN" "element" "Install Element."
         printf "$COLUMN" "exo" "Install Exoscale cli."
         printf "$COLUMN" "fish" "Install fish shell."
+        printf "$COLUMN" "firefox" "Install Firefox browser."
         printf "$COLUMN" "fzf" "Install fzf."
         printf "$COLUMN" "git" "Configure git."
         printf "$COLUMN" "helm" "Install Helm."
@@ -238,6 +256,11 @@ function install-nextcloud() {
     echo "Install Nextcloud Desktop."
     sudo add-apt-repository ppa:xtradeb/apps
     sudo apt update && sudo apt install -y nextcloud-desktop
+}
+
+function install-firefox() {
+    echo "Install Firefox."
+    sudo apt install firefox
 }
 
 function install-librewolf() {

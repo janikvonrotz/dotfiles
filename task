@@ -271,6 +271,20 @@ function install-librewolf() {
 
     echo "Ensure LibreWolf works with KeepassXC extension."
     ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts
+
+    # Get Profile0 from ~/.librewolf/profiles.ini with crudini
+
+    # Download extension
+    wget https://addons.mozilla.org/firefox/downloads/file/3841887/sidebery-4.0.0-fx.xpi
+    
+    # Unzip extension
+
+    # Get extension id from manifest.json
+
+    # Copy extension to ~/.librewolf/u5scv5t2.default-default/extensions/{71a355a8-b9dc-44ff-8176-12296d8dd765}.xpi
+
+    # Remove extension
+    rm sidebery-4.0.0-fx.xpi
 }
 
 function install-sublime() {

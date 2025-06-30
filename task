@@ -102,6 +102,7 @@ function list() {
         printf "$COLUMN" "exo" "Install Exoscale cli."
         printf "$COLUMN" "fish" "Install fish shell."
         printf "$COLUMN" "firefox" "Install Firefox browser."
+        printf "$COLUMN" "flatpak" "Install flatpak."
         printf "$COLUMN" "fzf" "Install fzf."
         printf "$COLUMN" "git" "Configure git."
         printf "$COLUMN" "helm" "Install Helm."
@@ -186,7 +187,7 @@ EOF
 
 function install-kde() {
     echo "Install KDE."
-    sudo apt install kde-standard
+    sudo apt install -y  kde-standard
 
     echo "To select new environment reboot or run: sudo systemctl restart gdm"
 }
@@ -200,7 +201,7 @@ function install-bruno() {
     echo "deb [signed-by=/etc/apt/keyrings/bruno.gpg] http://debian.usebruno.com/ bruno stable" | sudo tee /etc/apt/sources.list.d/bruno.list 
      
     sudo apt update 
-    sudo apt install bruno
+    sudo apt install -y  bruno
 }
 
 function install-tools() {
@@ -243,7 +244,7 @@ function install-element() {
     sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
     echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
     sudo apt update
-    sudo apt install element-desktop
+    sudo apt install -y element-desktop
 }
 
 function install-keepass() {
@@ -258,16 +259,31 @@ function install-nextcloud() {
     sudo apt update && sudo apt install -y nextcloud-desktop
 }
 
-function install-firefox() {
-    echo "Install Firefox."
-    sudo apt install firefox
+install-firefox() {
+
+    if [[ "$(lsb_release -is 2>/dev/null)" = "Ubuntu" ]]; then
+        echo "Adding Mozilla Team PPA..."
+        sudo add-apt-repository -y ppa:mozillateam/ppa
+        sudo apt update
+
+        echo "Pinning APT to prefer mozillateam PPA over Snap..."
+        cat <<EOF | sudo tee /etc/apt/preferences.d/firefox-no-snap > /dev/null
+Package: firefox*
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 501
+EOF
+    fi
+
+    echo "Installing Firefox."
+    sudo apt install -y firefox
 }
+
 
 function install-librewolf() {
     echo "Install LibreWolf."
-    sudo apt update && sudo apt install extrepo -y
+    sudo apt update && sudo apt install -y extrepo
     sudo extrepo enable librewolf
-    sudo apt update && sudo apt install librewolf -y
+    sudo apt update && sudo apt install -y librewolf
 
     echo "Ensure LibreWolf works with KeepassXC extension."
     ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts
@@ -291,8 +307,8 @@ function install-sublime() {
     echo "Install Sublime."
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-    sudo apt-get update
-    sudo apt-get install sublime-text
+    sudo apt update
+    sudo apt install sublime-text
 
     echo "Copy sublime keybindings."
     cp "sublime/Default (Linux).sublime-keymap" ~/.config/sublime-text/Packages/User/
@@ -304,8 +320,8 @@ function install-sublime() {
 function install-kate() {
     echo "Install Kate."
     sudo add-apt-repository ppa:kubuntu-ppa/backports
-    sudo apt-get update
-    sudo apt-get install kate
+    sudo apt update
+    sudo apt install -y kate
 }
 
 function install-zed(){
@@ -331,8 +347,8 @@ function install-docker() {
         # https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
         # Add Docker's official GPG key:
-        sudo apt-get update
-        sudo apt-get install ca-certificates curl
+        sudo apt update
+        sudo apt install -y ca-certificates curl
         sudo install -m 0755 -d /etc/apt/keyrings
         sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
         sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -342,10 +358,10 @@ function install-docker() {
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
         $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
         sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-        sudo apt-get update
+        sudo apt update
 
-        sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-        sudo usermod -aG docker $USER
+        sudo apt -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+        sudo  -aG docker $USER
         newgrp docker
 
         echo  "Verify docker installation."
@@ -355,7 +371,13 @@ function install-docker() {
     fi
 }
 
-install-buildkit()  {
+function install-flatpak() {
+    echo "Install flatpak.."
+    sudo apt install -y  flatpak
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+}
+
+function install-buildkit()  {
     echo "Install buildkit."
     wcurl https://github.com/moby/buildkit/releases/download/v0.22.0/buildkit-v0.22.0.linux-amd64.tar.gz -o tmp/buildkit.tar.gz
     mkdir -p tmp/buildkit
@@ -367,7 +389,7 @@ install-buildkit()  {
 
 function install-qemu() {
     echo "Install QEMU."
-    sudo apt-get install -y qemu qemu-user-static binfmt-support
+    sudo apt install -y qemu qemu-user-static binfmt-support
 
     echo "Copy docker config."
     sudo cp docker/daemon.json /etc/docker
@@ -395,7 +417,7 @@ function install-kubectl() {
     sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
     sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
-    sudo apt-get update && sudo apt-get install -y kubectl
+    sudo apt update && sudo apt install -y kubectl
 }
 
 function install-kind() {
@@ -441,7 +463,7 @@ function install-signal() {
     cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
     echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
     sudo tee /etc/apt/sources.list.d/signal-xenial.list
-    sudo apt update && sudo apt install signal-desktop
+    sudo apt update && sudo apt install -y  signal-desktop
 }
 
 function install-exo() {
@@ -564,10 +586,10 @@ function install-helix() {
 function install-helm() {
     echo  "Install Helm."
     curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
-    sudo apt-get install apt-transport-https --yes
+    sudo apt install apt-transport-https --yes
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-    sudo apt-get update
-    sudo apt-get install helm
+    sudo apt update
+    sudo apt install -y  helm
 }
 
 function install-nvim() {
@@ -593,7 +615,7 @@ function install-bash() {
     {
         echo -e "\n$START_MARKER"
         cat bash/.bashrc
-        echo "$END_MARKER"
+        echo -e "\n$END_MARKER"
     } >> ~/.bashrc
 }
 
@@ -640,7 +662,7 @@ function install-git() {
 
     echo "Install GitHub cli."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
-        (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+        (type -p wget >/dev/null || (sudo apt update && sudo apt install -y wget)) \
             && sudo mkdir -p -m 755 /etc/apt/keyrings \
                 && out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
                 && cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
@@ -670,8 +692,8 @@ function uninstall-docker() {
 
     echo "Unistall Docker."
 
-    sudo apt-get purge -y docker-engine docker docker.io docker-ce docker-ce-cli docker-compose-plugin
-    sudo apt-get autoremove -y --purge docker-engine docker docker.io docker-ce docker-compose-plugin
+    sudo apt purge -y docker-engine docker docker.io docker-ce docker-ce-cli docker-compose-plugin
+    sudo apt autoremove -y --purge docker-engine docker docker.io docker-ce docker-compose-plugin
 
     sudo rm -rf /var/lib/docker /etc/docker
     sudo rm /etc/apparmor.d/docker
@@ -682,7 +704,7 @@ function uninstall-docker() {
 
 function uninstall-obsidian() {
     echo "Uninstall Obsidian."
-    sudo apt-get remove -y obisidan
+    sudo apt remove -y obisidan
 }
 
 function uninstall-snapd() {

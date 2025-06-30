@@ -1,2 +1,3 @@
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)"
+fi

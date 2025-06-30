@@ -13,4 +13,6 @@ fi
 XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
 
 # Export SSH agent socket
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)"
+fi

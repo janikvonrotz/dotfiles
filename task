@@ -206,7 +206,7 @@ function install-bruno() {
 
 function install-tools() {
     echo "Install cli tools."
-    sudo apt install -y jq btop xclip ripgrep bat swaks crudini dnsutils
+    sudo apt install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain
 
     echo "Install yq."
     sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
@@ -643,11 +643,11 @@ function install-zsh() {
     echo "Clone zsh autosuggestions."
     [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
 
-    echo "Copy oh-my-zsh customizations."
-    cp ~/dotfiles/oh-my-zsh/custom/*.zsh ~/.oh-my-zsh/custom
+    echo "Copy zsh customizations."
+    cp ~/dotfiles/zsh/custom/*.zsh ~/.oh-my-zsh/custom
 
-    echo "Copy oh-my-zsh completions."
-    cp -r ~/dotfiles/oh-my-zsh/completions ~/.oh-my-zsh/completions
+    echo "Copy zsh completions."
+    cp -r ~/dotfiles/zsh/completions ~/.oh-my-zsh/completions
 
     echo "Set plugins list for zshrc."
     sed -i'' 's/plugins=.*/plugins=(ansible docker fzf git helm kubectl minikube podman)/g' ~/.zshrc

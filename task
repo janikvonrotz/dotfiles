@@ -329,6 +329,7 @@ function install-zed(){
     curl -f https://zed.dev/install.sh | sh
 
     echo "Copy settings file."
+    mkdir -p "~/.config/zed"
     cp ./zed/settings.json ~/.config/zed/settings.json
 }
 

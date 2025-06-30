@@ -206,7 +206,7 @@ function install-bruno() {
 
 function install-tools() {
     echo "Install cli tools."
-    sudo apt install -y jq htop xclip ripgrep bat swaks crudini dnsutils
+    sudo apt install -y jq btop xclip ripgrep bat swaks crudini dnsutils
 
     echo "Install yq."
     sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
@@ -361,7 +361,7 @@ function install-docker() {
         sudo apt update
 
         sudo apt -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-        sudo  -aG docker $USER
+        sudo usermod -aG docker $USER
         newgrp docker
 
         echo  "Verify docker installation."

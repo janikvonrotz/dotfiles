@@ -134,6 +134,7 @@ function list() {
         printf "$COLUMN" "thunderbird" "Install Thunderbird."
         printf "$COLUMN" "tools" "Install requirements for this project."
         printf "$COLUMN" "tmux" "Install tmux."
+        printf "$COLUMN" "tuba" "Install Tuba fediverse client."
         printf "$COLUMN" "vscodium" "Install VSCodium."
         printf "$COLUMN" "vim" "Install vim and configure plugins."
         printf "$COLUMN" "zed" "Install Zed IDE."
@@ -192,6 +193,10 @@ function install-kde() {
     echo "To select new environment reboot or run: sudo systemctl restart gdm"
 }
 
+function install-tuba() {
+    echo "Install Tuba."
+    flatpak install -y Tuba
+}
 
 function install-bruno() {
     echo "Install Bruno."
@@ -206,7 +211,7 @@ function install-bruno() {
 
 function install-tools() {
     echo "Install cli tools."
-    sudo apt install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain
+    sudo apt install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain pwgen
 
     echo "Install yq."
     sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
@@ -374,7 +379,7 @@ function install-docker() {
 
 function install-flatpak() {
     echo "Install flatpak.."
-    sudo apt install -y  flatpak
+    sudo apt install -y flatpak
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 }
 
@@ -454,7 +459,7 @@ function install-ollama() {
 function install-threema() {
     echo "Install Threema."
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    flatpak install --from https://releases.threema.ch/flatpak/threema-desktop/ch.threema.threema-desktop.flatpakref
+    flatpak install -y --from https://releases.threema.ch/flatpak/threema-desktop/ch.threema.threema-desktop.flatpakref
 }
 
 function install-signal() {

@@ -7,7 +7,8 @@ Vim, helix, zsh, fish, fzf, termux and much more.
 For a new computer install git and curl.
 
 ```bash
-sudo apt install git curl
+sudo apt install -y git curl
+sudo dnf install -y git curl
 ```
 
 Clone this repo.

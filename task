@@ -55,6 +55,8 @@ if command -v pacman >/dev/null 2>&1; then
     export PACKAGE_MANAGER="pacman"
 elif command -v apt >/dev/null 2>&1; then
     export PACKAGE_MANAGER="apt"
+elif command -v dnf >/dev/null 2>&1; then
+    export PACKAGE_MANAGER="dnf"
 else
     export PACKAGE_MANAGER="unknown"
 fi
@@ -159,36 +161,16 @@ function install() {
 }
 
 function install-ssh() {
-    echo "Install SSH agent."
-
     echo "Copy SSH config file"
+    mkdir -p ~/.ssh/
     cp ./ssh/config ~/.ssh/
-
-#     mkdir -p ~/.config/systemd/user/
-#     FILENAME="ssh-agent.service"
-#     FILEPATH=~/.config/systemd/user/$FILENAME
-#     if [ -f "$FILEPATH" ]; then
-#         rm "$FILEPATH"
-#     fi
-#     cat > "$FILEPATH" <<EOF
-# [Unit]
-# Description=SSH key agent
-
-# [Service]
-# Type=simple
-# Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
-# ExecStart=/usr/bin/ssh-agent -D -a \$SSH_AUTH_SOCK
-
-# [Install]
-# WantedBy=default.target
-# EOF
-#     systemctl --user daemon-reload
-#     systemctl --user enable --now ssh-agent
 }
 
 function install-kde() {
     echo "Install KDE."
-    sudo apt install -y  kde-standard
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt install -y  kde-standard
+    fi
 
     echo "To select new environment reboot or run: sudo systemctl restart gdm"
 }
@@ -200,18 +182,22 @@ function install-tuba() {
 
 function install-bruno() {
     echo "Install Bruno."
-    sudo mkdir -p /etc/apt/keyrings
-    sudo gpg --no-default-keyring --keyring /etc/apt/keyrings/bruno.gpg --keyserver keyserver.ubuntu.com --recv-keys 9FA6017ECABE0266
-
-    echo "deb [signed-by=/etc/apt/keyrings/bruno.gpg] http://debian.usebruno.com/ bruno stable" | sudo tee /etc/apt/sources.list.d/bruno.list
-
-    sudo apt update
-    sudo apt install -y  bruno
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo mkdir -p /etc/apt/keyrings
+        sudo gpg --no-default-keyring --keyring /etc/apt/keyrings/bruno.gpg --keyserver keyserver.ubuntu.com --recv-keys 9FA6017ECABE0266
+        echo "deb [signed-by=/etc/apt/keyrings/bruno.gpg] http://debian.usebruno.com/ bruno stable" | sudo tee /etc/apt/sources.list.d/bruno.list
+        sudo apt update
+        sudo apt install -y  bruno
+    fi
 }
 
 function install-tools() {
     echo "Install cli tools."
-    sudo apt install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain pwgen
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain pwgen
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain pwgen
+    fi
 
     echo "Install yq."
     sudo wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
@@ -225,11 +211,12 @@ function install-tools() {
 function install-thunderbird() {
     echo "Install Thunderbird."
 
-    echo "Adding Mozilla Team PPA."
-    sudo add-apt-repository ppa:mozillateam/ppa
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        echo "Adding Mozilla Team PPA."
+        sudo add-apt-repository ppa:mozillateam/ppa
 
-    echo "Prioritizing apt version of Thunderbird..."
-    echo '
+        echo "Prioritizing apt version of Thunderbird..."
+        echo '
 Package: *
 Pin: release o=LP-PPA-mozillateam
 Pin-Priority: 1001
@@ -239,33 +226,44 @@ Pin: version 2:1snap*
 Pin-Priority: -1
 ' | sudo tee /etc/apt/preferences.d/thunderbird
 
-    echo "Installing Thunderbird using apt."
-    sudo apt update && sudo apt install -y thunderbird
+        echo "Installing Thunderbird using apt."
+        sudo apt update && sudo apt install -y thunderbird
+    fi
 }
 
 function install-element() {
     echo "Install Element."
-    sudo apt install -y wget apt-transport-https
-    sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
-    echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
-    sudo apt update
-    sudo apt install -y element-desktop
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt install -y wget apt-transport-https
+        sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
+        sudo apt update
+        sudo apt install -y element-desktop
+    fi
 }
 
 function install-keepass() {
     echo "Install KeepassXC."
-    sudo add-apt-repository ppa:phoerious/keepassxc
-    sudo apt update && sudo apt install -y keepassxc
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo add-apt-repository ppa:phoerious/keepassxc
+        sudo apt update && sudo apt install -y keepassxc
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y keepassxc
+    fi
+
 }
 
 function install-nextcloud() {
     echo "Install Nextcloud Desktop."
-    sudo add-apt-repository ppa:xtradeb/apps
-    sudo apt update && sudo apt install -y nextcloud-desktop
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo add-apt-repository ppa:xtradeb/apps
+        sudo apt update && sudo apt install -y nextcloud-desktop
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y nextcloud-client
+    fi
 }
 
 install-firefox() {
-
     if [[ "$(lsb_release -is 2>/dev/null)" = "Ubuntu" ]]; then
         echo "Adding Mozilla Team PPA..."
         sudo add-apt-repository -y ppa:mozillateam/ppa
@@ -280,15 +278,23 @@ EOF
     fi
 
     echo "Installing Firefox."
-    sudo apt install -y firefox
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt install -y firefox
+    fi
 }
 
 
 function install-librewolf() {
     echo "Install LibreWolf."
-    sudo apt update && sudo apt install -y extrepo
-    sudo extrepo enable librewolf
-    sudo apt update && sudo apt install -y librewolf
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt update && sudo apt install -y extrepo
+        sudo extrepo enable librewolf
+        sudo apt update && sudo apt install -y librewolf
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        curl -fsSL https://repo.librewolf.net/librewolf.repo | pkexec tee /etc/yum.repos.d/librewolf.repo
+        sudo dnf install -y librewolf
+    fi
+
 
     echo "Ensure LibreWolf works with KeepassXC extension."
     ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts
@@ -310,10 +316,12 @@ function install-librewolf() {
 
 function install-sublime() {
     echo "Install Sublime."
-    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
-    echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-    sudo apt update
-    sudo apt install sublime-text
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
+        echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+        sudo apt update
+        sudo apt install sublime-text
+    fi
 
     echo "Copy sublime keybindings."
     cp "sublime/Default (Linux).sublime-keymap" ~/.config/sublime-text/Packages/User/
@@ -324,9 +332,11 @@ function install-sublime() {
 
 function install-kate() {
     echo "Install Kate."
-    sudo add-apt-repository ppa:kubuntu-ppa/backports
-    sudo apt update
-    sudo apt install -y kate
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo add-apt-repository ppa:kubuntu-ppa/backports
+        sudo apt update
+        sudo apt install -y kate
+    fi
 }
 
 function install-zed(){
@@ -340,17 +350,20 @@ function install-zed(){
 
 function install-obsidian() {
     echo "Install Obsidian."
-    RELEASE="1.8.9"
-    wcurl "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.8.9/obsidian_1.8.9_amd64.deb"
-    # wcurl "https://github.com/obsidianmd/obsidian-releases/releases/download/v$RELEASE/obsidian_${RELEASE}_amd64.deb"
-    sudo apt install -y "./obsidian_${RELEASE}_amd64.deb"
-    rm "obsidian_${RELEASE}_amd64.deb"
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        # wcurl "https://github.com/obsidianmd/obsidian-releases/releases/download/v$RELEASE/obsidian_${RELEASE}_amd64.deb"
+        wcurl "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.8.9/obsidian_1.8.9_amd64.deb"
+        sudo apt install -y "./obsidian_1.8.9_amd64.deb"
+        rm "obsidian_1.8.9_amd64.deb"
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo flatpak install -y md.obsidian.Obsidian
+    fi
 }
 
 function install-docker() {
     echo "Install Docker."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
-        # https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+        # https://docs.docker.com/engine/install/debian/
 
         # Add Docker's official GPG key:
         sudo apt update
@@ -366,21 +379,33 @@ function install-docker() {
         sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         sudo apt update
 
-        sudo apt -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-        sudo usermod -aG docker $USER
-        newgrp docker
-
-        echo  "Verify docker installation."
-        docker run hello-world
+        sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm docker
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        # https://docs.docker.com/engine/install/fedora/
+        sudo dnf -y install dnf-plugins-core
+        sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+
+        sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+        sudo systemctl enable --now docker
     fi
+
+    echo  "Add current user to docker group."
+    sudo usermod -aG docker $USER
+    newgrp docker
+
+    echo  "Verify docker installation."
+    docker run hello-world
 }
 
 function install-flatpak() {
-    echo "Install flatpak.."
-    sudo apt install -y flatpak
-    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    echo "Install flatpak."
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt install -y flatpak
+        flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    fi
 }
 
 function install-buildkit()  {
@@ -395,7 +420,9 @@ function install-buildkit()  {
 
 function install-qemu() {
     echo "Install QEMU."
-    sudo apt install -y qemu qemu-user-static binfmt-support
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt install -y qemu qemu-user-static binfmt-support
+    fi
 
     echo "Copy docker config."
     sudo cp docker/daemon.json /etc/docker
@@ -410,7 +437,9 @@ function install-fzf() {
 
 function install-podman() {
     echo "Install podman."
-    sudo apt install -y podman
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt install -y podman
+    fi
 
     echo "Add docker.io to search registry"
     sudo grep -qxF 'unqualified-search-registries = ["docker.io"]' /etc/containers/registries.conf || echo 'unqualified-search-registries = ["docker.io"]' | sudo tee -a /etc/containers/registries.conf
@@ -418,12 +447,14 @@ function install-podman() {
 
 function install-kubectl() {
     echo "Install kubectl."
-    # https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
-    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-    sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-    echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-    sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
-    sudo apt update && sudo apt install -y kubectl
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        # https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+        sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
+        sudo apt update && sudo apt install -y kubectl
+    fi
 }
 
 function install-kind() {
@@ -464,13 +495,15 @@ function install-threema() {
 
 function install-signal() {
     echo "Install Signal."
-    # https://signal.org/download/#
-    wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg;
-    cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
-    echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
-    sudo tee /etc/apt/sources.list.d/signal-xenial.list
-    sudo apt update && sudo apt install -y  signal-desktop
-    rm signal-desktop-keyring.gpg
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        # https://signal.org/download/#
+        wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg;
+        cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+        echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
+        sudo tee /etc/apt/sources.list.d/signal-xenial.list
+        sudo apt update && sudo apt install -y  signal-desktop
+        rm signal-desktop-keyring.gpg
+    fi
 }
 
 function install-exo() {
@@ -486,12 +519,14 @@ function install-minikube() {
 
 function install-vscodium() {
     echo "Install VSCodium."
-    wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
-        | gpg --dearmor \
-        | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
-    echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
-        | sudo tee /etc/apt/sources.list.d/vscodium.list
-    sudo apt update && sudo apt install -y codium
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
+            | gpg --dearmor \
+            | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
+        echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
+            | sudo tee /etc/apt/sources.list.d/vscodium.list
+        sudo apt update && sudo apt install -y codium
+    fi
 }
 
 function install-python() {
@@ -510,9 +545,11 @@ function install-node() {
 function install-pass() {
     echo "Install pass."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
-         sudo apt install -y pass pass-extension-otp
+        sudo apt install -y pass pass-extension-otp
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm pass
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y pass
     fi
 
     echo "Clone pass repo."
@@ -534,7 +571,9 @@ function install-tmux() {
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y tmux
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        sudo pacman -S --noconfirm zsh
+        sudo pacman -S --noconfirm tmux
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y tmux
     fi
 
     echo "Install tmux plugins."
@@ -551,7 +590,9 @@ function install-tmux() {
 
 function install-fish() {
     echo "Install fish."
-    sudo apt install -y fish
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt install -y fish
+    fi
 
     mkdir -p ~/.config/fish/completions
 
@@ -578,12 +619,16 @@ function install-vim() {
 }
 
 function install-helix() {
-    echo "Add helix ppa."
-    sudo add-apt-repository ppa:maveonair/helix-editor
-    sudo apt update
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        echo "Add helix ppa."
+        sudo add-apt-repository ppa:maveonair/helix-editor
+        sudo apt update
 
-    echo "Install helix."
-    sudo apt install -y helix
+        echo "Install helix."
+        sudo apt install -y helix
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y helix
+    fi
 
     echo "Copy vim keybindings."
     mkdir -p ~/.config/helix/
@@ -592,20 +637,24 @@ function install-helix() {
 
 function install-helm() {
     echo  "Install Helm."
-    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
-    sudo apt install apt-transport-https --yes
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-    sudo apt update
-    sudo apt install -y  helm
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+        sudo apt install apt-transport-https --yes
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+        sudo apt update
+        sudo apt install -y  helm
+    fi
 }
 
 function install-nvim() {
-    echo "Add neovim ppa."
-    sudo add-apt-repository ppa:neovim-ppa/stable -y
-    sudo apt update
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        echo "Add neovim ppa."
+        sudo add-apt-repository ppa:neovim-ppa/stable -y
+        sudo apt update
 
-    echo "Install neovim."
-    sudo apt install -y neovim
+        echo "Install neovim."
+        sudo apt install -y neovim
+    fi
 }
 
 function install-bash() {
@@ -632,6 +681,8 @@ function install-zsh() {
         sudo apt install -y zsh
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm zsh
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y zsh
     fi
 
     echo "Reset zsh."
@@ -677,6 +728,10 @@ function install-git() {
             && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
             && sudo apt update \
             && sudo apt install -y gh
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install dnf5-plugins
+        sudo dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo
+        sudo dnf install -y gh --repo gh-cli
     fi
 }
 

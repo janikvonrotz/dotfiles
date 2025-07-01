@@ -163,26 +163,26 @@ function install-ssh() {
     echo "Copy SSH config file"
     cp ./ssh/config ~/.ssh/
 
-    mkdir -p ~/.config/systemd/user/
-    FILENAME="ssh-agent.service"
-    FILEPATH=~/.config/systemd/user/$FILENAME
-    if [ -f "$FILEPATH" ]; then
-        rm "$FILEPATH"
-    fi
-    cat > "$FILEPATH" <<EOF
-[Unit]
-Description=SSH key agent
+#     mkdir -p ~/.config/systemd/user/
+#     FILENAME="ssh-agent.service"
+#     FILEPATH=~/.config/systemd/user/$FILENAME
+#     if [ -f "$FILEPATH" ]; then
+#         rm "$FILEPATH"
+#     fi
+#     cat > "$FILEPATH" <<EOF
+# [Unit]
+# Description=SSH key agent
 
-[Service]
-Type=simple
-Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
-ExecStart=/usr/bin/ssh-agent -D -a \$SSH_AUTH_SOCK
+# [Service]
+# Type=simple
+# Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+# ExecStart=/usr/bin/ssh-agent -D -a \$SSH_AUTH_SOCK
 
-[Install]
-WantedBy=default.target
-EOF
-    systemctl --user daemon-reload
-    systemctl --user enable --now ssh-agent
+# [Install]
+# WantedBy=default.target
+# EOF
+#     systemctl --user daemon-reload
+#     systemctl --user enable --now ssh-agent
 }
 
 function install-kde() {
@@ -195,12 +195,12 @@ function install-kde() {
 
 function install-bruno() {
     echo "Install Bruno."
-    sudo mkdir -p /etc/apt/keyrings 
-    sudo gpg --no-default-keyring --keyring /etc/apt/keyrings/bruno.gpg --keyserver keyserver.ubuntu.com --recv-keys 9FA6017ECABE0266 
+    sudo mkdir -p /etc/apt/keyrings
+    sudo gpg --no-default-keyring --keyring /etc/apt/keyrings/bruno.gpg --keyserver keyserver.ubuntu.com --recv-keys 9FA6017ECABE0266
 
-    echo "deb [signed-by=/etc/apt/keyrings/bruno.gpg] http://debian.usebruno.com/ bruno stable" | sudo tee /etc/apt/sources.list.d/bruno.list 
-     
-    sudo apt update 
+    echo "deb [signed-by=/etc/apt/keyrings/bruno.gpg] http://debian.usebruno.com/ bruno stable" | sudo tee /etc/apt/sources.list.d/bruno.list
+
+    sudo apt update
     sudo apt install -y  bruno
 }
 
@@ -222,7 +222,7 @@ function install-thunderbird() {
 
     echo "Adding Mozilla Team PPA."
     sudo add-apt-repository ppa:mozillateam/ppa
-    
+
     echo "Prioritizing apt version of Thunderbird..."
     echo '
 Package: *
@@ -233,7 +233,7 @@ Package: thunderbird
 Pin: version 2:1snap*
 Pin-Priority: -1
 ' | sudo tee /etc/apt/preferences.d/thunderbird
-    
+
     echo "Installing Thunderbird using apt."
     sudo apt update && sudo apt install -y thunderbird
 }
@@ -292,7 +292,7 @@ function install-librewolf() {
 
     # Download extension
     wget https://addons.mozilla.org/firefox/downloads/file/3841887/sidebery-4.0.0-fx.xpi
-    
+
     # Unzip extension
 
     # Get extension id from manifest.json
@@ -438,7 +438,7 @@ function install-llm() {
 
     echo "Copy extra openapi models config."
     cp "llm/extra-openai-models.yaml" "$(dirname $(llm logs path))/extra-openai-models.yaml"
-    
+
     echo "Set infomaniak api key."
     llm keys set infomaniak --value "$(pass show env/api_key_infomaniak)"
 
@@ -465,6 +465,7 @@ function install-signal() {
     echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
     sudo tee /etc/apt/sources.list.d/signal-xenial.list
     sudo apt update && sudo apt install -y  signal-desktop
+    rm signal-desktop-keyring.gpg
 }
 
 function install-exo() {

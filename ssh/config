@@ -1,1 +1,4 @@
-AddKeysToAgent  yes
+Host *
+    UseKeychain yes
+    AddKeysToAgent yes
+    IdentityFile

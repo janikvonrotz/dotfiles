@@ -1,1 +1,0 @@
-/usr/bin/keychain $HOME/.ssh/id_ed25519

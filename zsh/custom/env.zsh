@@ -1,3 +1,6 @@
+# Add local bin to path
+export PATH=~/.local/bin:$PATH
+
 # Default editor
 export EDITOR=hx
 
@@ -11,6 +14,3 @@ fi
 
 # Add Flatpak binary share
 XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
-
-# Export SSH agent socket
-/usr/bin/keychain $HOME/.ssh/id_ed25519

@@ -97,6 +97,7 @@ function list() {
         printf "$COLUMN" "Name" "Description"
         echo "|$(printf '%*s' $((CMD_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((OPT_WIDTH + 2)) '' | tr ' ' '-')|"
         printf "$COLUMN" "bash" "Configure bash."
+        printf "$COLUMN" "betterbird" "Install Betterbird."
         printf "$COLUMN" "bruno" "Install Rust."
         printf "$COLUMN" "buildkit" "Install buildkit cli."
         printf "$COLUMN" "docker" "Install Docker."
@@ -229,6 +230,31 @@ Pin-Priority: -1
         echo "Installing Thunderbird using apt."
         sudo apt update && sudo apt install -y thunderbird
     fi
+}
+
+function install-betterbird() {
+    echo "Install Betterbird."
+    wget -N --trust-server-names -O betterbird.tar.bz2 "https://www.betterbird.eu/downloads/get.php?os=linux&lang=en-US&version=release"
+    tar -xjf betterbird.tar.bz2
+    rm betterbird.tar.bz2
+    sudo rm -rf /opt/betterbird
+    sudo mv ./betterbird /opt/
+    sudo ln -s /opt/betterbird/betterbird-bin /usr/local/bin/betterbird
+
+    # Create a desktop shortcut
+    echo "[Desktop Entry]" > ~/.local/share/applications/betterbird.desktop
+    echo "Type=Application" >> ~/.local/share/applications/betterbird.desktop
+    echo "Name=BetterBird" >> ~/.local/share/applications/betterbird.desktop
+    echo "Comment=A fork of Thunderbird" >> ~/.local/share/applications/betterbird.desktop
+    echo "Exec=betterbird" >> ~/.local/share/applications/betterbird.desktop
+    echo "Icon=/opt/betterbird/chrome/icons/default/default48.png" >> ~/.local/share/applications/betterbird.desktop
+    echo "Terminal=false" >> ~/.local/share/applications/betterbird.desktop
+    echo "Categories=Network;Email;" >> ~/.local/share/applications/betterbird.desktop
+    chmod +x ~/.local/share/applications/betterbird.desktop
+
+    # Reload the desktop
+    xdg-desktop-menu forceupdate
+    update-desktop-database ~/.local/share/applications/
 }
 
 function install-element() {

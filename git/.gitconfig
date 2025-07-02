@@ -9,3 +9,5 @@
 [pull]
 	ff = true
 	rebase = true
+[push]
+autoSetupRemote = true

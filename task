@@ -873,17 +873,18 @@ function setup-appuio() {
 function backup-thunderbird() {
     if test -z "$1"; then echo "\$1 is empty."; exit; fi
 
-    echo "Archive msgFilterRules.dat files to: $1"
-    cd ~/.thunderbird
-    find . -type f -name msgFilterRules.dat -print0 | tar -czvf "$1/thunderbird_msgfilterrules.tar.gz" --null -T -
+    PROFILE=$(crudini --get ~/.thunderbird/profiles.ini Profile0 Path)
+    echo "Backup Thunderbird profile $PROFILE."
+    PROFILE_DIR="$HOME/.thunderbird/$PROFILE"
+    tar -czvf "$1/thunderbird_profile_${PROFILE//\//_}.tar.gz" -C "$PROFILE_DIR" .
 }
 
 function restore-thunderbird() {
     if test -z "$1"; then echo "\$1 is empty."; exit; fi
 
-    echo "Extract Thunderbird filter rules from: $1"
-    cd ~/.thunderbird
-    PROFILE_DIR=$(crudini --get ~/.thunderbird/profiles.ini Profile0 Path)
+    PROFILE=$(crudini --get ~/.thunderbird/profiles.ini Profile0 Path)
+    echo "Restore Thunderbird $1 to profile $PROFILE."
+    PROFILE_DIR="$HOME/.thunderbird/$PROFILE"
     tar -xzvkf "$1" --strip-components=1 -C "$PROFILE_DIR"
 }
 

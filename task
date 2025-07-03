@@ -107,6 +107,7 @@ function list() {
         printf "$COLUMN" "firefox" "Install Firefox browser."
         printf "$COLUMN" "flatpak" "Install flatpak."
         printf "$COLUMN" "fzf" "Install fzf."
+        printf "$COLUMN" "gh" "Install GitHub cli."
         printf "$COLUMN" "git" "Configure git."
         printf "$COLUMN" "helm" "Install Helm."
         printf "$COLUMN" "helix" "Install helix editor."
@@ -743,7 +744,9 @@ function install-zsh() {
 function install-git() {
     echo "Copy git config."
     cp git/.gitconfig ~
+}
 
+function install-gh() {
     echo "Install GitHub cli."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         (type -p wget >/dev/null || (sudo apt update && sudo apt install -y wget)) \

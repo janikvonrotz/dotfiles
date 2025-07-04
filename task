@@ -578,7 +578,7 @@ function install-pass() {
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm pass
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
-        sudo dnf install -y pass
+        sudo dnf install -y pass pass-otp
     fi
 
     echo "Clone pass repo."
@@ -887,7 +887,7 @@ function backup-thunderbird() {
 function restore-thunderbird() {
     if test -z "$1"; then echo "\$1 is empty."; exit; fi
 
-    PROFILE=$(crudini --get ~/.thunderbird/profiles.ini Profile0 Path)
+    PROFILE=$(crudini --get ~/.thunderbird/profiles.ini Profile1 Path)
     echo "Restore Thunderbird $1 to profile $PROFILE."
     PROFILE_DIR="$HOME/.thunderbird/$PROFILE"
     rm -rf "$PROFILE_DIR"/*

@@ -230,6 +230,8 @@ Pin-Priority: -1
 
         echo "Installing Thunderbird using apt."
         sudo apt update && sudo apt install -y thunderbird
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y thunderbird
     fi
 }
 

@@ -888,7 +888,10 @@ function restore-thunderbird() {
     PROFILE=$(crudini --get ~/.thunderbird/profiles.ini Profile0 Path)
     echo "Restore Thunderbird $1 to profile $PROFILE."
     PROFILE_DIR="$HOME/.thunderbird/$PROFILE"
+    rm -rf "$PROFILE_DIR"/*
     tar -xzvkf "$1" --strip-components=1 -C "$PROFILE_DIR"
+    echo "Open Thunderbird and run 'Tools > Import > Import from another Thunderbird installation'."
+    echo "Install 'Owl for Exchange': https://addons.thunderbird.net/en-US/thunderbird/addon/owl-for-exchange/"
 }
 
 if declare -f "$1" > /dev/null; then

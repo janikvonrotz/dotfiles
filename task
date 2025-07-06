@@ -131,7 +131,7 @@ function list() {
         printf "$COLUMN" "rust" "Install Rust."
         printf "$COLUMN" "scripts" "Install bash scripts."
         printf "$COLUMN" "snapd" "Uninstall snapd."
-        printf "$COLUMN" "ssh" "Install SSH agentz."
+        printf "$COLUMN" "ssh" "Install SSH agent."
         printf "$COLUMN" "signal" "Install Signal desktop client."
         printf "$COLUMN" "sublime" "Install and configure Sublime IDE."
         printf "$COLUMN" "threema" "Install Threema desktop client."
@@ -166,6 +166,12 @@ function install-ssh() {
     echo "Copy SSH config file"
     mkdir -p ~/.ssh/
     cp ./ssh/config ~/.ssh/
+
+    if [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm gnome-keyring
+        systemctl --user enable gcr-ssh-agent.socket
+        systemctl --user start gcr-ssh-agent.socket
+    fi
 }
 
 function install-kde() {
@@ -289,6 +295,8 @@ function install-nextcloud() {
         sudo apt update && sudo apt install -y nextcloud-desktop
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
         sudo dnf install -y nextcloud-client
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman  -S --noconfirm nextcloud-client
     fi
 }
 
@@ -322,8 +330,9 @@ function install-librewolf() {
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
         curl -fsSL https://repo.librewolf.net/librewolf.repo | pkexec tee /etc/yum.repos.d/librewolf.repo
         sudo dnf install -y librewolf
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        flatpak install -y librewolf
     fi
-
 
     echo "Ensure LibreWolf works with KeepassXC extension."
     ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts
@@ -373,8 +382,8 @@ function install-zed(){
     curl -f https://zed.dev/install.sh | sh
 
     echo "Copy settings file."
-    mkdir -p "~/.config/zed"
-    cp ./zed/settings.json ~/.config/zed/settings.json
+    mkdir -p "$HOME/.config/zed"
+    cp ./zed/settings.json "$HOME/.config/zed/settings.json"
 }
 
 function install-obsidian() {
@@ -637,7 +646,7 @@ function install-vim() {
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y vim
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        sudo pacman -S vim
+        sudo pacman -S --noconfirm vim
     fi
 
     echo "Copy vimrc config."
@@ -826,8 +835,15 @@ function setup-steamdeck() {
     echo "Populate the pacman keyring with the default Arch Linux keys."
     sudo pacman-key --populate archlinux holo
 
-    echo "Try installing a package."
-    sudo pacman -S vi
+    echo "Install build tools."
+    sudo pacman -S --needed --noconfirm base-devel git
+
+    echo "Clone yay-bin repo."
+    git clone https://aur.archlinux.org/yay-bin.git "$HOME/yay-bin"
+
+    echo "Build and install yay."
+    cd "$HOME/yay-bin"
+    makepkg -si
 }
 
 function setup-private() {

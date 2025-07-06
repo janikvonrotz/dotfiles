@@ -1,6 +1,8 @@
 # dotfiles
 
-Vim, helix, zsh, fish, fzf, termux and much more.
+Install and configure vim, helix, zsh, fish, fzf, termux and much more.
+
+Supports Fedora, Ubuntu, Debian and Arch Linux.
 
 ## Usage
 
@@ -22,6 +24,8 @@ cd dotfiles
 Run `./task help` for details.
 
 ### Steamdeck
+
+Configure SteamOS (Arch) with:
 
 ```bash
 ./task setup-steamdeck

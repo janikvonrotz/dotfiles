@@ -109,6 +109,7 @@ function list() {
         printf "$COLUMN" "fzf" "Install fzf."
         printf "$COLUMN" "gh" "Install GitHub cli."
         printf "$COLUMN" "git" "Configure git."
+        printf "$COLUMN" "gnupg" "Install GnuPG."
         printf "$COLUMN" "helm" "Install Helm."
         printf "$COLUMN" "helix" "Install helix editor."
         printf "$COLUMN" "kate" "Install Kate IDE."
@@ -186,6 +187,15 @@ function install-kde() {
 function install-tuba() {
     echo "Install Tuba."
     flatpak install -y Tuba
+}
+
+function install-gnupg() {
+    echo "Install GnuPG."
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt-get install gnupg dirmngr
+        sudo mkdir -p /root/.gnupg
+        sudo chmod 700 /root/.gnupg
+    fi
 }
 
 function install-bruno() {

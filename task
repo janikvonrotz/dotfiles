@@ -216,7 +216,7 @@ function install-tools() {
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
         sudo dnf install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain pwgen
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        sudo pacman -S --noconfirm jq btop xclip ripgrep bat swaks dnsutils keychain pwgen wget
+        sudo pacman -S --noconfirm jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen wget
     fi
 
     echo "Install yq."
@@ -332,6 +332,8 @@ EOF
     echo "Installing Firefox."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y firefox
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman  -S --noconfirm firefox
     fi
 }
 

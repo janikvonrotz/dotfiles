@@ -403,10 +403,9 @@ function install-zed(){
     echo "Install Zed."
 
     if [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        sudo pacman -S --noconfirm zed
-    else
-        curl -f https://zed.dev/install.sh | sh
+	sudo pacman -S vulkan-icd-loader vulkan-validation-layers vulkan-tools
     fi
+    curl -f https://zed.dev/install.sh | sh
 
     echo "Copy settings file."
     mkdir -p "$HOME/.config/zed"

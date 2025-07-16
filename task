@@ -250,6 +250,8 @@ Pin-Priority: -1
         sudo apt update && sudo apt install -y thunderbird
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
         sudo dnf install -y thunderbird
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm thunderbird
     fi
 }
 
@@ -447,7 +449,7 @@ function install-docker() {
 
         sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        sudo pacman -S --noconfirm docker containerd docker-buildx docker-compose 
+        sudo pacman -S --noconfirm docker containerd docker-buildx docker-compose
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
         # https://docs.docker.com/engine/install/fedora/
         sudo dnf -y install dnf-plugins-core

@@ -1,0 +1,25 @@
+{
+  "odoo": {
+    "command": "docker",
+    "args": [
+      "run",
+      "-i",
+      "--rm",
+      "-e",
+      "ODOO_URL",
+      "-e",
+      "ODOO_DB",
+      "-e",
+      "ODOO_USERNAME",
+      "-e",
+      "ODOO_PASSWORD",
+      "mcp/odoo"
+    ],
+    "env": {
+      "ODOO_URL": "https://odoo-int.sozialinfo.ch",
+      "ODOO_DB": "odoo-int",
+      "ODOO_USERNAME": "login@mint-system.ch",
+      "ODOO_PASSWORD": ""
+    }
+  }
+}

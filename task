@@ -805,6 +805,8 @@ function install-gh() {
         sudo dnf install dnf5-plugins
         sudo dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo
         sudo dnf install -y gh --repo gh-cli
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm github-cli
     fi
 }
 

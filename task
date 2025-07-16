@@ -216,7 +216,7 @@ function install-tools() {
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
         sudo dnf install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain pwgen
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        sudo pacman -S --noconfirm jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen wget
+        sudo pacman -S --noconfirm jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen wget less
     fi
 
     echo "Install yq."
@@ -352,6 +352,7 @@ function install-librewolf() {
     fi
 
     echo "Ensure LibreWolf works with KeepassXC extension."
+    mkdir -p ~/.librewolf/
     ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts
 
     # Get Profile0 from ~/.librewolf/profiles.ini with crudini
@@ -442,16 +443,17 @@ function install-docker() {
 
         sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        sudo pacman -S --noconfirm docker
+        sudo pacman -S --noconfirm docker containerd docker-buildx docker-compose 
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
         # https://docs.docker.com/engine/install/fedora/
         sudo dnf -y install dnf-plugins-core
         sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
         sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-        sudo systemctl enable --now docker
     fi
+
+    echo "Start Docker service."
+    sudo systemctl enable --now docker
 
     echo  "Add current user to docker group."
     sudo usermod -aG docker $USER

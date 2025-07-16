@@ -351,7 +351,9 @@ function install-librewolf() {
         curl -fsSL https://repo.librewolf.net/librewolf.repo | pkexec tee /etc/yum.repos.d/librewolf.repo
         sudo dnf install -y librewolf
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        yay -S librewolf
+        echo "Select option: 1) 'flathub' (system)"
+        flatpak install -y librewolf
+        # yay -S librewolf
     fi
 
     echo "Ensure LibreWolf works with KeepassXC extension."

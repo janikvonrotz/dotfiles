@@ -142,6 +142,7 @@ function list() {
         printf "$COLUMN" "tuba" "Install Tuba fediverse client."
         printf "$COLUMN" "vscodium" "Install VSCodium."
         printf "$COLUMN" "vim" "Install vim and configure plugins."
+        printf "$COLUMN" "yay" "Install Yet another Yogurt."
         printf "$COLUMN" "zed" "Install Zed IDE."
         printf "$COLUMN" "zsh" "Install zsh shell and oh-my-zsh."
     }
@@ -350,7 +351,7 @@ function install-librewolf() {
         curl -fsSL https://repo.librewolf.net/librewolf.repo | pkexec tee /etc/yum.repos.d/librewolf.repo
         sudo dnf install -y librewolf
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        flatpak install -y librewolf
+        yay -S librewolf
     fi
 
     echo "Ensure LibreWolf works with KeepassXC extension."
@@ -810,6 +811,14 @@ function install-gh() {
     fi
 }
 
+function install-yay() {
+    if [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        echo "Install Yet another Yogurt."
+        sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
+        rm -rf yay-bin
+    fi
+}
+
 # Uninstall commands
 
 function uninstall() {
@@ -878,16 +887,6 @@ function setup-steamdeck() {
 
     echo "Populate the pacman keyring with the default Arch Linux keys."
     sudo pacman-key --populate archlinux holo
-
-    echo "Install build tools."
-    sudo pacman -S --needed --noconfirm base-devel git
-
-    echo "Clone yay-bin repo."
-    git clone https://aur.archlinux.org/yay-bin.git "$HOME/yay-bin"
-
-    echo "Build and install yay."
-    cd "$HOME/yay-bin"
-    makepkg -si
 }
 
 function setup-private() {

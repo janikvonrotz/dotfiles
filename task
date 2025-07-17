@@ -225,11 +225,11 @@ function install-libreoffice() {
 function install-tools() {
     echo "Install cli tools."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
-        sudo apt install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain pwgen
+        sudo apt install -y jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen rsync crudini
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
-        sudo dnf install -y jq btop xclip ripgrep bat swaks crudini dnsutils keychain pwgen
+        sudo dnf install -y jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen rsync crudini
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        sudo pacman -S --noconfirm jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen wget less
+        sudo pacman -S --noconfirm jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen rsync wget less
     fi
 
     echo "Install yq."

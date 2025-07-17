@@ -1,5 +1,5 @@
 # Add local bin to path
-export PATH=~/.local/bin:$PATH
+export PATH=~/bin:~/.local/bin:$PATH
 
 # Default editor
 export EDITOR=helix

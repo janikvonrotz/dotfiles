@@ -702,6 +702,8 @@ function install-helix() {
         sudo apt install -y helix
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
         sudo dnf install -y helix
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm helix
     fi
 
     echo "Copy vim keybindings."

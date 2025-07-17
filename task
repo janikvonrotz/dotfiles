@@ -118,6 +118,7 @@ function list() {
         printf "$COLUMN" "kind" "Install kind."
         printf "$COLUMN" "kubectl" "Install kubectl."
         printf "$COLUMN" "librewolf" "Install LibreWolf."
+        printf "$COLUMN" "libreoffice" "Intall LibreOffice."
         printf "$COLUMN" "llm" "Intall LLM cli."
         printf "$COLUMN" "minikube" "Install kubectl and minikube."
         printf "$COLUMN" "nextcloud" "Install Nextcloud Desktop."
@@ -207,6 +208,17 @@ function install-bruno() {
         echo "deb [signed-by=/etc/apt/keyrings/bruno.gpg] http://debian.usebruno.com/ bruno stable" | sudo tee /etc/apt/sources.list.d/bruno.list
         sudo apt update
         sudo apt install -y  bruno
+    fi
+}
+
+function install-libreoffice() {
+    echo "Install LibreOffice"
+    if [ "$PACKAGE_MANAGER" == "apt" ]; then
+        sudo apt install -y libreoffice
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y libreoffice
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm libreoffice
     fi
 }
 

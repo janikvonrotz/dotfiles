@@ -294,13 +294,20 @@ function install-betterbird() {
 }
 
 function install-element() {
-    echo "Install Element."
+    echo "Install Element"
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
         sudo apt install -y wget apt-transport-https
         sudo wget -O /usr/share/keyrings/element-io-archive-keyring.gpg https://packages.element.io/debian/element-io-archive-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/element-io-archive-keyring.gpg] https://packages.element.io/debian/ default main" | sudo tee /etc/apt/sources.list.d/element-io.list
         sudo apt update
-        sudo apt install -y element-desktop
+
+        sudo apt install element-desktop
+    elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
+        sudo dnf install -y dnf-plugins-core distribution-gpg-keys
+        sudo dnf copr enable taw/element
+        sudo dnf install -y element --refresh
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -Sy element-desktop
     fi
 }
 

@@ -2,7 +2,7 @@
 export PATH=~/.local/bin:$PATH
 
 # Default editor
-export EDITOR=hx
+export EDITOR=helix
 
 # Disable oh-my-zsh update prompt
 export DISABLE_UPDATE_PROMPT=true

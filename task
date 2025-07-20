@@ -545,6 +545,8 @@ function install-kubectl() {
         echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
         sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
         sudo apt update && sudo apt install -y kubectl
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm kubectl
     fi
 }
 
@@ -552,9 +554,9 @@ function install-kind() {
     echo "Install kind."
     # https://kind.sigs.k8s.io/docs/user/quick-start/#installation
     # For AMD64 / x86_64
-    [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-amd64
+    [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.29.0/kind-linux-amd64
     # For ARM64
-    [ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-arm64
+    [ $(uname -m) = aarch64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.29.0/kind-linux-arm64
     chmod +x ./kind
     sudo mv ./kind /usr/local/bin/kind
 }
@@ -738,6 +740,8 @@ function install-helm() {
         echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
         sudo apt update
         sudo apt install -y  helm
+    elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm helm
     fi
 }
 

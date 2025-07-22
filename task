@@ -25,6 +25,7 @@ function help-table() {
     printf "$COLUMN" "run-open-webui" "" "Run Open WebUI."
     printf "$COLUMN" "set-git-origin" "" "Change git origin to ssh."
     printf "$COLUMN" "setup-appuio" "" "Install and setup APPUiO OpenShift cli."
+    printf "$COLUMN" "setup-gnome-autostart" "" "Copy autostart folder."
     printf "$COLUMN" "setup-mint-system" "" "Clone Mint System git repos."
     printf "$COLUMN" "setup-private" "" "Clone private git repos."
     printf "$COLUMN" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
@@ -964,6 +965,11 @@ function setup-appuio() {
     mv oc ~/bin/oc
 
     echo "Get the login command of the 'exoscale-ch-gva-2-0' zone: https://oauth-openshift.apps.exoscale-ch-gva-2-0.appuio.cloud/oauth/token/display"
+}
+
+function setup-gnome-autostart() {
+    echo "Copy autostart folder."
+    cp -r autostart "$HOME/.config"
 }
 
 # Application commands

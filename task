@@ -15,13 +15,15 @@ function help-table() {
 
     printf "$COLUMN" "Command" "Option" "Description"
     echo "|$(printf '%*s' $((CMD_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((OPT_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((DESC_WIDTH + 2)) '' | tr ' ' '-')|"
-    printf "$COLUMN" "backup-thunderbird" "[path]" "Backup Thunderbird message filter files."
+    printf "$COLUMN" "backup-thunderbird" "[path]" "Backup Thunderbird profile files."
+    printf "$COLUMN" "backup-librewolf" "[path]" "Backup LibreWolf profile files."
     printf "$COLUMN" "commit-with-llm" "" "Commit with llm generated commit message."
     printf "$COLUMN" "enable-passwordless-sudo" "" "Get sudoers entry for passwordless sudo."
     printf "$COLUMN" "init-venv" "" "Initialize the Python venv with uv."
     printf "$COLUMN" "install" "[name]" "Install a package."
     printf "$COLUMN" "list" "[grep]" "List all available packages."
-    printf "$COLUMN" "restore-thunderbird" "[path]" "Restore Thunderbird message filter files."
+    printf "$COLUMN" "restore-thunderbird" "[path]" "Restore Thunderbird profile from backup."
+    printf "$COLUMN" "restore-librewolf" "[path]" "Restore LibreWolf from backup."
     printf "$COLUMN" "run-open-webui" "" "Run Open WebUI."
     printf "$COLUMN" "set-git-origin" "" "Change git origin to ssh."
     printf "$COLUMN" "setup-appuio" "" "Install and setup APPUiO OpenShift cli."
@@ -236,6 +238,7 @@ function install-tools() {
         sudo dnf install -y jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen rsync crudini
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen rsync wget less
+        yay -S crudini
     fi
 
     echo "Install yq."
@@ -365,7 +368,6 @@ EOF
     fi
 }
 
-
 function install-librewolf() {
     echo "Install LibreWolf."
     if [ "$PACKAGE_MANAGER" == "apt" ]; then
@@ -376,28 +378,12 @@ function install-librewolf() {
         curl -fsSL https://repo.librewolf.net/librewolf.repo | pkexec tee /etc/yum.repos.d/librewolf.repo
         sudo dnf install -y librewolf
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        echo "Select option: 1) 'flathub' (system)"
-        flatpak install -y librewolf
-        # yay -S librewolf
+        yay -S librewolf
     fi
 
     echo "Ensure LibreWolf works with KeepassXC extension."
-    mkdir -p ~/.librewolf/
-    ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts
-
-    # Get Profile0 from ~/.librewolf/profiles.ini with crudini
-
-    # Download extension
-    wget https://addons.mozilla.org/firefox/downloads/file/3841887/sidebery-4.0.0-fx.xpi
-
-    # Unzip extension
-
-    # Get extension id from manifest.json
-
-    # Copy extension to ~/.librewolf/u5scv5t2.default-default/extensions/{71a355a8-b9dc-44ff-8176-12296d8dd765}.xpi
-
-    # Remove extension
-    rm sidebery-4.0.0-fx.xpi
+    mkdir -p "$HOME/.librewolf/"
+    ln -s "$HOME/.mozilla/native-messaging-hosts" "$HOME/.librewolf/native-messaging-hosts"
 }
 
 function install-sublime() {
@@ -983,6 +969,15 @@ function backup-thunderbird() {
     tar -czvf "$1/thunderbird_profile_${PROFILE//\//_}.tar.gz" -C "$PROFILE_DIR" .
 }
 
+function backup-librewolf() {
+    if test -z "$1"; then echo "\$1 is empty."; exit; fi
+
+    PROFILE=$(crudini --get ~/.librewolf/profiles.ini Profile0 Path)
+    echo "Backup LibreWolf profile $PROFILE."
+    PROFILE_DIR="$HOME/.librewolf/$PROFILE"
+    tar -czvf "$1/librewolfd_profile_${PROFILE//\//_}.tar.gz" -C "$PROFILE_DIR" .
+}
+
 function restore-thunderbird() {
     if test -z "$1"; then echo "\$1 is empty."; exit; fi
 
@@ -993,6 +988,16 @@ function restore-thunderbird() {
     tar -xzvkf "$1" --strip-components=1 -C "$PROFILE_DIR"
     echo "Open Thunderbird and run 'Tools > Import > Import from another Thunderbird installation'."
     echo "Install 'Owl for Exchange': https://addons.thunderbird.net/en-US/thunderbird/addon/owl-for-exchange/"
+}
+
+function restore-librewolf() {
+    if test -z "$1"; then echo "\$1 is empty."; exit; fi
+
+    PROFILE=$(crudini --get ~/.librewolf/profiles.ini Profile1 Path)
+    echo "Restore LibreWolf $1 to profile $PROFILE."
+    PROFILE_DIR="$HOME/.librewolf/$PROFILE"
+    rm -rf "$PROFILE_DIR"/*
+    tar -xzvkf "$1" --strip-components=1 -C "$PROFILE_DIR"
 }
 
 if declare -f "$1" > /dev/null; then

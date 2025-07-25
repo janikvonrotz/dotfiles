@@ -17,3 +17,4 @@ _task_completions() {
 }
 
 complete -F _task_completions task
+complete -F _task_completions t

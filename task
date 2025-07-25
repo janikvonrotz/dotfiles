@@ -749,6 +749,11 @@ function install-nvim() {
 }
 
 function install-bash() {
+    if [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        echo "Install bash completion."
+        sudo pacman -S --noconfirm bash-completion
+    fi
+
     echo "Copy bash completions."
     sudo cp bash/completions/* /etc/bash_completion.d/
 

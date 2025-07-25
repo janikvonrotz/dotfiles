@@ -941,6 +941,7 @@ function setup-sozialinfo() {
     [ ! -d "$HOME/sozialinfo-e2e" ] && git clone git@github.com:sozialinfo/sozialinfo-e2e.git ~/sozialinfo-e2e
     [ ! -d "$HOME/frontend" ] && git clone git@github.com:sozialinfo/frontend.git ~/frontend
     [ ! -d "$HOME/bruno" ] && git clone git@github.com:sozialinfo/bruno.git ~/bruno
+    [ ! -d "$HOME/gitops" ] && git clone git@github.com:sozialinfo/gitops.git ~/gitops
 }
 
 function setup-appuio() {

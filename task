@@ -237,7 +237,12 @@ function install-tools() {
     elif [ "$PACKAGE_MANAGER" == "dnf" ]; then
         sudo dnf install -y jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen rsync crudini
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
-        sudo pacman -S --noconfirm jq btop wl-clipboard ripgrep bat swaks dnsutils keychain pwgen rsync wget less
+        sudo pacman -S --noconfirm jq btop ripgrep bat swaks dnsutils keychain pwgen rsync wget less
+        if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
+            sudo pacman -S --noconfirm wl-clipboard
+        elif [ "$XDG_SESSION_TYPE" == "x11" ]; then
+            sudo pacman -S --noconfirm xclip
+        fi
         yay -S crudini
     fi
 

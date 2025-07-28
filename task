@@ -566,7 +566,7 @@ function install-llm() {
     cp "llm/extra-openai-models.yaml" "$(dirname $(llm logs path))/extra-openai-models.yaml"
 
     echo "Set infomaniak api key."
-    llm keys set infomaniak --value "$(pass show env/api_key_infomaniak)"
+    llm keys set infomaniak --value "$(pass show env/llm_key_infomaniak)"
 
     echo "Set llama as default model."
     llm models default llama

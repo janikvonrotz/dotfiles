@@ -122,6 +122,7 @@ function list() {
         printf "$COLUMN" "helix" "Install helix editor."
         printf "$COLUMN" "kate" "Install Kate IDE."
         printf "$COLUMN" "kde" "Install KDE desktop environment."
+        printf "$COLUMN" "k9s" "Install k9s."
         printf "$COLUMN" "keepass" "Install KeepassXC."
         printf "$COLUMN" "kind" "Install kind."
         printf "$COLUMN" "kubectl" "Install kubectl."
@@ -546,6 +547,12 @@ function install-kubectl() {
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm kubectl
         sudo pacman -S --noconfirm kubectx
+    fi
+}
+
+function install-k9s() {
+    if [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm k9s
     fi
 }
 

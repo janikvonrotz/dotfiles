@@ -544,6 +544,7 @@ function install-kubectl() {
         sudo apt update && sudo apt install -y kubectl
     elif [ "$PACKAGE_MANAGER" == "pacman" ]; then
         sudo pacman -S --noconfirm kubectl
+        sudo pacman -S --noconfirm kubectx
     fi
 }
 

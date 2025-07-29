@@ -653,9 +653,13 @@ function install-pass() {
 }
 
 function install-scripts() {
-    echo "Copy bin/* to ~/bin/"
-    mkdir -p ~/bin
-    sudo cp -r bin/* ~/bin/
+    echo "Copy bin/* to $HOME/.local/bin/"
+    mkdir -p "$HOME/.local/bin/"
+    sudo cp -r bin/* "$HOME/.local/bin/"
+
+    echo "Download review script by Bill Mill."
+    wget https://raw.githubusercontent.com/llimllib/personal_code/refs/heads/master/homedir/.local/bin/review -O "$HOME/.local/bin/review"
+    chmod +x "$HOME/.local/bin/review"
 }
 
 function install-tmux() {

@@ -30,6 +30,7 @@ function help-table() {
     printf "$COLUMN" "setup-gnome-autostart" "" "Copy autostart folder."
     printf "$COLUMN" "setup-mint-system" "" "Clone Mint System git repos."
     printf "$COLUMN" "setup-private" "" "Clone private git repos."
+    printf "$COLUMN" "setup-local-user" "" "Setup local janikvonrotz user."
     printf "$COLUMN" "setup-sozialinfo" "" "Clone Sozialinfo git repos."
     printf "$COLUMN" "setup-steamdeck" "" "Setup steamdeck os."
     printf "$COLUMN" "uninstall" "[name]" "Uninstall a package."
@@ -995,6 +996,17 @@ function setup-appuio() {
 function setup-gnome-autostart() {
     echo "Copy autostart folder."
     cp -r autostart "$HOME/.config"
+}
+
+function setup-local-user() {
+    USER=janikvonrotz
+    echo "Add user $USER"
+    sudo useradd -m -s /bin/bash $USER
+    echo "Set password for user $USER"
+    sudo passwd $USER
+    echo "Add user $USER to group wheel"
+    sudo usermod -aG wheel $USER
+    enable-passwordless-sudo
 }
 
 # Application commands

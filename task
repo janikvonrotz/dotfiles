@@ -105,6 +105,7 @@ function list() {
 
         printf "$COLUMN" "Name" "Description"
         echo "|$(printf '%*s' $((CMD_WIDTH + 2)) '' | tr ' ' '-')|$(printf '%*s' $((OPT_WIDTH + 2)) '' | tr ' ' '-')|"
+        printf "$COLUMN" "argocd" "Install Argo CD cli."
         printf "$COLUMN" "bash" "Configure bash."
         printf "$COLUMN" "betterbird" "Install Betterbird."
         printf "$COLUMN" "bruno" "Install Rust."
@@ -174,6 +175,12 @@ function install() {
     if test -z "$1"; then echo "\$1 is empty."; exit; fi
     COMMAND="install-$1"
     $COMMAND
+}
+
+function install-argocd() {
+    if [ "$PACKAGE_MANAGER" == "pacman" ]; then
+        sudo pacman -S --noconfirm argocd
+    fi
 }
 
 function install-ssh() {
@@ -1006,6 +1013,7 @@ function setup-local-user() {
     sudo passwd $USER
     echo "Add user $USER to group wheel"
     sudo usermod -aG wheel $USER
+
     enable-passwordless-sudo
 }
 
